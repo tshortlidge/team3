@@ -1,6 +1,0 @@
-user='second_chance'
-paswd = 'second_chance_pass909'
-dialect = 'mysql+pymysql' # db_type + python_driver
-server = '127.0.0.1'
-port = '3306'
-db = 'second_chance' # database created via googles UI
