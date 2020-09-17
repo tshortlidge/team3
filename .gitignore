@@ -1,2 +1,6 @@
 creds.txt
 *.swp
+/backend/venv
+/.idea
+/backend/secondchance.db
+*__pycache__*
