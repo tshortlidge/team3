@@ -34,7 +34,7 @@ Base = declarative_base()
 class CloudDB:
 
     def __init__(self):
-        creds = get_creds() # Read credentials from file
+        creds = get_creds()  # Read credentials from file
         self.metadata = metadata
         self.base = Base
         self.url = creds["dialect"] + '://' + creds["user"] + ':' + creds["paswd"] + '@' + creds["server"] + ":" + creds["port"] + '/' + creds["db"]

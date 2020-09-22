@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, Request
 
 app = Flask(__name__)
 
@@ -7,6 +7,17 @@ app = Flask(__name__)
 def hello_world():
 
     return 'Hello World!'
+
+
+@app.route('/account_creation')
+def create_account():
+    # account_information = request.get_json()
+    # if !is_account_valid(account_information):
+    #   return 404
+    # insert_account_information(account_information)
+    #
+    #
+    return 'created'
 
 
 if __name__ == '__main__':
