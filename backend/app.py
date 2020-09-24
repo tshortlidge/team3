@@ -1,4 +1,4 @@
-from flask import Flask, Request, jsonify
+from flask import Flask, Request, jsonify, request
 
 app = Flask(__name__)
 
@@ -67,8 +67,9 @@ def get_account_info():
 
 @app.route("/manage_cases", methods=["GET", "POST"])
 def manage_cases():
-    data = Request.get_data()
-    return jsonify(data)
+    data = request.args
+
+    return data
 
 
 
