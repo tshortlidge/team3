@@ -137,7 +137,13 @@ ratings = Table('ratings', metadata,
 # -------------------------  For Ongoing Cases ------------------------------
 # id: 1, caseTitle: 'Irregular Heart Beat', case_status: 'Patient Canceled', category: 'Cardiology', createDate: '05/17/20', acceptedOn: '05/20/20', docCancel: 'Cancel'
 
-
+OngoingCases = Table('ongoing_cases', metadata,
+                Column('review_id', Integer, primary_key=True, unique=True, autoincrement=True),
+                Column('npi', Integer, ForeignKey('physicians.npi'), unique=True),
+                Column('pat_id', Integer, ForeignKey('patients.pat_id'), unique=True),
+                Column('comment', String(400)),
+                Column('score', String(400)),
+                )
 # --------------------------------- Dr. Request Table ------------------------------
 # { id: 1, caseTitle: 'Chest pain and arm hurts',  category: 'Cardiology', createDate: '08/17/20', action: 'Accept / Decline'},
 
