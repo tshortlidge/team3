@@ -47,7 +47,7 @@ def handle_emails():
     return "email sent"
 
 
-@app.route("/choose_doctor", mothods=["POST", "GET"])
+@app.route("/choose_doctor", methods=["POST", "GET"])
 def choose_doctor():
     # Only accepts POST REQUEST
     data = dict()
