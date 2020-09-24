@@ -65,6 +65,21 @@ password  -> Password for login (hash-value)
 qual      -> Qualifications of the physician
 reviewCnt -> Used to display number of reviews for a physician on their profile by their patients
 """
+# Different fields collected for the physicians table
+# Email: ${data.email}
+#                Password: ${data.password}
+#              Repassword: ${data.repassword}
+#               FirstName: ${data.firstName}
+#                LastName: ${data.lastName}
+#                     NPI: ${data.npi}
+#              Speciality: ${data.speciality}
+#                 Address: ${data.address}
+#                    City: ${data.city}
+#                US_State: ${data.us_state}
+#                     Zip: ${data.zip}
+#                 Picture: ${data.picture}
+#                     Bio: ${data.bio}`
+
 physicians = Table('physicians', metadata,
                    Column('npi', Integer, primary_key=True, unique=True),
                    Column('name', String(400)),
@@ -112,6 +127,20 @@ ratings = Table('ratings', metadata,
                 Column('comment', String(400)),
                 Column('score', String(400)),
                 )
+
+# Fields for the case history table
+#{ id: 1, caseTitle: 'Irregular Heart Beat', case_status: 'Patient Canceled',
+# category: 'Cardiology', createDate: '05/17/20', completedDate: '05/27/20'},
+
+
+
+# -------------------------  For Ongoing Cases ------------------------------
+# id: 1, caseTitle: 'Irregular Heart Beat', case_status: 'Patient Canceled', category: 'Cardiology', createDate: '05/17/20', acceptedOn: '05/20/20', docCancel: 'Cancel'
+
+
+# --------------------------------- Dr. Request Table ------------------------------
+# { id: 1, caseTitle: 'Chest pain and arm hurts',  category: 'Cardiology', createDate: '08/17/20', action: 'Accept / Decline'},
+
 # Configured Database object that will be at the center of all database interactions.
 # Is available on import
 db = CloudDB()
