@@ -5,7 +5,7 @@ def get_creds():
             prop, val = line.split('=')
             cred_pairs[prop] = val.strip('\n')
     return cred_pairs
-
+ # hi dad
 
 if __name__ == '__main__':
     creds = get_creds()
