@@ -5,7 +5,7 @@ import DrRegister from "./components/drRegister";
 import ClientRegister from "./components/clientRegister";
 import {DrCaseManagement} from "./components/doctorCaseManagement";
 import {ClientCaseCreation} from './components/clientCaseCreation'
-
+import {DrOverlay} from './components/drOverlay';
 import { ClientOnGoingTable } from './components/clientOnGoingTable';
 import {Contact} from './components/testContact';
 
@@ -16,6 +16,7 @@ function App() {
               <ClientCaseManagement />
               <ClientRegister />
               <DrCaseManagement />
+              <DrOverlay />
               <Contact />
 
      */
@@ -23,7 +24,7 @@ function App() {
   return (
     <div className="App">
 
-        <ClientCaseCreation />
+        <DrOverlay />
     </div>
   );
 }
