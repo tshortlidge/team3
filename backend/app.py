@@ -72,6 +72,22 @@ def manage_cases():
     return data
 
 
+if __name__ == '__main__':
+    app.run()
+
+
+@app.route("/get_account_info", methods=["GET"])
+def get_account_info():
+
+    # return fetch_account_info()
+    return "GETTING ACCOUNT INFORMATION"
+
+
+@app.route("/manage_cases", methods=["GET", "POST"])
+def manage_cases():
+    data = request.args
+
+    return data
 
 
 if __name__ == '__main__':

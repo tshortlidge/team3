@@ -4,3 +4,4 @@ creds.txt
 /.idea
 /backend/secondchance.db
 *__pycache__*
+venv/
