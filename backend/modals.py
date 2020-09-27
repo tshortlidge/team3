@@ -20,8 +20,8 @@ Project Description:
 """
 
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import create_engine
-from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey
+from sqlalchemy import create_engine, MetaData
+from sqlalchemy import Table, Column, Integer, String, ForeignKey, Date, Float, Boolean
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import inspect
 from get_creds import get_creds
@@ -80,7 +80,7 @@ reviewCnt -> Used to display number of reviews for a physician on their profile 
 #                 Picture: ${data.picture}
 #                     Bio: ${data.bio}`
 
-physicians = Table('physicians', metadata,
+physicians = Table('physician', metadata,
                    Column('npi', Integer, primary_key=True, unique=True),
                    Column('name', String(400)),
                    Column('bio', String(400)),
@@ -100,7 +100,7 @@ age             -> Age of the patient
 username        -> Unique username for physician to login
 password        -> Password for login (hash-value)
 """
-patients = Table('patients', metadata,
+patients = Table('patient', metadata,
                  Column('pat_id', Integer, primary_key=True, unique=True),
                  Column('medical_history', String(400)),
                  Column('sex', String(400)),
@@ -120,13 +120,44 @@ score           -> A rating system where viewers can quickly glance at (metric c
                                                                         (red vs green bar)
                                                                         (percentage value)
 """
-ratings = Table('ratings', metadata,
+ratings = Table('rating', metadata,
                 Column('review_id', Integer, primary_key=True, unique=True),
-                Column('npi', Integer, ForeignKey('physicians.npi'), unique=True),
-                Column('pat_id', Integer, ForeignKey('patients.pat_id'), unique=True),
+                Column('npi', Integer), #, ForeignKey('physicians.npi')),
+                Column('pat_id', Integer), #, ForeignKey('patients.pat_id')),
                 Column('comment', String(400)),
                 Column('score', String(400)),
                 )
+
+
+Record_Assesments = Table('record_assesment', metadata,
+                          Column('record_assesment_id', Integer, primary_key=True, unique=True),
+                          Column('record_id', Integer), #, ForeignKey('records.id')),
+                          Column('physician_id', Integer), #, ForeignKey('physicians.id')),
+                          Column('client_id', Integer), # , ForeignKey('clients.id')),
+                          Column('assesment', String(1200)),
+                          Column('completion_date', Date),
+                          Column('status', String(15))
+                          )
+
+
+
+# Payment
+# payment_id
+# client_id
+# record_id
+# physician_id
+# item_total
+# order_id
+# isPaid
+
+Payment = Table('payment', metadata,
+                Column('payment_id', Integer, primary_key=True, unique=True),
+                Column('client_id', Integer),#, ForeignKey('client.client_id')),
+                Column('record_id', Integer),#, ForeignKey('record.id')),
+                Column('total', Float),
+                Column('is_paid', Boolean)
+                )
+
 
 # Fields for the case history table
 #{ id: 1, caseTitle: 'Irregular Heart Beat', case_status: 'Patient Canceled',
@@ -137,13 +168,13 @@ ratings = Table('ratings', metadata,
 # -------------------------  For Ongoing Cases ------------------------------
 # id: 1, caseTitle: 'Irregular Heart Beat', case_status: 'Patient Canceled', category: 'Cardiology', createDate: '05/17/20', acceptedOn: '05/20/20', docCancel: 'Cancel'
 
-OngoingCases = Table('ongoing_cases', metadata,
-                Column('review_id', Integer, primary_key=True, unique=True, autoincrement=True),
-                Column('npi', Integer, ForeignKey('physicians.npi'), unique=True),
-                Column('pat_id', Integer, ForeignKey('patients.pat_id'), unique=True),
-                Column('comment', String(400)),
-                Column('score', String(400)),
-                )
+# OngoingCases = Table('ongoing_cases', metadata,
+#                 Column('review_id', Integer, primary_key=True, unique=True, autoincrement=True),
+#                 Column('npi', Integer, ForeignKey('physicians.npi'), unique=True),
+#                 Column('pat_id', Integer, ForeignKey('patients.pat_id'), unique=True),
+#                 Column('comment', String(400)),
+#                 Column('score', String(400)),
+#                 )
 # --------------------------------- Dr. Request Table ------------------------------
 # { id: 1, caseTitle: 'Chest pain and arm hurts',  category: 'Cardiology', createDate: '08/17/20', action: 'Accept / Decline'},
 

@@ -51,6 +51,7 @@ def handle_emails():
 def choose_doctor():
     # Only accepts POST REQUEST
     data = dict()
+
     if Request.method == 'GET':
         data["error"] = "Do Not Send GET requests to this end point. Use a POST request instead:\n " \
                         "https://www.educative.io/edpresso/how-to-make-an-axios-post-request"
