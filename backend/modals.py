@@ -130,12 +130,12 @@ ratings = Table('rating', metadata,
 
 
 Record_Assesments = Table('record_assesment', metadata,
-                          Column('record_assesment_id', Integer, primary_key=True, unique=True),
+                          Column('record_assesment_id', Integer, primary_key=True, autoincrement=True, unique=True),
                           Column('record_id', Integer), #, ForeignKey('records.id')),
                           Column('physician_id', Integer), #, ForeignKey('physicians.id')),
                           Column('client_id', Integer), # , ForeignKey('clients.id')),
                           Column('assesment', String(1200)),
-                          Column('completion_date', Date),
+                          Column('completion_dt', Date), # was getting errors, this would overshadow a keyword in another function
                           Column('status', String(15))
                           )
 
