@@ -1,95 +1,87 @@
-from flask import Flask, Request, jsonify, request
+from flask import Flask, render_template, redirect, session, request
+import hashlib
+from hashlib import sha256
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey, Table, create_engine, inspect
+from flask import session as login_session
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, relationship
 
 app = Flask(__name__)
 
+base = declarative_base()
+
+class user(base):
+    __tablename__ = 'users'
+    id = Column('id', Integer, primary_key=True)
+    name = Column('name', String(100))
+    email = Column('email', String(100))
+    password = Column('password', String(2000))
+
+
+engine = create_engine('sqlite:///db.sqlite3')
+base.metadata.create_all(bind=engine)
+sessions = sessionmaker(bind = engine)
 
 @app.route('/')
-def hello_world():
+def login():
 
-    return 'Hello World!'
+    return render_template("login.html")
 
+@app.route('/success')
+def success():
+    return render_template('success.html')
 
-@app.route('/account_creation')
-def create_account():
-    data = dict()
-    if Request.method == 'GET':
-        data["error"] = "Do Not Send GET requests to this end point. Use a POST request instead:\n " \
-                             "https://www.educative.io/edpresso/how-to-make-an-axios-post-request"
-        return jsonify(data)
-    # account_information = request.get_json()
-    # if !is_account_valid(account_information):
-    #   return 404
-    # insert_account_information(account_information)
-    #
-    #
-    return 'created'
+@app.route('/register', methods = ["GET", "POST"])
+def register():
+    return render_template("register.html")
 
 
-@app.route("/get_case_history", methods=["POST", "GET"])
-def get_case_history():
-    # Need session key
-    return "case history returned"
+
+@app.route('/adduser', methods = ['POST'])
+def adduser():
+    name = request.form.get('name')
+    email = request.form.get('email')
+    password = request.form.get('password')
 
 
-@app.route("/image_upload", methods=["POST", "GET"])
-def handle_image_upload():
-    data = dict()
-    if Request.method == 'GET':
-        data["error"] = "Do Not Send GET requests to this end point. Use a POST request instead:\n " \
-                             "https://www.educative.io/edpresso/how-to-make-an-axios-post-request"
-    # Store image
-    return "Image Uploaded"
+    session = sessions()
+    adduser = user()
+    adduser.name = name
+    adduser.email = email
+    adduser.password = password
+    session.add(adduser)
+    session.commit()
+    session.close()
+
+    return "user registered"
 
 
-@app.route("/send_email", methods=["POST", "GET"])
-def handle_emails():
-
-    return "email sent"
 
 
-@app.route("/choose_doctor", methods=["POST", "GET"])
-def choose_doctor():
-    # Only accepts POST REQUEST
-    data = dict()
 
-    if Request.method == 'GET':
-        data["error"] = "Do Not Send GET requests to this end point. Use a POST request instead:\n " \
-                        "https://www.educative.io/edpresso/how-to-make-an-axios-post-request"
-        return Flask.json_encoder(data)
-    return "doctor registered"
+@app.route('/logincheck', methods= ['GET','POST'])
+def logincheck():
+     emailchk = request.form.get('email')
+     passwordchk = request.form.get('password')
+
+    #creating the login session
+     session = sessions()
+     check = session.query(user).filter_by(email=emailchk).first()
+     if check is None:
+         return render_template('login.html')
+     else:
+         if check.password == passwordchk and check.email==emailchk:
+             return "user logged in"
+         else:
+             return render_template('login.html')
+
+     session.close()
+     return render_template("login.html")
 
 
-@app.route("/get_account_info", methods=["GET"])
-def get_account_info():
 
-    # return fetch_account_info()
-    return "GETTING ACCOUNT INFORMATION"
-
-
-@app.route("/manage_cases", methods=["GET", "POST"])
-def manage_cases():
-    data = request.args
-
-    return data
 
 
 if __name__ == '__main__':
     app.run()
-
-
-@app.route("/get_account_info", methods=["GET"])
-def get_account_info():
-
-    # return fetch_account_info()
-    return "GETTING ACCOUNT INFORMATION"
-
-
-@app.route("/manage_cases", methods=["GET", "POST"])
-def manage_cases():
-    data = request.args
-
-    return data
-
-
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8080, debug=False)
