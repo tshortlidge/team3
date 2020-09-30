@@ -54,6 +54,16 @@ class CloudDB:
         session.configure(bind=self.engine)
         return scoped_session(session)
 
+
+User = Table('users', metadata,
+    Column('id', Integer, primary_key=True),
+    Column('name', String(100)),
+    Column('email', String(100)),
+    Column('password', String(2000)),
+    Column('user_type', String(100))
+             )
+
+
 """
 Creating table for physicians on the database
 npi       -> National Provider Identifier Standard, a 10-digit number ID for healthcare providers
