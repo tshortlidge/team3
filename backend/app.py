@@ -1,3 +1,4 @@
+
 from flask import Flask, request, jsonify, render_template
 import modals
 from hashlib import sha256
@@ -29,7 +30,10 @@ def register():
 @app.route('/adduser', methods = ['POST'])
 @cross_origin()
 def adduser():
-    post_data = request.get_json()
+    if not request.is_json:
+        return "not json"
+
+    print(post_data["name"])
     name = post_data["name"]
     email = post_data["email"]
     password = post_data["password"]
@@ -125,4 +129,4 @@ def choose_doctor():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8080, debug=False)
+    app.run(host="0.0.0.0", port=80, debug=False)
