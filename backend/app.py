@@ -1,36 +1,38 @@
 from flask import Flask, request, jsonify, render_template
 import modals
 from hashlib import sha256
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-
-
-app = Flask(__name__)
+cors = CORS(app) # To let the front end team execute javascript from a different ip address
 
 
 @app.route('/')
+@cross_origin()
 def login():
 
     return "Hello World"
 
 
 @app.route('/success')
+@cross_origin()
 def success():
     return "success"
 
 
 @app.route('/register', methods = ["GET", "POST"])
+@cross_origin()
 def register():
     return render_template("register.html")
 
 
 @app.route('/adduser', methods = ['POST'])
+@cross_origin()
 def adduser():
     post_data = request.get_json()
     name = post_data["name"]
     email = post_data["email"]
     password = post_data["password"]
-
 
     user = modals.User.insert().values(name=name, email=email, password=password, user_type="physician")
     con = modals.db.engine.connect()
@@ -40,6 +42,7 @@ def adduser():
 
 
 @app.route("/test_post", methods=['POST'])
+@cross_origin()
 def test_post():
     # Test method for the front end team to see what they're sending us.
     # receive JSON, send JSON
@@ -50,6 +53,7 @@ def test_post():
 
 
 @app.route('/logincheck', methods= ['GET','POST'])
+@cross_origin()
 def logincheck():
 
     '''
@@ -75,12 +79,14 @@ def logincheck():
 
 
 @app.route("/get_case_history", methods=["POST", "GET"])
+@cross_origin()
 def get_case_history():
     # Need session key
     return "case history returned"
 
 
 @app.route("/image_upload", methods=["POST", "GET"])
+@cross_origin()
 def handle_image_upload():
     data = dict()
     if request.method == 'GET':
@@ -91,12 +97,14 @@ def handle_image_upload():
 
 
 @app.route("/manage_cases", methods=["GET", "POST"])
+@cross_origin()
 def manage_cases():
     data = request.args
 
     return data
 
 @app.route("/get_account_info", methods=["GET"])
+@cross_origin()
 def get_account_info():
 
     # return fetch_account_info()
@@ -104,6 +112,7 @@ def get_account_info():
 
 
 @app.route("/choose_doctor", methods=["POST", "GET"])
+@cross_origin()
 def choose_doctor():
     # Only accepts POST REQUEST
     data = dict()
