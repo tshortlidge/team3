@@ -1,6 +1,7 @@
 
 from flask import Flask, request, jsonify, render_template
 import modals
+import json
 from hashlib import sha256
 from flask_cors import CORS, cross_origin
 
@@ -32,8 +33,8 @@ def register():
 def adduser():
     if not request.is_json:
         return "not json"
-
-    print(post_data["name"])
+    post_data = request.get_json()
+    print(post_data["name"], "name")
     name = post_data["name"]
     email = post_data["email"]
     password = post_data["password"]
@@ -129,4 +130,4 @@ def choose_doctor():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=80, debug=False)
+    app.run(host="0.0.0.0", port=8080, debug=False)

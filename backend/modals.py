@@ -55,7 +55,7 @@ class CloudDB:
         return scoped_session(session)
 
 
-User = Table('users', metadata,
+User = Table('user', metadata,
     Column('id', Integer, primary_key=True),
     Column('name', String(100)),
     Column('email', String(100)),
@@ -194,9 +194,16 @@ db = CloudDB()
 
 if __name__ == '__main__':
     import requests
-    d = {'God created war so that Americans would learn geography': 'Mark Twain'}
-    res = requests.post('http://127.0.0.1:8080/test_post', json=d)
-    print(res.content, d)
+
     db.metadata.drop_all(db.engine)
     db.metadata.create_all(db.engine)
 
+    d = {'God created war so that Americans would learn geography': 'Mark Twain'}
+    res = requests.post('http://127.0.0.1:8080/test_post', json=d)
+
+    print(res.content, d)
+
+    new_account = {"email": "abc123@yahoo.com", "name":"me", "password": "its_a_secret!"}
+
+    res = requests.post('http://127.0.0.1:8080/adduser', json=new_account)
+    print(res, "res")
