@@ -203,7 +203,8 @@ if __name__ == '__main__':
 
     print(res.content, d)
 
-    new_account = {"email": "abc123@yahoo.com", "name":"me", "password": "its_a_secret!"}
+    new_account = { "data": {
+        "email": "abc123@yahoo.com", "name":"me", "password": "its_a_secret!"}}
 
     res = requests.post('http://127.0.0.1:8080/adduser', json=new_account)
     print(res, "res")

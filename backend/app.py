@@ -34,6 +34,7 @@ def adduser():
     if not request.is_json:
         return "not json"
     post_data = request.get_json()
+    post_data = post_data["data"]
     print(post_data["name"], "name")
     name = post_data["name"]
     email = post_data["email"]
