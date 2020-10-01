@@ -1,6 +1,7 @@
-from flask import Flask, Request, jsonify, request, render_template
+from flask import Flask, request, jsonify, render_template
 import modals
 from hashlib import sha256
+
 app = Flask(__name__)
 
 
@@ -36,24 +37,39 @@ def adduser():
     return "user registered"
 
 
+@app.route("/test_post", methods=['POST'])
+def test_post():
+    # Test method for the front end team to see what they're sending us.
+    # receive JSON, send JSON
+    print(request.is_json)
+    post_data = request.get_json()
+
+    return post_data
+
+
 @app.route('/logincheck', methods= ['GET','POST'])
 def logincheck():
-     emailchk = request.form.get('email')
-     passwordchk = request.form.get('password')
 
-    #creating the login session
-     session = modals.db.get_session()
-     check = session.query(modals.User).filter_by(email=emailchk).first()
-     if check is None:
-         return render_template('login.html')
-     else:
-         if check.password == passwordchk and check.email==emailchk:
-             return "user logged in"
-         else:
-             return render_template('login.html')
+    '''
+    Method to validate user login
+    :return: :str
+    '''
 
-     session.close()
-     return render_template("login.html")
+    post_data = request.get_json()
+    emailchk = post_data['email']
+    passwordchk = post_data['password']
+
+    # creating the login session
+    session = modals.db.get_session()
+    check = session.query(modals.User).filter_by(email=emailchk).first()
+    session.close()
+    if check is None:
+        return "error"
+    else:
+        if check.password == passwordchk and check.email == emailchk:
+            return "user logged in"
+        else:
+            return "error"
 
 
 @app.route("/get_case_history", methods=["POST", "GET"])
@@ -65,7 +81,7 @@ def get_case_history():
 @app.route("/image_upload", methods=["POST", "GET"])
 def handle_image_upload():
     data = dict()
-    if Request.method == 'GET':
+    if request.method == 'GET':
         data["error"] = "Do Not Send GET requests to this end point. Use a POST request instead:\n " \
                              "https://www.educative.io/edpresso/how-to-make-an-axios-post-request"
     # Store image
@@ -90,7 +106,7 @@ def choose_doctor():
     # Only accepts POST REQUEST
     data = dict()
 
-    if Request.method == 'GET':
+    if request.method == 'GET':
         data["error"] = "Do Not Send GET requests to this end point. Use a POST request instead:\n " \
                         "https://www.educative.io/edpresso/how-to-make-an-axios-post-request"
         return Flask.json_encoder(data)

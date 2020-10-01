@@ -193,6 +193,10 @@ Payment = Table('payment', metadata,
 db = CloudDB()
 
 if __name__ == '__main__':
+    import requests
+    d = {'God created war so that Americans would learn geography': 'Mark Twain'}
+    res = requests.post('http://127.0.0.1:8080/test_post', json=d)
+    print(res.content, d)
     db.metadata.drop_all(db.engine)
     db.metadata.create_all(db.engine)
 
