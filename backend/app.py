@@ -26,9 +26,11 @@ def register():
 
 @app.route('/adduser', methods = ['POST'])
 def adduser():
-    name = request.form.get('name')
-    email = request.form.get('email')
-    password = request.form.get('password')
+    post_data = request.get_json()
+    name = post_data["name"]
+    email = post_data["email"]
+    password = post_data["password"]
+
 
     user = modals.User.insert().values(name=name, email=email, password=password, user_type="physician")
     con = modals.db.engine.connect()
