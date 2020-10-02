@@ -47,6 +47,21 @@ def adduser():
     return "user registered"
 
 
+@app.route("/get_users", methods=['GET', 'POST'])
+@cross_origin()
+def route_get_users():
+    session = modals.db.get_session()
+    data_to_return = []
+    for entry in session.query(modals.User):
+        data = dict()
+        data["email"] = entry.email
+        data["id"] = entry.id
+        data["password"] = entry.password
+        data["user_type"] = entry.user_type
+        data_to_return.append(data)
+    return jsonify(data_to_return)
+
+
 @app.route("/test_post", methods=['POST'])
 @cross_origin()
 def test_post():
