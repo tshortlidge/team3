@@ -1,4 +1,4 @@
-
+from sqlalchemy.sql import insert
 from flask import Flask, request, jsonify, render_template
 import modals
 import json
@@ -43,7 +43,7 @@ def adduser():
     user = modals.User.insert().values(name=name, email=email, password=password, user_type="physician")
     con = modals.db.engine.connect()
     con.execute(user)
-
+    con.close()
     return "user registered"
 
 

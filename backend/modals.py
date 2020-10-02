@@ -37,7 +37,8 @@ class CloudDB:
         creds = get_creds()  # Read credentials from file
         self.metadata = metadata
         self.base = Base
-        self.url = creds["dialect"] + '://' + creds["user"] + ':' + creds["paswd"] + '@' + creds["server"] + ":" + creds["port"] + '/' + creds["db"]
+        self.url = creds["dialect"] + '://' + creds["user"] + ':' + \
+                   creds["paswd"] + '@' + creds["server"] + ":" + creds["port"] + '/' + creds["db"]
         self.engine = create_engine(self.url, echo=True, pool_recycle=3600, pool_size=20, max_overflow=0)
 
     def get_session(self):
@@ -204,7 +205,7 @@ if __name__ == '__main__':
     print(res.content, d)
 
     new_account = { "data": {
-        "email": "abc123@yahoo.com", "name":"me", "password": "its_a_secret!"}}
+        "email": "abc123s@yahoo.com", "name":"mse", "password": "its_a_secret!"}}
 
     res = requests.post('http://127.0.0.1:8080/adduser', json=new_account)
-    print(res, "res")
+    print(res.text, "res")
