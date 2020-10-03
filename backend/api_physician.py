@@ -1,60 +1,102 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request, abort
+from flask_cors import CORS, cross_origin
+import modals
 
 
-
-# import modals
-# from sqlalchemy.sql import text
-# from datetime import date
 physician_blueprint = Blueprint('api_physician', __name__,)
 
 
-#dummy data for physician.
-physician_list = [
-        {'npi': 0,
-         'username': 'tester01'},
-        {'npi': 1,
-         'username': 'tester02'},
-        {'npi': 2,
-         'username': 'tester03'}
-    ]
-physician_info = [
-        {
-         'username': 'tester01',
-         'age': '23',
-         'sex': 'M',
-         'medical_history': 'stage 5 lung cancer'},
-        {
-         'username': 'tester02',
-         'age': '22',
-         'sex': 'F',
-         'medical_history': 'stage 5 lung cancer'},
-        {
-         'username': 'tester03',
-         'age': '35',
-         'sex': 'M',
-         'medical_history': 'stage 5 lung cancer'}
-    ]
-
-
 @physician_blueprint.route('/physician', methods=['GET'])
+@cross_origin()
 def home():
     return jsonify("PHYSICIAN API")
 
 
-@physician_blueprint.route('/physician/<id>', methods=["GET"])
-def api_physician_id():
-    # Create an empty list for our results
-    results = []
+@physician_blueprint.route('/physician', methods=['POST'])
+@cross_origin()
+def api_physician_add():
+    if not request.is_json:
+        return jsonify({"msg": "not json format"})
+    post_data = request.get_json()
+    npi = post_data["npi"]
+    username = post_data["username"]
+    name = post_data["name"]
+    bio = post_data["bio"]
+    addr = post_data["addr"]
+    qual = post_data["qual"]
+    reviewCnt = post_data["reviewCnt"]
 
-    # Loop through the data and match results that fit the requested ID.
-    # IDs are unique, but other fields might return many results
-    for physician in physician_info:
-        if physician['npi'] == str(id):
-            results.append(physician)
-    return jsonify(results)
+    user = modals.Physician.insert()\
+        .values(username=username, npi=npi, name=name, bio=bio, addr=addr, qual=qual, reviewCnt=reviewCnt)
+
+    con = modals.db.engine.connect()
+    con.execute(user)
+    con.close()
+    return "Physician registered."
+
+
+@physician_blueprint.route('/physician', methods=['PUT'])
+@cross_origin()
+def api_physician_edit():
+    session = modals.db.get_session()
+    if not request.is_json:
+        return jsonify({"msg": "not json format"})
+    post_data = request.get_json()
+
+    phy_id = post_data["phy_id"]
+    npi = post_data["npi"]
+    username = post_data["username"]
+    name = post_data["name"]
+    bio = post_data["bio"]
+    addr = post_data["addr"]
+    qual = post_data["qual"]
+    reviewCnt = post_data["reviewCnt"]
+
+    stmt = modals.Physician.update().where(modals.Physician.c.phy_id == phy_id).\
+        values(username=username, npi=npi, name=name, bio=bio, addr=addr, qual=qual, reviewCnt=reviewCnt)
+    con = modals.db.engine.connect()
+    con.execute(stmt)
+    con.close()
+    return "Physician updated."
+
+
+@physician_blueprint.route('/physician/<id>', methods=["GET"])
+@cross_origin()
+def api_physician_id(id):
+    session = modals.db.get_session()
+    data_to_return = []
+    entry = session.query(modals.Physician).filter_by(phy_id=id).first()
+    if entry is not None:
+        data = dict()
+        data["phy_id"] = entry.phy_id
+        data["username"] = entry.username
+        data["name"] = entry.name
+        data["npi"] = entry.npi
+        data["bio"] = entry.bio
+        data["addr"] = entry.addr
+        data["qual"] = entry.qual
+        data["reviewCnt"] = entry.reviewCnt
+
+        data_to_return.append(data)
+        return jsonify(data_to_return)
+    else:
+        abort(404, 'Person not found for Id: {phy_id}'.format(phy_id=id))
 
 
 @physician_blueprint.route('/physician/all', methods=["GET"])
+@cross_origin()
 def api_physician_all():
-    # return fetch_physician(data)
-    return jsonify(physician_info)
+    session = modals.db.get_session()
+    data_to_return = []
+    for entry in session.query(modals.Physician):
+        data = dict()
+        data["phy_id"] = entry.phy_id
+        data["username"] = entry.username
+        data["name"] = entry.name
+        data["npi"] = entry.npi
+        data["bio"] = entry.bio
+        data["addr"] = entry.addr
+        data["qual"] = entry.qual
+        data["reviewCnt"] = entry.reviewCnt
+        data_to_return.append(data)
+    return jsonify(data_to_return)

@@ -90,8 +90,9 @@ reviewCnt -> Used to display number of reviews for a physician on their profile 
 #                 Picture: ${data.picture}
 #                     Bio: ${data.bio}`
 
-physicians = Table('physician', metadata,
-                   Column('npi', Integer, primary_key=True, unique=True),
+Physician = Table('physician', metadata,
+                   Column('phy_id', Integer, primary_key=True, unique=True, autoincrement=True),
+                   Column('npi', String(20), unique=True),
                    Column('name', String(400)),
                    Column('bio', String(400)),
                    Column('addr', String(400)),
