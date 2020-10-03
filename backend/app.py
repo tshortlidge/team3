@@ -2,6 +2,7 @@ from flask import Flask, Request, jsonify, request, render_template
 from api_client import client_blueprint
 from api_physician import physician_blueprint
 import modals
+from flask_cors import CORS, cross_origin
 
 
 

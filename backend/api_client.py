@@ -1,4 +1,6 @@
-from flask import Blueprint, jsonify, json, request
+from flask import Flask, Blueprint, jsonify, json, request, abort
+from flask_cors import CORS, cross_origin
+
 import decimal, datetime
 import modals
 
@@ -9,11 +11,13 @@ client_blueprint = Blueprint('api_client', __name__,)
 
 
 @client_blueprint.route('/client', methods=['GET'])
+@cross_origin()
 def home():
     return jsonify("Client API")
 
 
 @client_blueprint.route('/client', methods=['POST'])
+@cross_origin()
 def api_client_add():
     print(request)
     if not request.is_json:
@@ -34,21 +38,29 @@ def api_client_add():
 
 
 @client_blueprint.route('/client/<id>', methods=["GET"])
-def api_client_id():
-    # Create an empty list for our results
-    results = []
-
-    # Loop through the data and match results that fit the requested ID.
-    # IDs are unique, but other fields might return many results
-    for client in client_info:
-        if client['pat_id'] == str(id):
-            results.append(client)
-    return jsonify(results)
+@cross_origin()
+def api_client_id(id):
+    session = modals.db.get_session()
+    data_to_return = []
+    # results = session.query(modals.Patient)
+    entry = session.query(modals.Patient).filter_by(pat_id=id).first()
+    # entry = modals.Patient.query.filter_by(pat_id=id).first()
+    if entry is not None:
+        data = dict()
+        data["username"] = entry.username
+        data["pat_id"] = entry.pat_id
+        data["age"] = entry.age
+        data["sex"] = entry.sex
+        data["medical_history"] = entry.medical_history
+        data_to_return.append(data)
+        return jsonify(data_to_return)
+    else:
+        abort(404, 'Person not found for Id: {pat_id}'.format(pat_id=id))
 
 
 @client_blueprint.route('/client/all', methods=["GET"])
+@cross_origin()
 def api_clients_all():
-    # return fetch_clients(data)
     session = modals.db.get_session()
     data_to_return = []
     # results = session.query(modals.Patient)
@@ -61,5 +73,27 @@ def api_clients_all():
         data["medical_history"] = entry.medical_history
         data_to_return.append(data)
     return jsonify(data_to_return)
-    # return json.dumps([dict(r) for r in results], default=str)
-    # return jsonify(client_info)
+
+
+@client_blueprint.route('/client', methods=['PUT'])
+@cross_origin()
+def api_client_edit():
+    session = modals.db.get_session()
+    print(request)
+    if not request.is_json:
+        return jsonify({"msg": "not json format"})
+    post_data = request.get_json()
+    # post_data = post_data["data"]
+    pat_id = post_data["pat_id"]
+    name = post_data["username"]
+    age = post_data["age"]
+    sex = post_data["sex"]
+    medical_history = post_data["medical_history"]
+    # entryExisting = session.query(modals.Patient).filter_by(pat_id=id).first()
+    # entry = session.query(modals.Patient).filter_by(pat_id=id).first()
+    stmt = modals.Patient.update().where(modals.Patient.c.pat_id == pat_id).\
+        values(username=name, age=age, sex=sex, medical_history=medical_history)
+    con = modals.db.engine.connect()
+    con.execute(stmt)
+    con.close()
+    return "Client updated."
