@@ -1,10 +1,15 @@
 from flask import Flask, Request, jsonify, request, render_template
+from api_client import client_blueprint
+from api_physician import physician_blueprint
 import modals
+
+
+
 from hashlib import sha256
 app = Flask(__name__)
-
-
-app = Flask(__name__)
+app.register_blueprint(client_blueprint)
+app.register_blueprint(physician_blueprint)
+    #app = Flask(__name__)
 
 
 @app.route('/')
@@ -98,4 +103,4 @@ def choose_doctor():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8080, debug=False)
+    app.run(host="127.0.0.1", port=50000, debug=True)

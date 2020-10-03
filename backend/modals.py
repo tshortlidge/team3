@@ -57,9 +57,9 @@ class CloudDB:
 
 User = Table('users', metadata,
     Column('id', Integer, primary_key=True),
-    Column('name', String(100)),
-    Column('email', String(100)),
-    Column('password', String(2000)),
+    Column('username', String(50), unique=True),
+    Column('email', String(100), unique=True),
+    Column('password', String(50)),
     Column('user_type', String(100))
              )
 
@@ -95,8 +95,7 @@ physicians = Table('physician', metadata,
                    Column('name', String(400)),
                    Column('bio', String(400)),
                    Column('addr', String(400)),
-                   Column('username', String(400), unique=True),
-                   Column('password', String(400)),
+                   Column('username', String(50), unique=True),
                    Column('qual', String(400)),
                    Column('reviewCnt', String(400)),
                    )
@@ -110,13 +109,13 @@ age             -> Age of the patient
 username        -> Unique username for physician to login
 password        -> Password for login (hash-value)
 """
-patients = Table('patient', metadata,
-                 Column('pat_id', Integer, primary_key=True, unique=True),
+Patient = Table('patients', metadata,
+                 Column('pat_id', Integer, primary_key=True, unique=True, autoincrement=True),
                  Column('medical_history', String(400)),
                  Column('sex', String(400)),
                  Column('age', Integer),
-                 Column('username', String(400), unique=True),
-                 Column('password', String(400)),
+                 Column('username', String(50), unique=True),
+
                  )
 
 """
@@ -139,14 +138,14 @@ ratings = Table('rating', metadata,
                 )
 
 
-Record_Assesments = Table('record_assesment', metadata,
-                          Column('record_assesment_id', Integer, primary_key=True, autoincrement=True, unique=True),
+Record_Assesments = Table('record_assessment', metadata,
+                          Column('record_assessment_id', Integer, primary_key=True, autoincrement=True, unique=True),
                           Column('record_id', Integer), #, ForeignKey('records.id')),
                           Column('physician_id', Integer), #, ForeignKey('physicians.id')),
                           Column('client_id', Integer), # , ForeignKey('clients.id')),
-                          Column('assesment', String(1200)),
+                          Column('assessment', String(1200)),
                           Column('completion_dt', Date), # was getting errors, this would overshadow a keyword in another function
-                          Column('status', String(15))
+                          Column('status', String(15)),
                           )
 
 
