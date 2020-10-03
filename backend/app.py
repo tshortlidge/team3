@@ -1,6 +1,6 @@
 from sqlalchemy.sql import insert
 from flask import Flask, request, jsonify, render_template
-import modals
+import models
 import json
 from hashlib import sha256
 from flask_cors import CORS, cross_origin
@@ -40,8 +40,8 @@ def adduser():
     email = post_data["email"]
     password = post_data["password"]
 
-    user = modals.User.insert().values(name=name, email=email, password=password, user_type="physician")
-    con = modals.db.engine.connect()
+    user = models.User.insert().values(name=name, email=email, password=password, user_type="physician")
+    con = models.db.engine.connect()
     con.execute(user)
     con.close()
     return "user registered"
@@ -50,9 +50,9 @@ def adduser():
 @app.route("/get_users", methods=['GET', 'POST'])
 @cross_origin()
 def route_get_users():
-    session = modals.db.get_session()
+    session = models.db.get_session()
     data_to_return = []
-    for entry in session.query(modals.User):
+    for entry in session.query(models.User):
         data = dict()
         data["email"] = entry.email
         data["id"] = entry.id
@@ -87,8 +87,8 @@ def logincheck():
     passwordchk = post_data['password']
 
     # creating the login session
-    session = modals.db.get_session()
-    check = session.query(modals.User).filter_by(email=emailchk).first()
+    session = models.db.get_session()
+    check = session.query(models.User).filter_by(email=emailchk).first()
     session.close()
     if check is None:
         return "error"

@@ -57,7 +57,7 @@ class CloudDB:
 
 
 User = Table('user', metadata,
-    Column('id', Integer, primary_key=True),
+    Column('id', Integer, autoincrement=True, primary_key=True),
     Column('name', String(100)),
     Column('email', String(100)),
     Column('password', String(2000)),
@@ -92,7 +92,7 @@ reviewCnt -> Used to display number of reviews for a physician on their profile 
 #                     Bio: ${data.bio}`
 
 physicians = Table('physician', metadata,
-                   Column('npi', Integer, primary_key=True, unique=True),
+                   Column('npi', Integer, autoincrement=True, primary_key=True, unique=True),
                    Column('name', String(400)),
                    Column('bio', String(400)),
                    Column('addr', String(400)),
@@ -112,7 +112,7 @@ username        -> Unique username for physician to login
 password        -> Password for login (hash-value)
 """
 patients = Table('patient', metadata,
-                 Column('pat_id', Integer, primary_key=True, unique=True),
+                 Column('pat_id', Integer, autoincrement=True, primary_key=True, unique=True),
                  Column('medical_history', String(400)),
                  Column('sex', String(400)),
                  Column('age', Integer),
@@ -132,7 +132,7 @@ score           -> A rating system where viewers can quickly glance at (metric c
                                                                         (percentage value)
 """
 ratings = Table('rating', metadata,
-                Column('review_id', Integer, primary_key=True, unique=True),
+                Column('review_id', Integer, autoincrement=True, primary_key=True, unique=True),
                 Column('npi', Integer), #, ForeignKey('physicians.npi')),
                 Column('pat_id', Integer), #, ForeignKey('patients.pat_id')),
                 Column('comment', String(400)),
@@ -145,7 +145,7 @@ ratings = Table('rating', metadata,
 # hospital_id -> A ID specific to the hospital
 
 records = Table('records', metadata,
-                Column('record_id', Integer, primary_key=True, unique=True),
+                Column('record_id', Integer, autoincrement=True, primary_key=True, unique=True),
                 Column('pat_id', Integer, ForeignKey('patients.pat_id'), unique=True),
                 Column('comment', String(400)),
                 Column('hospital_id', Integer, ForeignKey('hospital_id'), unique=True),
@@ -158,7 +158,7 @@ records = Table('records', metadata,
 # zip code     -> Displays the city zip code for the hospital
 
 hospitals = Table('hospital', metadata,
-                  Column('hospital_id', Integer, ForeignKey('hospital_id'), unique=True),
+                  Column('hospital_id', Integer, autoincrement=True, primary_key=True, unique=True),
                   Column('address', String(400)),
                   Column('city', String(400)),
                   Column('zip_code', String(400)),
@@ -187,7 +187,7 @@ Record_Assesments = Table('record_assesment', metadata,
 # isPaid
 
 Payment = Table('payment', metadata,
-                Column('payment_id', Integer, primary_key=True, unique=True),
+                Column('payment_id', Integer, autoincrement=True, primary_key=True, unique=True),
                 Column('client_id', Integer),#, ForeignKey('client.client_id')),
                 Column('record_id', Integer),#, ForeignKey('record.id')),
                 Column('total', Float),
@@ -230,7 +230,7 @@ if __name__ == '__main__':
     print(res.content, d)
 
     new_account = { "data": {
-        "email": "abc123s@yahoo.com", "name":"mse", "password": "its_a_secret!"}}
+        "email": "abc123s@yahoo.com", "name": "mse", "password": "its_a_secret!"}}
 
     res = requests.post('http://127.0.0.1:8080/adduser', json=new_account)
     print(res.text, "res")
