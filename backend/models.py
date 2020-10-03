@@ -146,9 +146,9 @@ ratings = Table('rating', metadata,
 
 records = Table('records', metadata,
                 Column('record_id', Integer, autoincrement=True, primary_key=True, unique=True),
-                Column('pat_id', Integer, ForeignKey('patients.pat_id'), unique=True),
+                Column('pat_id', Integer, ForeignKey('patient.pat_id'), unique=True),
                 Column('comment', String(400)),
-                Column('hospital_id', Integer, ForeignKey('hospital_id'), unique=True),
+                Column('hospital_id', Integer, ForeignKey('hospital.hospital_id'), unique=True),
                 )
 
 # Creating table for hospital data
@@ -167,9 +167,9 @@ hospitals = Table('hospital', metadata,
 
 Record_Assesments = Table('record_assesment', metadata,
                           Column('record_assesment_id', Integer, primary_key=True, autoincrement=True, unique=True),
-                          Column('record_id', Integer), #, ForeignKey('records.id')),
-                          Column('physician_id', Integer), #, ForeignKey('physicians.id')),
-                          Column('client_id', Integer), # , ForeignKey('clients.id')),
+                          Column('record_id', Integer, ForeignKey('records.record_id')),
+                          Column('physician_id', Integer, ForeignKey('physician.npi')),
+                          Column('pat_id', Integer, ForeignKey('patient.pat_id')),
                           Column('assesment', String(1200)),
                           Column('completion_dt', Date), # was getting errors, this would overshadow a keyword in another function
                           Column('status', String(15))
@@ -224,13 +224,13 @@ if __name__ == '__main__':
     db.metadata.drop_all(db.engine)
     db.metadata.create_all(db.engine)
 
-    d = {'God created war so that Americans would learn geography': 'Mark Twain'}
-    res = requests.post('http://127.0.0.1:8080/test_post', json=d)
+    # d = {'God created war so that Americans would learn geography': 'Mark Twain'}
+    # res = requests.post('http://127.0.0.1:8080/test_post', json=d)
+    #
+    # print(res.content, d)
 
-    print(res.content, d)
-
-    new_account = { "data": {
-        "email": "abc123s@yahoo.com", "name": "mse", "password": "its_a_secret!"}}
-
-    res = requests.post('http://127.0.0.1:8080/adduser', json=new_account)
-    print(res.text, "res")
+    # new_account = { "data": {
+    #     "email": "abc123s@yahoo.com", "name": "mse", "password": "its_a_secret!"}}
+    #
+    # res = requests.post('http://127.0.0.1:8080/adduser', json=new_account)
+    # print(res.text, "res")
