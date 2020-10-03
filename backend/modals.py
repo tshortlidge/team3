@@ -2,7 +2,7 @@
 Filename: modals.py
 Team name: Second Chance
 Backend members: Kevin Vo, Kevin Ramos, Alannah Gavuzzi
-Frontend members: Eric Diaz, Trevor Shortlidge, Bernie Rodriguez, Youngseung Lee
+Frontend members: Eric Diaz, Trevor Shortlidge, Bernardo Rodriguez, Youngseung Lee
 Project Description:
     6. Project title: Medical Imaging database system/Second opinion
     ----------------------------------------------------------------
@@ -138,6 +138,31 @@ ratings = Table('rating', metadata,
                 Column('comment', String(400)),
                 Column('score', String(400)),
                 )
+# Creating table for records for patients
+# record_id   -> A unique ID to identify each case
+# pat_id      -> A unique ID specific patient
+# comment     -> Allows for comments to be made based off of the image
+# hospital_id -> A ID specific to the hospital
+
+records = Table('records', metadata,
+                Column('record_id', Integer, primary_key=True, unique=True),
+                Column('pat_id', Integer, ForeignKey('patients.pat_id'), unique=True),
+                Column('comment', String(400)),
+                Column('hospital_id', Integer, ForeignKey('hospital_id'), unique=True),
+                )
+
+# Creating table for hospital data
+# hospital_id  -> A ID specific to the hospital
+# address      -> Allows for hospital address to be displayed
+# city         -> Displays the city that the hospital is located in
+# zip code     -> Displays the city zip code for the hospital
+
+hospitals = Table('hospital', metadata,
+                  Column('hospital_id', Integer, ForeignKey('hospital_id'), unique=True),
+                  Column('address', String(400)),
+                  Column('city', String(400)),
+                  Column('zip_code', String(400)),
+                  )
 
 
 Record_Assesments = Table('record_assesment', metadata,
