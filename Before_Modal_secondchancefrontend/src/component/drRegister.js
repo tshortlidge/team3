@@ -1,11 +1,10 @@
 import React from 'react';
-
+import axios from 'axios';
 
 import '../App.css';
 
 class DrRegister extends React.Component {
-    state = {selectedFile: null}
-
+    state = { selectedFile: null }
     constructor(props) {
         super(props);
 
@@ -18,41 +17,23 @@ class DrRegister extends React.Component {
                 firstName: '',
                 lastName: '',
                 npi: '',
+                address: '',
+                city: '',
+                us_state: '',
+                zip: '',
                 picture: '',
                 speciality: '',
-                bio: '',
-                hospitalNameArr: ["Cleveland Clinic", "Johns Hopkins Hospital", "Mayo Clinic", "UCLA Medical Center"],
-                selectedHospitalName: '',
-                selectedBirthMonth: '',
-                selectedBirthDay: '',
-                selectedBirthYear: '',
-                date: {
-                    month: ["January", "February", "April", "May", "June", "July", "August", "September", "October",
-                        "November", "December"],
-
-                    day: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17",
-                        "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"],
-
-                    year:[]
-                },
+                bio: ''
             };
 
 
-
     }
 
-    setCurrentYear = () =>
+
+
+
+    handleInputChange = (event) =>
     {
-        let currentDate = new Date();
-        let currentYear = currentDate.getFullYear();
-
-        for(let cntDay = 1900; cntDay <= currentYear; cntDay++)
-        {
-            this.state.date.year.push(cntDay);
-        }
-    }
-
-    handleInputChange = (event) => {
         this.setState(
             {
 
@@ -62,13 +43,15 @@ class DrRegister extends React.Component {
 
     //imageupload
 
-    fileSelectedHandler = (event) => {
+    fileSelectedHandler = (event) =>
+    {
         this.setState({
             selectedFile: event.target.files[0]
         })
     }
 
-    fileUploadHandler = (event) => {
+    fileUploadHandler = (event) =>
+    {
         /*
         event.preventDefault();
         const fd = new FormData();
@@ -85,42 +68,31 @@ class DrRegister extends React.Component {
     }
 
 
-    handleSubmit = async (event) => {
+
+
+
+
+
+
+    handleSubmit = (event) =>
+    {
         this.fileUploadHandler(event);
         const data = this.state;
+
         /*
-        const data = {'name': this.state.firstName + this.state.lastName, 'email': this.state.email,
-            'password': this.state.password};
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ data })
-        };
-
-        let resp = await fetch('http://52.247.220.137:80/adduser', requestOptions);
-
-        //Getting the text of the response
-        let toConsoles = await resp.text();
-
-        console.log(toConsoles);
-    */
-        /*
-            axios.post('http://52.247.220.137:80/adduser',data)
-                .then(resp => console.log(resp));
+        axios.post('http://172.116.201.31:8080/adduser',data)
+            .then(resp => console.log(resp));
         */
-        /*
 
-        data.name = "123";
         // Simple POST request with a JSON body using fetch
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ data })
         };
-        fetch('http://52.247.220.137:80/adduser', requestOptions)
-            .then(response => JSON.parse(response))
-            .then(response => console.log(response));
-*/
+        fetch('http://172.116.201.31:8080/adduser', requestOptions)
+            .then(response => console.log(response))
+            .then(data => this.setState({ postId: data.id }));
 
         alert(`Test Variables
                --------------
@@ -131,10 +103,10 @@ class DrRegister extends React.Component {
                LastName: ${this.state.lastName}
                     NPI: ${this.state.npi}
              Speciality: ${this.state.speciality}
-                selectedHospitalName: ${this.state.selectedHospitalName}
-                   selectedBirthMonth: ${this.state.selectedBirthMonth}
-               selectedBirthDay: ${this.state.selectedBirthDay}
-                    selectedBirthYear: ${this.state.selectedBirthYear}
+                Address: ${this.state.address}
+                   City: ${this.state.city}
+               US_State: ${this.state.us_state}
+                    Zip: ${this.state.zip}
                 Picture: ${this.state.picture}
                     Bio: ${this.state.bio}
                     
@@ -155,18 +127,13 @@ class DrRegister extends React.Component {
                     Zip: ${data.zip}
                 Picture: ${data.picture}
                     Bio: ${data.bio}`
-        );
+             );
 
 
         event.preventDefault();
 
     }
-
-
-
-
     render() {
-        this.setCurrentYear();
         //fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY').then( resp => resp.json).then(result => console.log(result));
         return (
             <div>
@@ -186,8 +153,9 @@ class DrRegister extends React.Component {
                             required/>
                     </label>
 
-                    <br />
 
+
+                    <br />
                     <label>
                         Password:
                         <input
@@ -199,7 +167,6 @@ class DrRegister extends React.Component {
                     </label>
 
                     <br />
-
                     <label>
                         Repeat Password:
                         <input
@@ -234,32 +201,6 @@ class DrRegister extends React.Component {
                     </label>
 
                     <br />
-                    <label>
-                        Birthday:
-                            <select name = "selectedBirthMonth" value={this.state.value} onChange={this.handleInputChange}>
-                                {this.state.date.month.map(function(selectedBM){
-                                    return <option value={selectedBM}>{selectedBM}</option>
-                                })}
-
-                            </select>
-
-                        <select name = "selectedBirthDay" value={this.state.value} onChange={this.handleInputChange}>
-                            {this.state.date.day.map(function(selectedBirthD){
-                                return <option value={selectedBirthD}>{selectedBirthD}</option>
-                            })}
-                        </select>
-
-                        <select name = "selectedBirthYear" value={this.state.value} onChange={this.handleInputChange}>
-                            {this.state.date.year.map(function(selectedBirthY){
-                                return <option value={selectedBirthY}>{selectedBirthY}</option>
-                            })}
-                        </select>
-
-
-
-                    </label>
-
-                    <br />
 
                     <label>
                         NPI:
@@ -284,24 +225,96 @@ class DrRegister extends React.Component {
                     </label>
 
                     <br />
+                    <u>Clinic's Address:</u>
+                    <br />
+                    <label>
+                        Street:
+                        <input
+                            name="address"
+                            type="text"
+                            value={this.state.address}
+                            onChange={this.handleInputChange}
+                            required/>
+                    </label>
 
+                    <br />
+                    <label>
+                        City:
+                        <input
+                            name="city"
+                            type="text"
+                            value={this.state.city}
+                            onChange={this.handleInputChange}
+                            required/>
+                    </label>
 
                     <label>
-                        Select Clinic:
-
-                        <br />
-
-                        <select name = "selectedHospitalName" value={this.state.value} onChange={this.handleInputChange}>
-                            {this.state.hospitalNameArr.map(function(hospitalName){
-                                return <option value={hospitalName}>{hospitalName}</option>
-                            })}
-
-
+                        State:
+                        <select name = "us_state" value={this.state.value} onChange={this.handleInputChange}>
+                            <option value="AL">Alabama</option>
+                            <option value="AK">Alaska</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="CA">California</option>
+                            <option value="CO">Colorado</option>
+                            <option value="CT">Connecticut</option>
+                            <option value="DE">Delaware</option>
+                            <option value="DC">District Of Columbia</option>
+                            <option value="FL">Florida</option>
+                            <option value="GA">Georgia</option>
+                            <option value="HI">Hawaii</option>
+                            <option value="ID">Idaho</option>
+                            <option value="IL">Illinois</option>
+                            <option value="IN">Indiana</option>
+                            <option value="IA">Iowa</option>
+                            <option value="KS">Kansas</option>
+                            <option value="KY">Kentucky</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="ME">Maine</option>
+                            <option value="MD">Maryland</option>
+                            <option value="MA">Massachusetts</option>
+                            <option value="MI">Michigan</option>
+                            <option value="MN">Minnesota</option>
+                            <option value="MS">Mississippi</option>
+                            <option value="MO">Missouri</option>
+                            <option value="MT">Montana</option>
+                            <option value="NE">Nebraska</option>
+                            <option value="NV">Nevada</option>
+                            <option value="NH">New Hampshire</option>
+                            <option value="NJ">New Jersey</option>
+                            <option value="NM">New Mexico</option>
+                            <option value="NY">New York</option>
+                            <option value="NC">North Carolina</option>
+                            <option value="ND">North Dakota</option>
+                            <option value="OH">Ohio</option>
+                            <option value="OK">Oklahoma</option>
+                            <option value="OR">Oregon</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="RI">Rhode Island</option>
+                            <option value="SC">South Carolina</option>
+                            <option value="SD">South Dakota</option>
+                            <option value="TN">Tennessee</option>
+                            <option value="TX">Texas</option>
+                            <option value="UT">Utah</option>
+                            <option value="VT">Vermont</option>
+                            <option value="VA">Virginia</option>
+                            <option value="WA">Washington</option>
+                            <option value="WV">West Virginia</option>
+                            <option value="WI">Wisconsin</option>
+                            <option value="WY">Wyoming</option>
                         </select>
 
                     </label>
 
-
+                    <label>
+                        Zip Code:
+                        <input
+                            name="zip"
+                            type="numbers"
+                            value={this.state.zip}
+                            onChange={this.handleInputChange}
+                            required/>
+                    </label>
 
                     <br />
                     <label>
