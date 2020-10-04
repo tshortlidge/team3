@@ -6,12 +6,14 @@ export class Contact extends React.Component
         super(props);
 
         this.state ={
-            physician_email: ''
+            physician_email: 'foolycooly288622@yahoo.com'
         };
     }
 
+
     render() {
-        this.state.physician_email = 'babyBoomer9887@yahoo.com';
+
+
         return(
             <div>
 
@@ -20,7 +22,7 @@ export class Contact extends React.Component
                     <table>
                         <tr>
                             <td>
-                                <div className = {"container"}>
+                                <div className = {"container"} >
                                     <form action = { `mailto:${this.state.physician_email}`} method={ "post"}
                                                   encType={ "text/plain" } className={ "form-control" }>
                                         <tr>
