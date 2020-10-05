@@ -22,10 +22,13 @@ def api_client_add():
     age = post_data["age"]
     sex = post_data["sex"]
     medical_history = post_data["medical_history"]
+    email = post_data["email"]
+    password = post_data["password"]
 
-    user = modals.Patient.insert().values(username=name, age=age, sex=sex, medical_history=medical_history)
+    stmt = modals.Patient.insert().\
+        values(username=name, age=age, sex=sex, medical_history=medical_history, email=email, password=password)
     con = modals.db.engine.connect()
-    con.execute(user)
+    con.execute(stmt)
     con.close()
     return "Client registered."
 
@@ -33,7 +36,6 @@ def api_client_add():
 @client_blueprint.route('/client', methods=['PUT'])
 @cross_origin()
 def api_client_edit():
-    session = modals.db.get_session()
     if not request.is_json:
         return jsonify({"msg": "not json format"})
     post_data = request.get_json()
@@ -43,8 +45,11 @@ def api_client_edit():
     age = post_data["age"]
     sex = post_data["sex"]
     medical_history = post_data["medical_history"]
+    email = post_data["email"]
+    password = post_data["password"]
+
     stmt = modals.Patient.update().where(modals.Patient.c.pat_id == pat_id).\
-        values(username=name, age=age, sex=sex, medical_history=medical_history)
+        values(username=name, age=age, sex=sex, medical_history=medical_history, email=email, password=password)
     con = modals.db.engine.connect()
     con.execute(stmt)
     con.close()
@@ -56,9 +61,8 @@ def api_client_edit():
 def api_client_id(id):
     session = modals.db.get_session()
     data_to_return = []
-    # results = session.query(modals.Patient)
     entry = session.query(modals.Patient).filter_by(pat_id=id).first()
-    # entry = modals.Patient.query.filter_by(pat_id=id).first()
+    session.close()
     if entry is not None:
         data = dict()
         data["username"] = entry.username
@@ -66,6 +70,9 @@ def api_client_id(id):
         data["age"] = entry.age
         data["sex"] = entry.sex
         data["medical_history"] = entry.medical_history
+        data["email"] = entry.email
+        data["password"] = entry.password
+
         data_to_return.append(data)
         return jsonify(data_to_return)
     else:
@@ -84,5 +91,8 @@ def api_clients_all():
         data["age"] = entry.age
         data["sex"] = entry.sex
         data["medical_history"] = entry.medical_history
+        data["email"] = entry.email
+        data["password"] = entry.password
         data_to_return.append(data)
+    session.close()
     return jsonify(data_to_return)

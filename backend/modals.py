@@ -55,13 +55,13 @@ class CloudDB:
         return scoped_session(session)
 
 
-User = Table('users', metadata,
-    Column('id', Integer, primary_key=True),
-    Column('username', String(50), unique=True),
-    Column('email', String(100), unique=True),
-    Column('password', String(50)),
-    Column('user_type', String(100))
-             )
+#User = Table('users', metadata,
+#    Column('id', Integer, primary_key=True),
+#    Column('username', String(50), unique=True),
+#    Column('email', String(100), unique=True),
+#    Column('password', String(50)),
+#    Column('user_type', String(100))
+#             )
 
 
 """
@@ -91,15 +91,17 @@ reviewCnt -> Used to display number of reviews for a physician on their profile 
 #                     Bio: ${data.bio}`
 
 Physician = Table('physician', metadata,
-                   Column('phy_id', Integer, primary_key=True, unique=True, autoincrement=True),
-                   Column('npi', String(20), unique=True),
-                   Column('name', String(400)),
-                   Column('bio', String(400)),
-                   Column('addr', String(400)),
-                   Column('username', String(50), unique=True),
-                   Column('qual', String(400)),
-                   Column('reviewCnt', String(400)),
-                   )
+                  Column('phy_id', Integer, primary_key=True, unique=True, autoincrement=True),
+                  Column('npi', String(20), unique=True),
+                  Column('name', String(400)),
+                  Column('bio', String(400)),
+                  Column('addr', String(400)),
+                  Column('username', String(50), unique=True),
+                  Column('qual', String(400)),
+                  Column('reviewCnt', String(400)),
+                  Column('email', String(100), unique=True),
+                  Column('password', String(50)),
+                  )
 
 """
 Creating table for patients
@@ -111,13 +113,14 @@ username        -> Unique username for physician to login
 password        -> Password for login (hash-value)
 """
 Patient = Table('patients', metadata,
-                 Column('pat_id', Integer, primary_key=True, unique=True, autoincrement=True),
-                 Column('medical_history', String(400)),
-                 Column('sex', String(400)),
-                 Column('age', Integer),
-                 Column('username', String(50), unique=True),
-
-                 )
+                Column('pat_id', Integer, primary_key=True, unique=True, autoincrement=True),
+                Column('medical_history', String(400)),
+                Column('sex', String(400)),
+                Column('age', Integer),
+                Column('username', String(50), unique=True),
+                Column('email', String(100), unique=True),
+                Column('password', String(50)),
+                )
 
 """
 Creating table for ratings from patients on their physicians
@@ -139,7 +142,7 @@ ratings = Table('rating', metadata,
                 )
 
 
-Record_Assesments = Table('record_assessment', metadata,
+Record_Assessments = Table('record_assessment', metadata,
                           Column('record_assessment_id', Integer, primary_key=True, autoincrement=True, unique=True),
                           Column('record_id', Integer), #, ForeignKey('records.id')),
                           Column('physician_id', Integer), #, ForeignKey('physicians.id')),
