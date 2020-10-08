@@ -33,27 +33,14 @@ export class DrEdit extends React.Component
 
     setDefaultHospital = (event) =>
     {
-        let indxCurrentHospital = 0;
-        const currHospitalName = this.state.currentHospital;
 
-        //Checks for the index of current hospital for default value of select menu right below
-        {this.state.hospitalNameArr.map(function(hospitalName, index){
-            if(currHospitalName === hospitalName.value)
-            {
-                indxCurrentHospital = index;
-            }
-        })}
-
-        console.log('----------- ' + indxCurrentHospital);
         return(
             <label>
                 Select Clinic:
 
                 <br/>
 
-                <select name = "selectedHospitalName" value={this.state.value}
-                        defaultValue={this.state.hospitalNameArr[indxCurrentHospital].value}
-                        onChange={this.handleInputChange}>
+                <select name = "selectedHospitalName" value={this.state.value} defaultValue={this.state.hospitalNameArr[3].value} onChange={this.handleInputChange}>
                     {this.state.hospitalNameArr.map(function(hospitalName, index){
                         return <option key={index} value={hospitalName.value}>{hospitalName.value}</option>
                     })}
@@ -162,7 +149,7 @@ export class DrEdit extends React.Component
                             type="text"
                             value={this.state.email}
                             onChange={this.handleInputChange}
-
+                            placeholder={this.state.oldEmail}
                         />
                     </label>
 
@@ -200,7 +187,7 @@ export class DrEdit extends React.Component
                             type="text"
                             value={this.state.firstName}
                             onChange={this.handleInputChange}
-
+                            placeholder={this.state.oldFirstName}
                             />
                     </label>
 
@@ -213,7 +200,7 @@ export class DrEdit extends React.Component
                             type="text"
                             value={this.state.lastName}
                             onChange={this.handleInputChange}
-
+                            placeholder={this.state.oldLastName}
                             />
                     </label>
 
@@ -227,7 +214,7 @@ export class DrEdit extends React.Component
                             type="text"
                             value={this.state.speciality}
                             onChange={this.handleInputChange}
-
+                            placeholder={this.state.oldSpeciality}
                             />
                     </label>
 
@@ -263,16 +250,6 @@ export class DrEdit extends React.Component
                         <textarea name="oldBio" value={this.state.oldBio} ref="newText" rows="20" cols="100" onChange={this.handleInputChange} ></textarea>
                     </label>
                     <br />
-                    <label>
-                        Enter Password to submit changes:
-                        <input
-                            name="repassword"
-                            type="password"
-                            value={this.state.repassword}
-                            onChange={this.handleInputChange}
-                            placeholder={'******'}
-                            required/>
-                    </label>
                     <br />
                     <button type="submit" value={this.state.value}>Submit</button>
                 </form>

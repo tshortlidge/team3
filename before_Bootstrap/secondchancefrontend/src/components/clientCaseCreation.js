@@ -1,6 +1,6 @@
 import React from 'react';
-import {PicCarousel} from './picCarousel';
 
+//
 export class ClientCaseCreation extends React.Component
 {
     constructor(props) {
@@ -106,8 +106,6 @@ export class ClientCaseCreation extends React.Component
                     </label>
 
                     <br />
-
-                    <PicCarousel />
 
                     <label>
 

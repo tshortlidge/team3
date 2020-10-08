@@ -2,7 +2,6 @@ import React from 'react';
 import {Button, Modal} from 'react-bootstrap';
 
 import '../css/login.css';
-
 export class Login extends React.Component
 {
     constructor(props) {
@@ -32,15 +31,6 @@ export class Login extends React.Component
                 [event.target.name]: event.target.value
             })
 
-    }
-
-    getLoginButton = () =>
-    {
-        return(
-            <div className="center">
-                <Button onClick={()=>{this.handleModal()}}>Login</Button>
-            </div>
-        );
     }
 
     handleSubmit = (event) =>
@@ -86,7 +76,7 @@ export class Login extends React.Component
     showLogin = () =>
     {
         return(
-            <form className={'loginForm'} onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit}>
                 <br />
                 <label>
                     Email:
@@ -113,9 +103,7 @@ export class Login extends React.Component
 
                 <br />
 
-                <label>
 
-                </label>
 
                 <button type="submit" value={this.state.value}>Login</button>
             </form>
@@ -132,8 +120,8 @@ export class Login extends React.Component
     render() {
         return(
             <div>
-                <div className="center" style={{borderWidth:"0px", margin:"0px", width:"0px", padding:"5px"}}>
-                    <Button  style={{alignContent: ""}} onClick={()=>{this.handleModal()}}>Login</Button>
+                <div className="center">
+                    <Button onClick={()=>{this.handleModal()}}>Login</Button>
                 </div>
                 <Modal show ={this.state.show}>
                     <Modal.Header>Login</Modal.Header>
