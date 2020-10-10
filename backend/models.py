@@ -2,7 +2,7 @@
 Filename: modals.py
 Team name: Second Chance
 Backend members: Kevin Vo, Kevin Ramos, Alannah Gavuzzi
-Frontend members: Eric Diaz, Trevor Shortlidge, Bernie Rodriguez, Youngseung Lee
+Frontend members: Eric Diaz, Trevor Shortlidge, Bernardo Rodriguez, Youngseung Lee
 Project Description:
     6. Project title: Medical Imaging database system/Second opinion
     ----------------------------------------------------------------
@@ -37,7 +37,8 @@ class CloudDB:
         creds = get_creds()  # Read credentials from file
         self.metadata = metadata
         self.base = Base
-        self.url = creds["dialect"] + '://' + creds["user"] + ':' + creds["paswd"] + '@' + creds["server"] + ":" + creds["port"] + '/' + creds["db"]
+        self.url = creds["dialect"] + '://' + creds["user"] + ':' + \
+                   creds["paswd"] + '@' + creds["server"] + ":" + creds["port"] + '/' + creds["db"]
         self.engine = create_engine(self.url, echo=True, pool_recycle=3600, pool_size=20, max_overflow=0)
 
     def get_session(self):
@@ -55,13 +56,14 @@ class CloudDB:
         return scoped_session(session)
 
 
-#User = Table('users', metadata,
-#    Column('id', Integer, primary_key=True),
-#    Column('username', String(50), unique=True),
-#    Column('email', String(100), unique=True),
-#    Column('password', String(50)),
-#    Column('user_type', String(100))
-#             )
+
+User = Table('user', metadata,
+    Column('id', Integer, autoincrement=True, primary_key=True),
+    Column('name', String(100)),
+    Column('email', String(100)),
+    Column('password', String(2000)),
+    Column('user_type', String(100))
+             )
 
 
 """
@@ -103,6 +105,7 @@ Physician = Table('physician', metadata,
                   Column('password', String(50)),
                   )
 
+
 """
 Creating table for patients
 pat_id          -> Patients' unique ID {PK}
@@ -122,6 +125,7 @@ Patient = Table('patients', metadata,
                 Column('password', String(50)),
                 )
 
+
 """
 Creating table for ratings from patients on their physicians
 review_id       -> A unique ID to identify a comment {PK}
@@ -134,20 +138,46 @@ score           -> A rating system where viewers can quickly glance at (metric c
                                                                         (percentage value)
 """
 ratings = Table('rating', metadata,
-                Column('review_id', Integer, primary_key=True, unique=True),
+                Column('review_id', Integer, autoincrement=True, primary_key=True, unique=True),
                 Column('npi', Integer), #, ForeignKey('physicians.npi')),
                 Column('pat_id', Integer), #, ForeignKey('patients.pat_id')),
                 Column('comment', String(400)),
                 Column('score', String(400)),
                 )
+# Creating table for records for patients
+# record_id   -> A unique ID to identify each case
+# pat_id      -> A unique ID specific patient
+# comment     -> Allows for comments to be made based off of the image
+# hospital_id -> A ID specific to the hospital
+
+records = Table('records', metadata,
+                Column('record_id', Integer, autoincrement=True, primary_key=True, unique=True),
+                Column('pat_id', Integer, ForeignKey('patient.pat_id'), unique=True),
+                Column('comment', String(400)),
+                Column('hospital_id', Integer, ForeignKey('hospital.hospital_id'), unique=True),
+                )
+
+# Creating table for hospital data
+# hospital_id  -> A ID specific to the hospital
+# address      -> Allows for hospital address to be displayed
+# city         -> Displays the city that the hospital is located in
+# zip code     -> Displays the city zip code for the hospital
+
+hospitals = Table('hospital', metadata,
+                  Column('hospital_id', Integer, autoincrement=True, primary_key=True, unique=True),
+                  Column('address', String(400)),
+                  Column('city', String(400)),
+                  Column('zip_code', String(400)),
+                  )
 
 
-Record_Assessments = Table('record_assessment', metadata,
-                          Column('record_assessment_id', Integer, primary_key=True, autoincrement=True, unique=True),
-                          Column('record_id', Integer), #, ForeignKey('records.id')),
-                          Column('physician_id', Integer), #, ForeignKey('physicians.id')),
-                          Column('client_id', Integer), # , ForeignKey('clients.id')),
-                          Column('assessment', String(1200)),
+
+Record_Assesments = Table('record_assesment', metadata,
+                          Column('record_assesment_id', Integer, primary_key=True, autoincrement=True, unique=True),
+                          Column('record_id', Integer, ForeignKey('records.record_id')),
+                          Column('physician_id', Integer, ForeignKey('physician.npi')),
+                          Column('pat_id', Integer, ForeignKey('patient.pat_id')),
+                          Column('assesment', String(1200)),
                           Column('completion_dt', Date), # was getting errors, this would overshadow a keyword in another function
                           Column('status', String(15)),
                           )
@@ -164,7 +194,7 @@ Record_Assessments = Table('record_assessment', metadata,
 # isPaid
 
 Payment = Table('payment', metadata,
-                Column('payment_id', Integer, primary_key=True, unique=True),
+                Column('payment_id', Integer, autoincrement=True, primary_key=True, unique=True),
                 Column('client_id', Integer),#, ForeignKey('client.client_id')),
                 Column('record_id', Integer),#, ForeignKey('record.id')),
                 Column('total', Float),
@@ -196,6 +226,18 @@ Payment = Table('payment', metadata,
 db = CloudDB()
 
 if __name__ == '__main__':
+    import requests
+
     db.metadata.drop_all(db.engine)
     db.metadata.create_all(db.engine)
 
+    # d = {'God created war so that Americans would learn geography': 'Mark Twain'}
+    # res = requests.post('http://127.0.0.1:8080/test_post', json=d)
+    #
+    # print(res.content, d)
+
+    # new_account = { "data": {
+    #     "email": "abc123s@yahoo.com", "name": "mse", "password": "its_a_secret!"}}
+    #
+    # res = requests.post('http://127.0.0.1:8080/adduser', json=new_account)
+    # print(res.text, "res")
