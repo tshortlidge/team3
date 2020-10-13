@@ -1,11 +1,13 @@
 from api_client import client_blueprint
 from api_physician import physician_blueprint
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_from_directory
 import models
 from flask_cors import CORS, cross_origin
+import os
 
-
-app = Flask(__name__)
+template_dir = os.path.abspath('./static/build/')
+print(template_dir)
+app = Flask(__name__, static_folder=template_dir)
 app.register_blueprint(client_blueprint)
 app.register_blueprint(physician_blueprint)
 
@@ -16,8 +18,18 @@ cors = CORS(app)
 @app.route('/')
 @cross_origin()
 def login():
+    # Load the reactjs frontend
+    return render_template("index.html")
 
-    return "Hello World"
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+@cross_origin()
+def serve(path):
+    if path != "" and os.path.exists(app.static_folder + '/' + path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return ""
 
 
 @app.route('/success')
