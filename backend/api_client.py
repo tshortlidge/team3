@@ -1,6 +1,6 @@
 from flask import Flask, Blueprint, jsonify, json, request, abort
 from flask_cors import CORS, cross_origin
-import modals
+import models
 
 
 client_blueprint = Blueprint('api_client', __name__,)
@@ -25,9 +25,9 @@ def api_client_add():
     email = post_data["email"]
     password = post_data["password"]
 
-    stmt = modals.Patient.insert().\
+    stmt = models.Patient.insert().\
         values(username=name, age=age, sex=sex, medical_history=medical_history, email=email, password=password)
-    con = modals.db.engine.connect()
+    con = models.db.engine.connect()
     con.execute(stmt)
     con.close()
     return "Client registered."
@@ -48,9 +48,9 @@ def api_client_edit():
     email = post_data["email"]
     password = post_data["password"]
 
-    stmt = modals.Patient.update().where(modals.Patient.c.pat_id == pat_id).\
+    stmt = models.Patient.update().where(models.Patient.c.pat_id == pat_id).\
         values(username=name, age=age, sex=sex, medical_history=medical_history, email=email, password=password)
-    con = modals.db.engine.connect()
+    con = models.db.engine.connect()
     con.execute(stmt)
     con.close()
     return "Client updated."
@@ -59,9 +59,9 @@ def api_client_edit():
 @client_blueprint.route('/client/<id>', methods=["GET"])
 @cross_origin()
 def api_client_id(id):
-    session = modals.db.get_session()
+    session = models.db.get_session()
     data_to_return = []
-    entry = session.query(modals.Patient).filter_by(pat_id=id).first()
+    entry = session.query(models.Patient).filter_by(pat_id=id).first()
     session.close()
     if entry is not None:
         data = dict()
@@ -82,9 +82,9 @@ def api_client_id(id):
 @client_blueprint.route('/client/all', methods=["GET"])
 @cross_origin()
 def api_clients_all():
-    session = modals.db.get_session()
+    session = models.db.get_session()
     data_to_return = []
-    for entry in session.query(modals.Patient):
+    for entry in session.query(models.Patient):
         data = dict()
         data["username"] = entry.username
         data["pat_id"] = entry.pat_id

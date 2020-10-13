@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request, abort
 from flask_cors import CORS, cross_origin
-import modals
+import models
 import smtplib
 
 physician_blueprint = Blueprint('api_physician', __name__,)
@@ -28,10 +28,10 @@ def api_physician_add():
     email = post_data["email"]
     password = post_data["password"]
 
-    stmt = modals.Physician.insert().values(username=username, npi=npi, name=name, bio=bio,
+    stmt = models.Physician.insert().values(username=username, npi=npi, name=name, bio=bio,
                                             addr=addr, qual=qual, reviewCnt=reviewCnt, email=email, password=password)
 
-    con = modals.db.engine.connect()
+    con = models.db.engine.connect()
     con.execute(stmt)
     con.close()
     return "Physician registered."
@@ -40,7 +40,7 @@ def api_physician_add():
 @physician_blueprint.route('/physician', methods=['PUT'])
 @cross_origin()
 def api_physician_edit():
-    session = modals.db.get_session()
+    session = models.db.get_session()
     if not request.is_json:
         return jsonify({"msg": "not json format"})
     post_data = request.get_json()
@@ -56,10 +56,10 @@ def api_physician_edit():
     email = post_data["email"]
     password = post_data["password"]
 
-    stmt = modals.Physician.update().where(modals.Physician.c.phy_id == phy_id)\
+    stmt = models.Physician.update().where(models.Physician.c.phy_id == phy_id)\
         .values(username=username, npi=npi, name=name, bio=bio, addr=addr, qual=qual, reviewCnt=reviewCnt,
                 email=email, password=password)
-    con = modals.db.engine.connect()
+    con = models.db.engine.connect()
     con.execute(stmt)
     con.close()
     return "Physician updated."
@@ -68,9 +68,9 @@ def api_physician_edit():
 @physician_blueprint.route('/physician/<id>', methods=["GET"])
 @cross_origin()
 def api_physician_id(id):
-    session = modals.db.get_session()
+    session = models.db.get_session()
     data_to_return = []
-    entry = session.query(modals.Physician).filter_by(phy_id=id).first()
+    entry = session.query(models.Physician).filter_by(phy_id=id).first()
     session.close()
     if entry is not None:
         data = dict()
@@ -94,9 +94,9 @@ def api_physician_id(id):
 @physician_blueprint.route('/physician/all', methods=["GET"])
 @cross_origin()
 def api_physician_all():
-    session = modals.db.get_session()
+    session = models.db.get_session()
     data_to_return = []
-    for entry in session.query(modals.Physician):
+    for entry in session.query(models.Physician):
         data = dict()
         data["phy_id"] = entry.phy_id
         data["username"] = entry.username
