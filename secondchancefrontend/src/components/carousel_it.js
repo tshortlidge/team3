@@ -9,7 +9,7 @@ import {Button, Carousel, Modal} from "react-bootstrap";
         https://i.ibb.co/BKYZhjF/bg-slide-4.png - https://ibb.co/3YPNxWQ
         https://cdn.technadu.com/wp-content/uploads/2018/07/VPN-Encryption-Featured-1536x864.jpg
  */
-export class Homepage extends React.Component
+export class Carousel_it extends React.Component
 {
     constructor(props) {
         super(props);
@@ -102,6 +102,8 @@ export class Homepage extends React.Component
                             src={selectedPic.valueURL}
                             alt={selectedPic.valueFileName}
                         />
+
+                        <h1>Byebye</h1>
 
                         <Carousel.Caption>
 

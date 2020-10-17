@@ -5,7 +5,7 @@ import {ClientCaseManagement} from './components/clientCaseManagement';
 import DrRegister from "./components/drRegister";
 import ClientRegister from "./components/clientRegister";
 import {DrCaseManagement} from "./components/drCaseManagement";
-import {ClientCaseCreation} from './components/clientCaseCreation'
+import {CaseCreation} from './components/caseCreation'
 import {DrOverlay} from './components/drOverlay';
 import { ClientTable_OnGoing } from './components/clientTable_OnGoing';
 import {Contact} from './components/contact';

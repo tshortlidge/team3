@@ -1,7 +1,7 @@
 import React from 'react';
 import {PicCarousel} from './picCarousel';
-
-export class ClientCaseCreation extends React.Component
+import {MultiBrowseButton} from './multiBrowseButton';
+export class DrCaseCreationOBSOLETE extends React.Component
 {
     constructor(props) {
         super(props);
@@ -34,7 +34,7 @@ export class ClientCaseCreation extends React.Component
         {
             return(
                 <label>
-                    <h1>Submit Case for Second Opinion</h1>
+                    <h1>Create Case</h1>
                 </label>
             );
         }
@@ -98,7 +98,7 @@ export class ClientCaseCreation extends React.Component
 
                 <form style={{textAlign:"center"}}>
                     {this.pageTitleUserDisplay()}
-                        <br />
+                    <br />
                     <label>
                         <h3 style={{display:"inline"}}>Name for Case:</h3>
                         <input type={"text"} name="caseTitle" style={{display:"inline", width:"60%"}}
@@ -107,7 +107,7 @@ export class ClientCaseCreation extends React.Component
 
                     <br />
 
-                    <PicCarousel />
+                    <MultiBrowseButton />
 
                     <label>
 

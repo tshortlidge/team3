@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button, Carousel, Modal} from "react-bootstrap";
+import {Carousel_it} from "./carousel_it";
 
 /*
     Img_links:
@@ -123,9 +124,9 @@ export class Homepage extends React.Component
                 <table>
                     <tr>
                         <td>
-                            <Carousel>
-                                {this.loopCarouselItem()}
-                            </Carousel>
+
+                            <Carousel_it />
+
                         </td>
                     </tr>
                 </table>
@@ -135,3 +136,21 @@ export class Homepage extends React.Component
         );
     }
 }
+
+/*
+<div >
+                <table>
+                    <tr>
+                        <td>
+
+                            <Carousel>
+                                {this.loopCarouselItem()}
+                            </Carousel>
+
+                        </td>
+                    </tr>
+                </table>
+
+                <br />
+            </div>
+ */

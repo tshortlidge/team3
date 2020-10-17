@@ -108,8 +108,9 @@ class DrRegister extends React.Component {
             axios.post('http://52.247.220.137:80/adduser',data)
                 .then(resp => console.log(resp));
         */
-        /*
 
+
+        /*
         data.name = "123";
         // Simple POST request with a JSON body using fetch
         const requestOptions = {
@@ -117,12 +118,38 @@ class DrRegister extends React.Component {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ data })
         };
-        fetch('http://52.247.220.137:80/adduser', requestOptions)
+        fetch('http://52.247.220.137:80/physician/all', requestOptions)
             .then(response => JSON.parse(response))
             .then(response => console.log(response));
-*/
 
-        alert(`Test Variables
+        */
+
+
+        fetch("http://52.247.220.137:80/physician/all")
+            .then(response => response.json())
+            .then(json => console.log(json));
+
+        //"npi", "username", "name", "bio", "addr", "qual", "reviewCnt", "email", "password"
+
+        /*******************
+         *
+         * Post request happens here
+         *
+         ********************/
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({name: this.state.firstName, username: this.state.email, npi: this.state.npi,
+                bio: this.state.bio, addr: this.state.selectedHospitalName, qual: this.state.speciality, reviewCnt: '123'
+                , email: this.state.email, password: this.state.password})
+        };
+
+        fetch("http://52.247.220.137:80/physician", requestOptions)
+            .then(response => response.json())
+            .then(response => console.log("ressppp " + response));
+
+
+                alert(`Test Variables
                --------------
                   Email: ${this.state.email} 
                Password: ${this.state.password}
@@ -163,6 +190,20 @@ class DrRegister extends React.Component {
     }
 
 
+    testPostRequest()
+    {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({name: 1, username: 1, npi: 100,
+                bio: 1, addr: 1, qual: 1, reviewCnt: 1
+                , email: 1, password: 1})
+        };
+
+        fetch("http://52.247.220.137:80/physician", requestOptions)
+            .then(response => response.json())
+            .then(response => console.log("ressppp " + response));
+    }
 
 
     render() {
@@ -170,6 +211,9 @@ class DrRegister extends React.Component {
         //fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY').then( resp => resp.json).then(result => console.log(result));
         return (
             <div>
+                <button onClick={this.testPostRequest}>
+                    TESTTTT
+                </button>
                 <form onSubmit={this.handleSubmit}>
                     <label>
                         <u>Registration for Physicians</u>
@@ -183,7 +227,7 @@ class DrRegister extends React.Component {
                             type="text"
                             value={this.state.email}
                             onChange={this.handleInputChange}
-                            required/>
+                            />
                     </label>
 
                     <br />
@@ -195,7 +239,7 @@ class DrRegister extends React.Component {
                             type="text"
                             value={this.state.password}
                             onChange={this.handleInputChange}
-                            required/>
+                            />
                     </label>
 
                     <br />
@@ -207,7 +251,7 @@ class DrRegister extends React.Component {
                             type="text"
                             value={this.state.repassword}
                             onChange={this.handleInputChange}
-                            required/>
+                            />
                     </label>
 
                     <br />
@@ -218,7 +262,7 @@ class DrRegister extends React.Component {
                             type="text"
                             value={this.state.firstName}
                             onChange={this.handleInputChange}
-                            required/>
+                            />
                     </label>
 
                     <br />
@@ -230,7 +274,7 @@ class DrRegister extends React.Component {
                             type="text"
                             value={this.state.lastName}
                             onChange={this.handleInputChange}
-                            required/>
+                            />
                     </label>
 
                     <br />
@@ -268,7 +312,7 @@ class DrRegister extends React.Component {
                             type="text"
                             value={this.state.npi}
                             onChange={this.handleInputChange}
-                            required/>
+                            />
                     </label>
 
                     <br />
@@ -280,7 +324,7 @@ class DrRegister extends React.Component {
                             type="text"
                             value={this.state.speciality}
                             onChange={this.handleInputChange}
-                            required/>
+                            />
                     </label>
 
                     <br />
