@@ -1,7 +1,8 @@
-from flask import Blueprint, jsonify, request, abort
-from flask_cors import CORS, cross_origin
+from flask import Blueprint, jsonify, request, abort, session as flask_session
+from flask_cors import cross_origin
 import models
 import smtplib
+from sqlalchemy import and_, select
 
 physician_blueprint = Blueprint('api_physician', __name__,)
 
@@ -111,3 +112,23 @@ def api_physician_all():
         data_to_return.append(data)
     session.close()
     return jsonify(data_to_return)
+
+
+@physician_blueprint.route('/physician/login', methods=["POST"])
+@cross_origin()
+def api_phyisician_login():
+    if not request.is_json:
+        return "not json"
+    post_data = request.get_json()
+    session = models.db.get_session()
+    print(post_data)
+    username = post_data["username"]
+    password = post_data["password"]
+    r = session.query(models.Physician).filter(models.Physician.c.username == username,
+                                               models.Physician.c.password == password)
+
+    if r.scalar():
+        flask_session["logged_in"] = True
+        return "logged in"
+
+    return "not logged in"

@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, jsonify, json, request, abort
+from flask import Flask, Blueprint, jsonify, json, request, abort, session as flask_session
 from flask_cors import CORS, cross_origin
 import models
 
@@ -96,3 +96,23 @@ def api_clients_all():
         data_to_return.append(data)
     session.close()
     return jsonify(data_to_return)
+
+
+@client_blueprint.route('/physician/login', methods=["POST"])
+@cross_origin()
+def api_patient_login():
+    if not request.is_json:
+        return "not json"
+    post_data = request.get_json()
+    session = models.db.get_session()
+    print(post_data)
+    username = post_data["username"]
+    password = post_data["password"]
+    r = session.query(models.Patient).filter(models.Patient.c.username == username,
+                                             models.Patient.c.password == password)
+
+    if r.scalar():
+        flask_session["logged_in"] = True
+        return "logged in"
+
+    return "not logged in"

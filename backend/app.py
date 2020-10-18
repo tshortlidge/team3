@@ -1,6 +1,6 @@
 from api_client import client_blueprint
 from api_physician import physician_blueprint
-from flask import Flask, request, jsonify, render_template, send_from_directory
+from flask import Flask, request, jsonify, render_template, send_from_directory, session
 import models
 from flask_cors import CORS, cross_origin
 import os
@@ -14,7 +14,7 @@ app.register_blueprint(physician_blueprint)
 # To let the front end team execute javascript from a different ip address
 cors = CORS(app)
 
-
+app.secret_key = b'lol123'
 @app.route('/')
 @cross_origin()
 def login():
@@ -47,6 +47,7 @@ def register():
 @app.route('/adduser', methods = ['POST'])
 @cross_origin()
 def adduser():
+    request.get_data()
     if not request.is_json:
         return "not json"
     post_data = request.get_json()
@@ -87,6 +88,9 @@ def test_post():
     post_data = request.get_json()
 
     return post_data
+
+
+
 
 
 @app.route('/logincheck', methods= ['GET','POST'])
@@ -162,4 +166,4 @@ def choose_doctor():
 
 
 if __name__ == '__main__':
-    app.run(host="127.0.0.1", port=50000, debug=True)
+    app.run(host="127.0.0.1", port=5000, debug=False)
