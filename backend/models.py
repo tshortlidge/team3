@@ -106,21 +106,6 @@ Physician = Table('physician', metadata,
                   )
 
 
-# class Physician(Base):
-#
-#     __tablename__ = 'physician'
-#     phy_id = Column(Integer, primary_key=True, unique=True, autoincrement=True),
-#     npi = Column(String(20), unique=True),
-#     name = Column(String(400)),
-#     bio = Column(String(400)),
-#     addr = Column(String(400)),
-#     username = Column(String(50), unique=True),
-#     qual = Column(String(400)),
-#     reviewCnt = Column(String(400)),
-#     email = Column(String(100), unique=True),
-#     password = Column(String(50))
-
-
 """
 Creating table for patients
 pat_id          -> Patients' unique ID {PK}
