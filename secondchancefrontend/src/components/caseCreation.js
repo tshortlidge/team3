@@ -122,10 +122,24 @@ export class CaseCreation extends React.Component
 
                 <form style={{textAlign:"center"}}>
                     {this.pageTitleUserDisplay()}
-                        <br />
+                    <br />
                     <label>
                         <h3 style={{display:"inline"}}>Name for Case:</h3>
                         <textarea  name="caseTitle" rows="1" cols="80" value={this.state.caseTitle} onChange={this.handleInputChange}/>
+                    </label>
+
+                    <br />
+                    <label>
+                        <h3 style={{display:"inline"}}>Patient's Name:</h3>
+                        <textarea  name="caseTitle" rows="1" cols="80" value={this.state.caseTitle} onChange={this.handleInputChange}/>
+                    </label>
+
+
+
+                    <br />
+                    <label style={{float: "left"}}>
+                        <h3 style={{display:"inline"}}>Patient's ID:</h3>
+                        <textarea  name="caseTitle" rows="1" cols="30" value={this.state.caseTitle} onChange={this.handleInputChange}/>
                     </label>
 
                     <br />

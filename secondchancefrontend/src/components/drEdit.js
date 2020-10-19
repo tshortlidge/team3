@@ -99,23 +99,6 @@ export class DrEdit extends React.Component
 
         console.log(toConsoles);
 
-        /*
-            axios.post('http://52.247.220.137:80/adduser',data)
-                .then(resp => console.log(resp));
-        */
-        /*
-
-        data.name = "123";
-        // Simple POST request with a JSON body using fetch
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ data })
-        };
-        fetch('http://52.247.220.137:80/adduser', requestOptions)
-            .then(response => JSON.parse(response))
-            .then(response => console.log(response));
-*/
         console.log("oldBio = " + this.state.oldBio)
         alert(`Test Variables
                --------------

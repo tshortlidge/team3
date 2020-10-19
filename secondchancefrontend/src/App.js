@@ -2,7 +2,6 @@ import React from 'react';
 
 import NavbarClass from './components/navbar_custom';
 import {ClientCaseManagement} from './components/clientCaseManagement';
-import DrRegister from "./components/drRegister";
 import ClientRegister from "./components/clientRegister";
 import {DrCaseManagement} from "./components/drCaseManagement";
 import {CaseCreation} from './components/caseCreation'
@@ -16,16 +15,6 @@ import {Homepage} from './components/homepage';
 
 import './css/animatedBackground.scss'
 function App() {
-    /*
-
-              <DrRegister />
-              <ClientCaseManagement />
-              <ClientRegister />
-              <DrCaseManagement />
-              <DrOverlay />
-              <Contact />
-
-     */
 
   return (
         <div className="App" >
