@@ -18,6 +18,14 @@ def api_client_add():
     if not request.is_json:
         return jsonify({"msg": "not json format"})
     post_data = request.get_json()
+
+    entry = client_email(post_data["email"])
+    if entry is not None:
+        return "email exists"
+    entry = client_username(post_data["username"])
+    if entry is not None:
+        return "user exists"
+
     name = post_data["username"]
     age = post_data["age"]
     sex = post_data["sex"]
@@ -96,3 +104,19 @@ def api_clients_all():
         data_to_return.append(data)
     session.close()
     return jsonify(data_to_return)
+
+
+def client_email(s_email):
+    session = modals.db.get_session()
+    data_to_return = []
+    entry = session.query(modals.Patient).filter_by(email=s_email).first()
+    session.close()
+    return entry
+
+
+def client_username(s_uname):
+    session = modals.db.get_session()
+    data_to_return = []
+    entry = session.query(modals.Patient).filter_by(username=s_uname).first()
+    session.close()
+    return entry
