@@ -17,7 +17,19 @@ def home():
 def api_physician_add():
     if not request.is_json:
         return jsonify({"msg": "not json format"})
+
     post_data = request.get_json()
+
+    entry = physician_email(post_data["email"])
+    if entry is not None:
+        return "email exists"
+    entry = physician_username(post_data["username"])
+    if entry is not None:
+        return "user exists"
+    entry = physician_npi(post_data["npi"])
+    if entry is not None:
+        return "npi exists"
+
     npi = post_data["npi"]
     username = post_data["username"]
     name = post_data["name"]
@@ -111,3 +123,28 @@ def api_physician_all():
         data_to_return.append(data)
     session.close()
     return jsonify(data_to_return)
+
+
+def physician_email(p_email):
+    session = modals.db.get_session()
+    data_to_return = []
+    entry = session.query(modals.Physician).filter_by(email=p_email).first()
+    session.close()
+    return entry
+
+
+def physician_npi(p_npi):
+    session = modals.db.get_session()
+    data_to_return = []
+    entry = session.query(modals.Physician).filter_by(npi=p_npi).first()
+    session.close()
+    return entry
+
+
+def physician_username(p_uname):
+    session = modals.db.get_session()
+    data_to_return = []
+    entry = session.query(modals.Physician).filter_by(username=p_uname).first()
+    session.close()
+    return entry
+

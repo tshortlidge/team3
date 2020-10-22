@@ -17,6 +17,7 @@ def home():
 def api_client_add():
     if not request.is_json:
         return jsonify({"msg": "not json format"})
+
     post_data = request.get_json()
 
     entry = client_email(post_data["email"])
