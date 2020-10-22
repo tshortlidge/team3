@@ -20,6 +20,7 @@ def api_physician_add():
 
     post_data = request.get_json()
 
+# Referencing unique keys to ensure uniqueness before inserting
     entry = physician_email(post_data["email"])
     if entry is not None:
         return "email exists"

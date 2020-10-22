@@ -20,6 +20,7 @@ def api_client_add():
 
     post_data = request.get_json()
 
+# Referencing unique keys to ensure uniqueness before inserting
     entry = client_email(post_data["email"])
     if entry is not None:
         return "email exists"
@@ -27,7 +28,7 @@ def api_client_add():
     if entry is not None:
         return "user exists"
 
-    name = post_data["username"]
+    uname = post_data["username"]
     age = post_data["age"]
     sex = post_data["sex"]
     medical_history = post_data["medical_history"]
@@ -35,7 +36,7 @@ def api_client_add():
     password = post_data["password"]
 
     stmt = modals.Patient.insert().\
-        values(username=name, age=age, sex=sex, medical_history=medical_history, email=email, password=password)
+        values(username=uname, age=age, sex=sex, medical_history=medical_history, email=email, password=password)
     con = modals.db.engine.connect()
     con.execute(stmt)
     con.close()
@@ -50,7 +51,7 @@ def api_client_edit():
     post_data = request.get_json()
     # post_data = post_data["data"]
     pat_id = post_data["pat_id"]
-    name = post_data["username"]
+    uname = post_data["username"]
     age = post_data["age"]
     sex = post_data["sex"]
     medical_history = post_data["medical_history"]
@@ -58,7 +59,7 @@ def api_client_edit():
     password = post_data["password"]
 
     stmt = modals.Patient.update().where(modals.Patient.c.pat_id == pat_id).\
-        values(username=name, age=age, sex=sex, medical_history=medical_history, email=email, password=password)
+        values(username=uname, age=age, sex=sex, medical_history=medical_history, email=email, password=password)
     con = modals.db.engine.connect()
     con.execute(stmt)
     con.close()
@@ -107,17 +108,17 @@ def api_clients_all():
     return jsonify(data_to_return)
 
 
-def client_email(s_email):
+def client_email(c_email):
     session = modals.db.get_session()
     data_to_return = []
-    entry = session.query(modals.Patient).filter_by(email=s_email).first()
+    entry = session.query(modals.Patient).filter_by(email=c_email).first()
     session.close()
     return entry
 
 
-def client_username(s_uname):
+def client_username(c_uname):
     session = modals.db.get_session()
     data_to_return = []
-    entry = session.query(modals.Patient).filter_by(username=s_uname).first()
+    entry = session.query(modals.Patient).filter_by(username=c_uname).first()
     session.close()
     return entry
