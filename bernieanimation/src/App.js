@@ -1,8 +1,8 @@
 import React from "react";
 
-import Header from "../../../WebstormProjects/bernieanimation/src/views/header";
-import Body from "../../../WebstormProjects/bernieanimation/src/views/body";
-import "../../../WebstormProjects/bernieanimation/src/assets/App.scss";
+import Header from "../../bernieanimation/src/assets/header.scss";
+import Body from "../../bernieanimation/src/assets/body.scss";
+import "../../bernieanimation/src/assets/App.scss";
 
 function App() {
   return (

@@ -2,7 +2,7 @@ import React from 'react';
 import{Navbar, Nav, FormControl, Form, Button } from "react-bootstrap";
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import {ClientCaseManagement} from '../components/clientCaseManagement';
-
+import DrRegister from "../components/drRegister";
 import ClientRegister from "../components/clientRegister";
 import {DrCaseManagement} from "../components/drCaseManagement";
 import {CaseCreation} from './caseCreation'
@@ -29,7 +29,7 @@ export default class NavbarClass extends React.Component
                       <nav className={'navbarDesign'}>
                           <Link to="/homepage">Home</Link>
 
-
+                          <Link to="/drRegister">Doctor Registration</Link>
 
                           <Link to="/caseCreation">Case Creation</Link>
 
@@ -55,7 +55,7 @@ export default class NavbarClass extends React.Component
                       <Switch>
                           <Route exact path={'/homepage'} component={Homepage}></Route>
                           <Route exact path={'/Login'} component={Login}></Route>
-
+                          <Route exact path={'/drRegister'} component={DrRegister}></Route>
                           <Route exact path={'/caseCreation'} component={CaseCreation}></Route>
                           <Route exact path='/contact' component={Contact}></Route>
                           <Route exact path={'/edit'} component ={DrEdit}></Route>
