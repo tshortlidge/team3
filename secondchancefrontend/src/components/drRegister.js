@@ -10,20 +10,20 @@ class DrRegister extends React.Component {
 
         this.data = {};
 
-        this.data.email= '';
-        this.data.password= '';
-        this.data.repassword= '';
-        this.data.firstName= '';
-        this.data.lastName= '';
-        this.data.npi= '';
-        this.data.picture= '';
-        this.data.speciality= '';
-        this.data.bio= '';
+        // this.data.email= '';
+        // this.data.password= '';
+        // this.data.repassword= '';
+        // this.data.firstName= '';
+        // this.data.lastName= '';
+        // this.data.npi= '';
+        // this.data.picture= '';
+        // this.data.speciality= '';
+        // this.data.bio= '';
         this.data.hospitalNameArr= ["Cleveland Clinic", "Johns Hopkins Hospital", "Mayo Clinic", "UCLA Medical Center"];
-        this.data.selectedHospitalName= '';
-        this.data.selectedBirthMonth= '';
-        this.data.selectedBirthDay= '';
-        this.data.selectedBirthYear= '';
+        // this.data.selectedHospitalName= '';
+        // this.data.selectedBirthMonth= '';
+        // this.data.selectedBirthDay= '';
+        // this.data.selectedBirthYear= '';
         this.data.date= {
             month: ["January", "February", "April", "May", "June", "July", "August", "September", "October",
                 "November", "December"],
@@ -51,29 +51,29 @@ class DrRegister extends React.Component {
         }
     }
 
-    /*
-    handleInputChange = (event) => {
-        this.setState(
-            {
 
-                [event.target.name]: event.target.value
-            })
-    }
-    */
+    // handleInputChange = (event) => {
+    //     this.setState(
+    //         {
+    //
+    //             [event.target.name]: event.target.value
+    //         })
+    // }
 
 
-/*
-    handleSubmit = async (event) => {
 
+
+    handleSubmit = (funct) => {
+        const data = funct();
         //****************************
         // *
         // * GET request happens here
         // *
         // *****************************
 
-        fetch("http://52.247.220.137:80/physician/all")
-            .then(response => response.json())
-            .then(json => console.log(json));
+        // fetch("http://52.247.220.137:80/physician/all")
+        //     .then(response => response.json())
+        //     .then(json => console.log(json));
 
         //"npi", "username", "name", "bio", "addr", "qual", "reviewCnt", "email", "password"
 
@@ -85,38 +85,40 @@ class DrRegister extends React.Component {
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({name: this.state.firstName, username: this.state.email, npi: this.state.npi,
-                bio: this.state.bio, addr: this.state.selectedHospitalName, qual: this.state.speciality, reviewCnt: '123'
-                , email: this.state.email, password: this.state.password})
+            body: JSON.stringify(data)
         };
+
+        // {name: data.firstName, username: data.email, npi: data.npi,
+        //     bio: data.bio, addr: data.selectedHospitalName, qual: data.speciality, reviewCnt: '123'
+        //     , email: data.email, password: data.password}
 
         fetch("http://52.247.220.137:80/physician", requestOptions)
             .then(response => response.json())
-            .then(response => console.log("ressppp " + response));
+            .then(response => console.log("ressppp " + response)); // if response == "error" displayErrormessage()
 
 
                 alert(`Test Variables
                --------------
                                
                     
-                  Email: ${this.data.email} 
-               Password: ${this.data.password}
-             Repassword: ${this.data.repassword}
-              FirstName: ${this.data.firstName}
-               LastName: ${this.data.lastName}
-                    NPI: ${this.data.npi}
-             Speciality: ${this.data.speciality}
-                Address: ${this.data.address}
-                   City: ${this.data.city}
-                Picture: ${this.data.picture}
-                    Bio: ${this.data.bio}`
+                  Email: ${data.email} 
+               Password: ${data.password}
+             Repassword: ${data.repassword}
+              FirstName: ${data.firstName}
+               LastName: ${data.lastName}
+                    NPI: ${data.npi}
+             Speciality: ${data.speciality}
+                Address: ${data.address}
+                   City: ${data.city}
+                Picture: ${data.picture}
+                    Bio: ${data.bio}`
         );
 
 
-        event.preventDefault();
+        // window.event.preventDefault();
 
     }
-*/
+
 
     testPostRequest()
     {
@@ -138,7 +140,7 @@ class DrRegister extends React.Component {
         this.setCurrentYear();
         return (
             <div>
-                
+                <DrRegFunctionalComponent data={this.data} handleSubmit={(e) => this.handleSubmit(e)}/>
             </div>
                 );
     }

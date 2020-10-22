@@ -1,38 +1,18 @@
 //props will sent in a bunch of stuff
 import React from "react";
 
-export function DropDownMenu(data)
-{
+function iter_over_items(){
+    let inputs = document.getElementById("myForm").elements;
+    let to_send = {};
+    for (var i = 0, element; element = inputs[i++];) {
+        if (element.type === "input"){
+            to_send[element.name] = element.value;
+        }
+    }
+    return to_send;
+}
 
-    /*
-
-                <select name = "selectedBirthMonth" value={this.state.value} onChange={this.handleInputChange}>
-                    {props.date.month.map(function(selectedBM){
-                        return <option value={selectedBM}>{selectedBM}</option>
-                    })}
-
-                </select>
-
-                <select name = "selectedBirthDay" value={this.state.value} onChange={this.handleInputChange}>
-                    {props.date.day.map(function(selectedBirthD){
-                        return <option value={selectedBirthD}>{selectedBirthD}</option>
-                    })}
-                </select>
-
-                <select name = "selectedBirthYear" value={this.state.value} onChange={this.handleInputChange}>
-                    {props.date.year.map(function(selectedBirthY){
-                        return <option value={selectedBirthY}>{selectedBirthY}</option>
-                    })}
-                </select>
-
-                <select name = "selectedHospitalName" value={props.value} onChange={props.handleInputChange}>
-                    {props.hospitalNameArr.map(function(hospitalName){
-                        return <option value={hospitalName}>{hospitalName}</option>
-                    })}
-
-
-                </select>
-     */
+function DropDownMenu(data){
     console.log("tagname == " + data.tagName)
     return(
 
@@ -54,7 +34,7 @@ export function DrRegFunctionalComponent(props)
 
     <div>
 
-        <form onSubmit= {e => props.handleSubmit(e)}>
+        <form id={"myForm"}>
             <label>
                 <u>Registration for Physicians</u>
                 <br />
@@ -65,8 +45,8 @@ export function DrRegFunctionalComponent(props)
                 <input
                     name="email"
                     type="text"
-                    value={props.email}
-                    onChange={props.handleInputChange}
+                    value={props.data.email}
+
                 />
             </label>
 
@@ -77,8 +57,7 @@ export function DrRegFunctionalComponent(props)
                 <input
                     name="password"
                     type="text"
-                    value={props.password}
-                    onChange={props.handleInputChange}
+                    value={props.data.password}
                 />
             </label>
 
@@ -89,8 +68,7 @@ export function DrRegFunctionalComponent(props)
                 <input
                     name="repassword"
                     type="text"
-                    value={props.repassword}
-                    onChange={props.handleInputChange}
+                    value={props.data.repassword}
                 />
             </label>
 
@@ -100,8 +78,7 @@ export function DrRegFunctionalComponent(props)
                 <input
                     name="firstName"
                     type="text"
-                    value={props.firstName}
-                    onChange={props.handleInputChange}
+                    value={props.data.firstName}
                 />
             </label>
 
@@ -112,8 +89,7 @@ export function DrRegFunctionalComponent(props)
                 <input
                     name="lastName"
                     type="text"
-                    value={props.lastName}
-                    onChange={props.handleInputChange}
+                    value={props.data.lastName}
                 />
             </label>
 
@@ -131,8 +107,7 @@ export function DrRegFunctionalComponent(props)
                 <input
                     name="npi"
                     type="text"
-                    value={props.npi}
-                    onChange={props.handleInputChange}
+                    placeholder={"npi"}
                 />
             </label>
 
@@ -143,8 +118,7 @@ export function DrRegFunctionalComponent(props)
                 <input
                     name="speciality"
                     type="text"
-                    value={props.speciality}
-                    onChange={props.handleInputChange}
+                    placeholder={"specialty"}
                 />
             </label>
 
@@ -176,11 +150,11 @@ export function DrRegFunctionalComponent(props)
             <label>
                 Bio:
                 <br />
-                <textarea name="bio" rows="20" cols="100" value={props.bio} onChange={props.handleInputChange}></textarea>
+                <textarea name="bio" rows="20" cols="100" placeholder={"bio"}></textarea>
             </label>
             <br />
             <br />
-            <button type="submit" value={props.value}>Register</button>
+            <button type="button" onClick={props.handleSubmit(iter_over_items)}>Register</button>
         </form>
     </div>
 
