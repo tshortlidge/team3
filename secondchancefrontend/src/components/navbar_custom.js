@@ -2,7 +2,7 @@ import React from 'react';
 import{Navbar, Nav, FormControl, Form, Button } from "react-bootstrap";
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import {ClientCaseManagement} from '../components/clientCaseManagement';
-import DrRegister from "../components/drRegister";
+
 import ClientRegister from "../components/clientRegister";
 import {DrCaseManagement} from "../components/drCaseManagement";
 import {CaseCreation} from './caseCreation'
@@ -14,9 +14,10 @@ import {DrEdit} from "../components/drEdit";
 import '../css/navbar_design.css';
 import {Homepage} from "./homepage";
 import pricing from './pricingPage';
-import Carousel_It from "./carousel_it";
+import {Carousel_it} from "./carousel_it";
 import {MultiBrowsePic} from './multiBrowsePic';
-import {Review_carousel} from "./review_carousel";
+import {Testimonial_Slider} from './testimonial_slider';
+
 
 export default class NavbarClass extends React.Component
 {
@@ -29,7 +30,7 @@ export default class NavbarClass extends React.Component
                       <nav className={'navbarDesign'}>
                           <Link to="/homepage">Home</Link>
 
-                          <Link to="/drRegister">Doctor Registration</Link>
+
 
                           <Link to="/caseCreation">Case Creation</Link>
 
@@ -46,25 +47,28 @@ export default class NavbarClass extends React.Component
 
                           <Link to={"/carousel_it"}>Carousel It Test</Link>
 
-                          <Link to={"/reviewCarousel"}>Review Carousel</Link>
+
 
                           <Link to={"/MultiBrowsePic"}>MultiBrowsePic</Link>
+
+                          <Link to={"/testimonial_slider"}>Testimonials</Link>
                           <Login />
 
                       </nav>
                       <Switch>
                           <Route exact path={'/homepage'} component={Homepage}></Route>
                           <Route exact path={'/Login'} component={Login}></Route>
-                          <Route exact path={'/drRegister'} component={DrRegister}></Route>
+
                           <Route exact path={'/caseCreation'} component={CaseCreation}></Route>
                           <Route exact path='/contact' component={Contact}></Route>
                           <Route exact path={'/edit'} component ={DrEdit}></Route>
                           <Route exact path={'/pricing'} component={pricing}></Route>
                           <Route exact path={'/doctorCaseMgmt'} component={DrCaseManagement}></Route>
                           <Route exact path={'/clientCaseMgmt'} component={ClientCaseManagement}></Route>
-                          <Route exact path={'/carousel_it'} component={Carousel_It}></Route>
+                          <Route exact path={'/carousel_it'} component={Carousel_it}></Route>
                           <Route exact path={'/multiBrowsePic'} component={MultiBrowsePic}></Route>
-                          <Route exact path={'/reviewCarousel'} component={Review_carousel}></Route>
+                          <Route exact path={'/testimonial_slider'} component={Testimonial_Slider}></Route>
+
                       </Switch>
                   </div>
               </Router>
