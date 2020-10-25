@@ -18,7 +18,20 @@ def home():
 def api_physician_add():
     if not request.is_json:
         return jsonify({"msg": "not json format"})
+
     post_data = request.get_json()
+
+# Referencing unique keys to ensure uniqueness before inserting
+    entry = physician_email(post_data["email"])
+    if entry is not None:
+        return "email exists"
+    entry = physician_username(post_data["username"])
+    if entry is not None:
+        return "user exists"
+    entry = physician_npi(post_data["npi"])
+    if entry is not None:
+        return "npi exists"
+
     npi = post_data["npi"]
     username = post_data["username"]
     name = post_data["name"]
@@ -114,21 +127,26 @@ def api_physician_all():
     return jsonify(data_to_return)
 
 
-@physician_blueprint.route('/physician/login', methods=["POST"])
-@cross_origin()
-def api_phyisician_login():
-    if not request.is_json:
-        return "not json"
-    post_data = request.get_json()
+def physician_email(p_email):
     session = models.db.get_session()
-    print(post_data)
-    username = post_data["username"]
-    password = post_data["password"]
-    r = session.query(models.Physician).filter(models.Physician.c.username == username,
-                                               models.Physician.c.password == password)
+    data_to_return = []
+    entry = session.query(models.Physician).filter_by(email=p_email).first()
+    session.close()
+    return entry
 
-    if r.scalar():
-        flask_session["logged_in"] = True
-        return "logged in"
 
-    return "not logged in"
+def physician_npi(p_npi):
+    session = models.db.get_session()
+    data_to_return = []
+    entry = session.query(models.Physician).filter_by(npi=p_npi).first()
+    session.close()
+    return entry
+
+
+def physician_username(p_uname):
+    session = models.db.get_session()
+    data_to_return = []
+    entry = session.query(models.Physician).filter_by(username=p_uname).first()
+    session.close()
+    return entry
+

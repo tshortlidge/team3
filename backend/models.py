@@ -118,6 +118,7 @@ password        -> Password for login (hash-value)
 Patient = Table('patient', metadata,
                 Column('pat_id', Integer, primary_key=True, unique=True, autoincrement=True),
                 Column('medical_history', String(400)),
+                Column('name', String(100)),
                 Column('sex', String(400)),
                 Column('age', Integer),
                 Column('username', String(50), unique=True),
@@ -163,7 +164,7 @@ Record_Assesments = Table('record_assesment', metadata,
                           Column('status', String(15)),
                           )
 # For the patient.
-records = Table('records', metadata,
+records = Table('Record', metadata,
                 Column('record_id', Integer, autoincrement=True, primary_key=True, unique=True),
                 Column('pat_id', Integer, ForeignKey('patient.pat_id')),
                 Column('physician_id', Integer, ForeignKey('physician.phy_id')),
