@@ -58,7 +58,7 @@ export default class NavbarClass extends React.Component
                       <Switch>
                           <Route exact path={'/homepage'} component={Homepage}></Route>
                           <Route exact path={'/Login'} component={Login}></Route>
-
+            
                           <Route exact path={'/caseCreation'} component={CaseCreation}></Route>
                           <Route exact path='/contact' component={Contact}></Route>
                           <Route exact path={'/edit'} component ={DrEdit}></Route>
