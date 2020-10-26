@@ -52,13 +52,13 @@ def insert_all():
 
 
     insert_into_table(tablename="patient", medical_history="I have fallen and I cant get up",
-                      sex="m", age=23, username="imapatient", email="patient@aol.com", password="123pass")
+                      sex="m", age=23, username="imapatient", email="patient@aol.com", password="123pass", name="Eric Deezy")
 
     insert_into_table(tablename="patient", medical_history="I have tripped and I cant get up",
-                      sex="m", age=24, username="imapatient2", email="patient2@aol.com", password="123pass")
+                      sex="m", age=24, username="imapatient2", email="patient2@aol.com", password="123pass", name="Eric Deezy")
 
     insert_into_table(tablename="patient", medical_history="bumped elbow",
-                      sex="f", age=26, username="imapatient3", email="patient3@aol.com", password="123pass")
+                      sex="f", age=26, username="imapatient3", email="patient3@aol.com", password="123pass", name="Eric Deezy")
 
     insert_into_table(tablename="physician", npi="1", name="Eric Diaz", bio="Human Butcher", addr="96 ave lane",
                       username="ericisbalanced", qual="PhDoctorate", reviewCnt="0", email="email@aol.hotmail",
@@ -75,13 +75,14 @@ def insert_all():
     insert_into_table(tablename="records", pat_id=1, comment="Yep, thats bad", hospital_id=1)
     insert_into_table(tablename="records", pat_id=2, comment="not that bad", hospital_id=1)
     insert_into_table(tablename="records", pat_id=3, comment="whoa nelly!", hospital_id=1)
+
     # RECORD ASSESMENT ENTRIES
     insert_into_table(tablename="record_assesment", record_id=1, physician_id=1, pat_id=1,
-                      assesment="assessed", completion_dt=date(2020, 2, 1), status="assessed")
+                      assesment="assessed", completion_dt=date(2020, 2, 1), create_dt=date(2020, 1, 3), status="assessed")
     insert_into_table(tablename="record_assesment", record_id=2, physician_id=2, pat_id=2,
-                      assesment="assessed", completion_dt=date(2020, 3, 1), status="assessed")
+                      assesment="assessed", completion_dt=date(2020, 3, 1), create_dt=date(2020, 1, 2), status="assessed")
     insert_into_table(tablename="record_assesment", record_id=3, physician_id=3, pat_id=3,
-                      assesment=None, completion_dt=date(2020, 2, 1), status="pending")
+                      assesment=None, completion_dt=date(2020, 2, 1), create_dt=date(2020, 1, 1), status="pending")
 
     # PAYMENT ENTRIES
     insert_into_table(tablename="payment", pat_id=1, record_id=1, total=1, is_paid=1)

@@ -41,7 +41,7 @@ def api_physician_add():
 @physician_blueprint.route('/physician', methods=['PUT'])
 @cross_origin()
 def api_physician_edit():
-    session = models.db.get_session()
+    # session = models.db.get_session()
     if not request.is_json:
         return jsonify({"msg": "not json format"})
     post_data = request.get_json()
