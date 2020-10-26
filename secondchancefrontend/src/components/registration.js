@@ -63,8 +63,10 @@ export class Registration extends React.Component {
 
 
 
-    handleSubmit = (funct) => {
-        const data = funct();
+    handleSubmit = () => {
+        const data = this.iter_over_items();
+        console.log(data);
+
         //****************************
         // *
         // * GET request happens here
@@ -96,7 +98,7 @@ export class Registration extends React.Component {
             .then(response => response.json())
             .then(response => console.log("ressppp " + response)); // if response == "error" displayErrormessage()
 
-
+    /*
         alert(`Test Variables
                --------------
                                
@@ -114,9 +116,26 @@ export class Registration extends React.Component {
                     Bio: ${data.bio}`
         );
 
-
+*/
         // window.event.preventDefault();
 
+    }
+
+    iter_over_items(){
+        let inputs = document.getElementById("myForm").elements;
+
+        let to_send = {};
+
+        for (var i = 0; i < inputs.length; i++) {
+            let element = inputs[i];
+
+            to_send[element.name] = element.value;
+
+
+        }
+
+
+        return to_send;
     }
 
 

@@ -1,23 +1,13 @@
 //props will sent in a bunch of stuff
 import React from "react";
 
-function iter_over_items(){
-    let inputs = document.getElementById("myForm").elements;
 
-    let to_send = {};
-    for (var i = 0, element; element = inputs[i++];) {
-        if (element.type === "input"){
-            to_send[element.name] = element.value;
-        }
-    }
-    return to_send;
-}
 
 function DropDownMenu(data){
-    console.log("tagname == " + data.tagName)
+
     return(
 
-        <select name = {data.tagName} value={data.selectedBirthMonth} onChange={data.handleInputChange}>
+        <select name = {data.dataArr} value={data.selectedBirthMonth} onChange={data.handleInputChange}>
             {
                 data.dataArr.map(function(selectedMonth){
                     return <option value={selectedMonth}>{selectedMonth}</option>
@@ -153,7 +143,7 @@ export function RegFunctionalComponent(props)
                 </label>
                 <br />
                 <br />
-                <button type="button" onClick={props.handleSubmit(iter_over_items)}>Register</button>
+                <button type="button" onClick={props.handleSubmit}>Register</button>
             </form>
         </div>
 
