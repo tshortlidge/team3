@@ -3,7 +3,7 @@ import { Spring, animated, config } from 'react-spring/renderprops';
 import {ContactUs_HomePage} from './homepage_sections/contact_us/contactus';
 //import '../css/style_homepage_background_scroll.css'
 import {Carousel_it} from "./carousel_it";
-
+import {AcceptCasePage} from "./acceptCasePage";
 const COLORS = [
     'black',
     'white',
@@ -34,6 +34,7 @@ export class Homepage extends React.Component {
         return (
             <>
                 <div className="scrolltop-main">
+                    <AcceptCasePage />
                     <Spring
                         native
                         reset

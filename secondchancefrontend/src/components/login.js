@@ -1,7 +1,8 @@
 import React from 'react';
 import {Button, Modal} from 'react-bootstrap';
-
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import '../css/login.css';
+import {Registration} from "./registration";
 
 export class Login extends React.Component
 {
@@ -83,6 +84,8 @@ export class Login extends React.Component
 
 
 
+
+
     showLogin = () =>
     {
         return(
@@ -129,6 +132,8 @@ export class Login extends React.Component
         this.setState({show:!this.state.show})
     }
 
+
+
     render() {
         return(
             <div>
@@ -139,6 +144,7 @@ export class Login extends React.Component
                     <Modal.Header>Login</Modal.Header>
                     <Modal.Body>
                         {this.showLogin()}
+                        <a href={"http://52.247.220.137/drRegister"}>Register</a>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={()=>{this.handleModal()}}>
@@ -146,11 +152,6 @@ export class Login extends React.Component
                         </Button>
                     </Modal.Footer>
                 </Modal>
-
-
-
-
-
 
             </div>
 
