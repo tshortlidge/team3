@@ -245,5 +245,62 @@ def route_accept_pending_record():
     return "accepted"
 
 
+@app.route('/insertreview', methods=["POST"])
+def insertreview():
+
+    if not request.is_json():
+        return "not json"
+    post_data = request.get_json()
+    try:
+        doctor_npi = post_data["npi"]
+        comment = post_data["comment"]
+        patid = post_data["pat_id"]
+        percent = post_data["percent"]
+    except:
+        return "need phy_id, comment, pat_id, percent"
+    my_session = models.db.get_session()
+
+    stmt = models.ratings.insert().values(npi=doctor_npi, pat_id=patid, score=percent, comment=comment)
+    my_session.execute(stmt)
+    my_session.close()
+    return 'added doctor review'
+
+
+@app.route('/checkspecificdocrev', methods=["GET"])
+def checkspecificdocrev():
+    if not request.is_json():
+        return "not json"
+    post_data = request.get_json()
+    doctornpi = post_data["npi"]
+
+    my_session = models.db.get_session()
+    datareturn = []
+    entry = my_session.query(models.ratings).filter_by(npi=doctornpi).first()
+
+    if entry is not None:
+        for i in entry:
+            data = i._asdict()
+            datareturn.append(data)
+    else:
+        return "ERROR DOCTOR NPI NOT ON SYSTEM"
+
+    return jsonify(datareturn)
+
+
+@app.route('/displayallratings', methods=["GET"])
+def displayallratings():
+    my_session = models.db.get_session()
+    datareturn = []
+    for entry in my_session.query(models.ratings):
+        data = dict()
+        data["reviewid"] = entry.review_id
+        data["npi"] = entry.npi
+        data["pat_id"] = entry.pat_id
+        data["comment"] = entry.comment
+        data["score"] = entry.score
+        datareturn.append(data)
+    return jsonify(datareturn)
+
+
 if __name__ == '__main__':
     app.run(host="127.0.0.1", port=5000, debug=False)
