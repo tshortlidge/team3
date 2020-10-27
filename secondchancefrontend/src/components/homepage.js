@@ -1,6 +1,6 @@
 import React from 'react';
 import { Spring, animated, config } from 'react-spring/renderprops';
-
+import {ContactUs_HomePage} from './homepage_sections/contact_us/contactus';
 //import '../css/style_homepage_background_scroll.css'
 import {Carousel_it} from "./carousel_it";
 
@@ -9,6 +9,17 @@ const COLORS = [
     'white',
     'orange'
 ]
+
+function Contact_us_display()
+{
+
+        return(
+            <div>
+                <ContactUs_HomePage />
+            </div>
+        );
+
+}
 
 export class Homepage extends React.Component {
     state = { y: 0 }
@@ -37,8 +48,11 @@ export class Homepage extends React.Component {
                                 onWheel={this.stop}
                                 scrollTop={props.y}>
                                 <Carousel_it />
+                                <Contact_us_display />
                                 {COLORS.map(c => (
-                                    <div key={c} style={{ height: 1000, background: c }} />
+                                    <div key={c} style={{ height: 1000, background: c }}>
+
+                                    </div>
                                 ))}
                             </animated.div>
                         )}
