@@ -1,11 +1,13 @@
 import React from 'react';
 import { Spring, animated, config } from 'react-spring/renderprops';
 
-import '../css/style_homepage_background_scroll.css'
+//import '../css/style_homepage_background_scroll.css'
 import {Carousel_it} from "./carousel_it";
 
 const COLORS = [
     'black',
+    'white',
+    'orange'
 ]
 
 export class Homepage extends React.Component {
@@ -47,3 +49,4 @@ export class Homepage extends React.Component {
         )
     }
 }
+

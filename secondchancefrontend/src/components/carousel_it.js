@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, Carousel, Modal} from "react-bootstrap";
-
+import '../css/carousel.css';
 /*
     Img_links:
         https://i.ibb.co/wM6twyZ/bg-slide-1.png - https://ibb.co/72yhRvx
@@ -103,7 +103,6 @@ export class Carousel_it extends React.Component
                             alt={selectedPic.valueFileName}
                         />
 
-                        <h1>Byebye</h1>
 
                         <Carousel.Caption>
 
