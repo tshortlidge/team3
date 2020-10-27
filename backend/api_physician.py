@@ -127,8 +127,10 @@ def api_phyisician_login():
     r = session.query(models.Physician).filter(models.Physician.c.username == username,
                                                models.Physician.c.password == password)
 
-    if r.scalar():
+    if r.count() == 1:
+        v = r.first()
         flask_session["logged_in"] = True
-        return "logged in"
-
+        return jsonify(v._asdict())
+    elif r.count > 1:
+        return "system error. something went MAJORLY wrong"
     return "not logged in"

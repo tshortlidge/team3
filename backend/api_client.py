@@ -98,7 +98,7 @@ def api_clients_all():
     return jsonify(data_to_return)
 
 
-@client_blueprint.route('/physician/login', methods=["POST"])
+@client_blueprint.route('/client/login', methods=["POST"])
 @cross_origin()
 def api_patient_login():
     if not request.is_json:
@@ -111,8 +111,9 @@ def api_patient_login():
     r = session.query(models.Patient).filter(models.Patient.c.username == username,
                                              models.Patient.c.password == password)
 
-    if r.scalar():
+    if r.count() == 1:
+        v = r.first()
         flask_session["logged_in"] = True
-        return "logged in"
+        return jsonify(v._asdict())
 
     return "not logged in"

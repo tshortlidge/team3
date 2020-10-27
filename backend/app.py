@@ -91,9 +91,6 @@ def test_post():
     return post_data
 
 
-
-
-
 @app.route('/logincheck', methods= ['GET','POST'])
 @cross_origin()
 def logincheck():
@@ -209,7 +206,7 @@ def route_update_pending_record_assessment():
         record_assesment_id = post_data["record_assesment_id"]
         assesment = post_data["assesment"]
         completion_date = date.today()
-        status = "Completed"
+        status = post_data["status"]
 
     except Exception as e:
         return "need fields: 'record_assesment_id', 'assesment'"
@@ -245,6 +242,7 @@ def route_accept_pending_record():
     con = models.db.engine.connect()
     con.execute(stmt)
     con.close()
+    return "accepted"
 
 
 if __name__ == '__main__':
