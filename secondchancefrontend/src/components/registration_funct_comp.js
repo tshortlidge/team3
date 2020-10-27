@@ -7,17 +7,76 @@ function DropDownMenu(data){
 
     return(
 
-        <select name = {data.dataArr} value={data.selectedBirthMonth} onChange={data.handleInputChange}>
+        <select name = {data.name} value={data.selectedBirthElement} onChange={data.handleInputChange}>
             {
-                data.dataArr.map(function(selectedMonth){
-                    return <option value={selectedMonth}>{selectedMonth}</option>
+                data.dataArr.map(function(selectedBirthElement){
+                    return <option value={selectedBirthElement}>{selectedBirthElement}</option>
                 })
             }
         </select>
     )
 }
+
+function DrAttritube(data)
+{
+    if(data.modeID === '0') {
+        return (
+            <div>
+                <label>
+                    NPI:
+                    <input
+                        name="npi"
+                        type="text"
+                        placeholder={"npi"}
+                    />
+                </label>
+
+                <br/>
+
+                <label>
+                    Speciality:
+                    <input
+                        name="speciality"
+                        type="text"
+                        placeholder={"specialty"}
+                    />
+                </label>
+
+                <br/>
+
+
+                <label>
+                    Select Clinic:
+
+                    <br/>
+                    <DropDownMenu name={"selectedClinic"} dataArr = {data.dataArr} />
+
+                        </label>
+            </div>
+        );
+    }
+    else {
+        return (
+            <div></div>
+        );
+    }
+}
+
+function GetTitle(data)
+{
+    if(data.modeID === '0')
+    {
+        return(<u>Physician Registration</u>);
+    }
+    else
+    {
+        return(<u>Patient Registration</u>);
+    }
+}
+
 export function RegFunctionalComponent(props)
 {
+    let modeID = '0';
 
     return(
 
@@ -25,7 +84,7 @@ export function RegFunctionalComponent(props)
 
             <form id={"myForm"}>
                 <label>
-                    <u>Registration for Physicians</u>
+                    <GetTitle modeID = {modeID}/>
                     <br />
                 </label>
                 <br />
@@ -86,42 +145,14 @@ export function RegFunctionalComponent(props)
                 <label>
                     Birthday:
                     <DropDownMenu name={"selectedBirthMonth"} dataArr = {props.data.date.month} />
+                    <DropDownMenu name={"selectedBirthDay"} dataArr = {props.data.date.day} />
+                    <DropDownMenu name={"selectedBirthYear"} dataArr = {props.data.date.year} />
 
                 </label>
 
                 <br />
 
-                <label>
-                    NPI:
-                    <input
-                        name="npi"
-                        type="text"
-                        placeholder={"npi"}
-                    />
-                </label>
-
-                <br />
-
-                <label>
-                    Speciality:
-                    <input
-                        name="speciality"
-                        type="text"
-                        placeholder={"specialty"}
-                    />
-                </label>
-
-                <br />
-
-
-                <label>
-                    Select Clinic:
-
-                    <br />
-
-
-
-                </label>
+                <DrAttritube modeID={modeID} dataArr = {props.data.hospitalNameArr}/>
 
 
 
@@ -131,7 +162,7 @@ export function RegFunctionalComponent(props)
                     <br />
                     <div className={"UploadImg"}>
 
-                        <button >Upload</button>
+                        <button>Upload</button>
                     </div>
                 </label>
 

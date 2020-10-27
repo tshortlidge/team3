@@ -68,8 +68,10 @@ export class Contact extends React.Component
         return(
             <div>
 
-                <Modal_It nameOfFunction={this.displayLoginForm()} modalTitle={"Contact"} />
+                {this.displayLoginForm()}
             </div>
         );
     }
 };
+
+//<Modal_It nameOfFunction={this.displayLoginForm()} modalTitle={"Contact"} />
