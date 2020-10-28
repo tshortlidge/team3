@@ -120,7 +120,7 @@ export class Login extends React.Component
 
                 </label>
 
-                <button type="submit" value={this.state.value}>Login</button>
+                <button type="button" onClick={this.handleLoginSubmit(this.state.email, this.state.password)}>Login</button>
             </form>
         );
     }
@@ -132,9 +132,52 @@ export class Login extends React.Component
         this.setState({show:!this.state.show})
     }
 
+    handleLoginSubmit()
+    {
+
+    }
+
+    testPhysicianLogin()
+    {
+        let data = {username: "Hassan", password: "password_is_plain_text"};
+        //****************************
+        //*
+        //* POST request happens here
+        //*
+        //*****************************
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        };
+
+        const requestSecurityOptions = {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+
+        fetch("http://52.247.220.137/physician/login", requestOptions)
+            .then(response => response.json())
+            .then(response => console.log(response)) // if response == "error" displayErrormessage()
+            .then(
+                () => {
+                    console.log(1234);
+                    fetch("http://52.247.220.137/test_auth", requestSecurityOptions)
+                        .then(response => response.json())
+                        .then(response => console.log(response)) // if response == "error" displayErrormessage()
+                }
+
+    );
+
+    }
 
 
     render() {
+        this.testPhysicianLogin();
         return(
             <div>
                 <div className="center" style={{borderWidth:"0px", margin:"0px", width:"0px", padding:"5px"}}>

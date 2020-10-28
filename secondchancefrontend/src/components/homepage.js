@@ -34,7 +34,7 @@ export class Homepage extends React.Component {
         return (
             <>
                 <div className="scrolltop-main">
-                    <AcceptCasePage />
+
                     <Spring
                         native
                         reset
