@@ -33,3 +33,4 @@ def api_record_assessment_add():
     con.execute(stmt)
     con.close()
     return "Record Assessment registered."
+
