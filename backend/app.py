@@ -168,7 +168,7 @@ def choose_doctor():
 @app.route("/get_pending_records", methods=["GET"])
 @cross_origin()
 def route_get_pending_records():
-    if not request.is_json():
+    if not request.is_json:
         return "not json"
     data = request.get_json()
     try:
@@ -176,17 +176,17 @@ def route_get_pending_records():
     except:
         return "need phy_id"
     sess = models.db.get_session()
-    entries = sess.query(models.Record_Assesments, models.Patient, models.records)\
-        .filter(models.Record_Assesments.c.physician_id == phy_id,
-                models.Record_Assesments.c.status == "pending",
-                models.Record_Assesments.c.pat_id == models.Patient.c.pat_id,
-                models.Record_Assesments.c.pat_id == models.records.c.pat_id)\
-        .order_by(models.Record_Assesments.c.create_dt).all()
+    entries = sess.query(models.Record_Assessments, models.Patient, models.records)\
+        .filter(models.Record_Assessments.c.physician_id == phy_id,
+                models.Record_Assessments.c.status == "pending",
+                models.Record_Assessments.c.pat_id == models.Patient.c.pat_id,
+                models.Record_Assessments.c.pat_id == models.records.c.pat_id)\
+        .order_by(models.Record_Assessments.c.create_dt).all()
 
     data_to_ret = []
     for entry in entries:
         data = dict()
-        data["record_assesment_id"] = entry.record_assesment_id
+        data["record_assessment_id"] = entry.record_assessment_id
         data["phy_id"] = entry.physician_id
         data["record_id"] = entry.record_id
         data["patient_name"] = entry.name
@@ -205,21 +205,21 @@ def route_update_pending_record_assessment():
         return "not json"
     post_data = request.get_json()
     try:
-        record_assesment_id = post_data["record_assesment_id"]
-        assesment = post_data["assesment"]
+        record_assessment_id = post_data["record_assessment_id"]
+        assessment = post_data["assessment"]
         completion_date = date.today()
         status = post_data["status"]
 
     except Exception as e:
-        return "need fields: 'record_assesment_id', 'assesment'"
+        return "need fields: 'record_assessment_id', 'assessment'"
 
     if status == "Cancelled":
-        stmt = models.Record_Assesments.update(). \
-                     where(models.Record_Assesments.c.record_assesment_id == record_assesment_id). \
+        stmt = models.Record_assessments.update(). \
+                     where(models.Record_assessments.c.record_assessment_id == record_assessment_id). \
                      values(completion_dt=completion_date, status=status)
     else:
-        stmt = models.Record_Assesments.update().where(models.Record_Assesments.c.record_assesment_id == record_assesment_id)\
-            .values(assesment=assesment, completion_dt=completion_date, status=status)
+        stmt = models.Record_assessments.update().where(models.Record_assessments.c.record_assessment_id == record_assessment_id)\
+            .values(assessment=assessment, completion_dt=completion_date, status=status)
 
     con = models.db.engine.connect()
     con.execute(stmt)
@@ -234,11 +234,11 @@ def route_accept_pending_record():
         return "not json"
     post_data = request.get_json()
     try:
-        record_assesment_id = post_data["record_assesment_id"]
+        record_assessment_id = post_data["record_assessment_id"]
     except:
-        return "need 'record_assesment_id'"
-    stmt = models.Record_Assesments.update().where(
-        models.Record_Assesments.c.record_assesment_id == record_assesment_id) \
+        return "need 'record_assessment_id'"
+    stmt = models.Record_assessments.update().where(
+        models.Record_assessments.c.record_assessment_id == record_assessment_id) \
         .values(status="Diagnosing")
 
     con = models.db.engine.connect()
