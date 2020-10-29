@@ -48,22 +48,6 @@ export class Login extends React.Component
     {
         const data = this.state;
 
-        /*
-        axios.post('http://172.116.201.31:8080/adduser',data)
-            .then(resp => console.log(resp));
-        */
-
-        /*
-        // Simple POST request with a JSON body using fetch
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ data })
-        };
-        fetch('http://172.116.201.31:8080/adduser', requestOptions)
-            .then(response => console.log(response))
-            .then(data => this.setState({ postId: data.id }));
-        */
         alert(`Test Variables
                --------------
                   Email: ${this.state.email} 

@@ -33,8 +33,9 @@ export class Registration extends React.Component {
 
             year:[]
         };
+        this.data.userMode = this.props.userMode;
 
-        //this.handleSubmit = this.handleSubmit(this);
+
 
     }
 

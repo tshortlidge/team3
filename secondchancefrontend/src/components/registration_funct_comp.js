@@ -1,57 +1,45 @@
 //props will sent in a bunch of stuff
 import React from "react";
-
-
+import {Container, Row, Col, Form, Button} from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap-grid.css';
+import 'react-bootstrap/dist/react-bootstrap';
 
 function DropDownMenu(data){
 
     return(
+        <Form.Control name = {data.name} value={data.selectedBirthElement} onChange={data.handleInputChange} as={"select"} defaultValue={"January"}>
 
-        <select name = {data.name} value={data.selectedBirthElement} onChange={data.handleInputChange}>
-            {
-                data.dataArr.map(function(selectedBirthElement){
-                    return <option value={selectedBirthElement}>{selectedBirthElement}</option>
-                })
-            }
-        </select>
+                {
+                    data.dataArr.map(function(selectedBirthElement){
+                        return <option value={selectedBirthElement}>{selectedBirthElement}</option>
+                    })
+                }
+
+        </Form.Control>
+
     )
 }
 
 function DrAttritube(data)
 {
-    if(data.modeID === '0') {
+    console.log(data);
+    if(data.modeID === 'Doctor') {
         return (
             <div>
-                <label>
-                    NPI:
-                    <input
-                        name="npi"
-                        type="text"
-                        placeholder={"npi"}
-                    />
-                </label>
-
-                <br/>
-
-                <label>
-                    Speciality:
-                    <input
-                        name="speciality"
-                        type="text"
-                        placeholder={"specialty"}
-                    />
-                </label>
-
-                <br/>
+                <Form.Label>NPI:</Form.Label>
+                <Form.Control name="npi" placeholder={"Enter National Provider Identifier"}/>
 
 
-                <label>
-                    Select Clinic:
 
-                    <br/>
-                    <DropDownMenu name={"selectedClinic"} dataArr = {data.dataArr} />
+                <Form.Label>Speciality:</Form.Label>
+                <Form.Control name="speciality" placeholder={"Enter Specialty"} />
 
-                        </label>
+
+
+                <Form.Label>Select Clinic:</Form.Label>
+                <DropDownMenu name={"selectedClinic"} dataArr = {data.dataArr} />
+
+
             </div>
         );
     }
@@ -64,118 +52,86 @@ function DrAttritube(data)
 
 function GetTitle(data)
 {
-    if(data.modeID === '0')
+    if(data.modeID === 'Doctor')
     {
-        return(<u>Physician Registration</u>);
+        return(<Form.Label><u className={"display-4"}>Physician Registration</u></Form.Label>);
     }
     else
     {
-        return(<u>Patient Registration</u>);
+        return(<Form.Label><u className={"display-4"}>Patient Registration</u></Form.Label>);
     }
 }
 
+
 export function RegFunctionalComponent(props)
 {
-    let modeID = '0';
+    let modeID = props.data.userMode;
 
     return(
 
         <div>
 
-            <form id={"myForm"}>
-                <label>
+            <Form id={"myForm"} style={{width:"500px", margin:"auto"}}>
+                <Form.Label>
                     <GetTitle modeID = {modeID}/>
                     <br />
-                </label>
-                <br />
-                <label>
-                    Email:
-                    <input
-                        name="email"
-                        type="text"
-                        value={props.data.email}
+                </Form.Label>
+                <Form.Group controlId={"formEmail"}>
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control name="email" value={props.data.email} type={"email"} placeholder={"Enter email"}/>
+                </Form.Group>
 
-                    />
-                </label>
+                <Form.Group controlId={"formPassword"}>
+                    <Row>
+                        <Col>
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control name="password" value={props.data.password} type={"password"} placeholder={"Enter Password"} />
+                        </Col>
+                        <Col>
+                            <Form.Label>Repeat Password</Form.Label>
+                            <Form.Control name="repassword" value={props.data.repassword} type={"password"} placeholder={"Re-Enter Password"} />
+                        </Col>
+                    </Row>
+                </Form.Group>
+                <Form.Group controlId={"formName"}>
+                    <Form.Label>Name</Form.Label>
+                    <Row>
+                        <Col>
+                            <Form.Control name="firstName" value={props.data.firstName} placeholder={"Enter First name"}/>
+                        </Col>
+                        <Col>
+                            <Form.Control name="lastName" value={props.data.lastName} placeholder={"Enter Last name"}/>
+                        </Col>
+                    </Row>
+                </Form.Group>
+                <Form.Label>Birthday</Form.Label>
+                <Row>
 
-                <br />
+                    <Col>
+                        <DropDownMenu name={"selectedBirthMonth"} dataArr = {props.data.date.month} />
+                    </Col>
+                    <Col>
+                        <DropDownMenu name={"selectedBirthDay"} dataArr = {props.data.date.day} />
+                    </Col>
+                    <Col>
+                        <DropDownMenu name={"selectedBirthYear"} dataArr = {props.data.date.year} />
+                    </Col>
 
-                <label>
-                    Password:
-                    <input
-                        name="password"
-                        type="text"
-                        value={props.data.password}
-                    />
-                </label>
-
-                <br />
-
-                <label>
-                    Repeat Password:
-                    <input
-                        name="repassword"
-                        type="text"
-                        value={props.data.repassword}
-                    />
-                </label>
-
-                <br />
-                <label>
-                    First Name:
-                    <input
-                        name="firstName"
-                        type="text"
-                        value={props.data.firstName}
-                    />
-                </label>
-
-                <br />
-
-                <label>
-                    Last Name:
-                    <input
-                        name="lastName"
-                        type="text"
-                        value={props.data.lastName}
-                    />
-                </label>
-
-                <br />
-                <label>
-                    Birthday:
-                    <DropDownMenu name={"selectedBirthMonth"} dataArr = {props.data.date.month} />
-                    <DropDownMenu name={"selectedBirthDay"} dataArr = {props.data.date.day} />
-                    <DropDownMenu name={"selectedBirthYear"} dataArr = {props.data.date.year} />
-
-                </label>
-
-                <br />
-
-                <DrAttritube modeID={modeID} dataArr = {props.data.hospitalNameArr}/>
+                </Row>
 
 
 
-                <br />
-                <label>
-                    Upload Profile Picture:
-                    <br />
-                    <div className={"UploadImg"}>
+                    <DrAttritube modeID={modeID} dataArr = {props.data.hospitalNameArr}/>
 
-                        <button>Upload</button>
-                    </div>
-                </label>
 
-                <br />
-                <label>
-                    Bio:
-                    <br />
-                    <textarea name="bio" rows="20" cols="100" placeholder={"bio"}></textarea>
-                </label>
-                <br />
-                <br />
-                <button type="button" onClick={props.handleSubmit}>Register</button>
-            </form>
+                <Form.Label>Bio:</Form.Label>
+                        <br />
+                        <Form.Control name={"bio"} as={"textarea"} rows={3} cols={100}/>
+
+                    <Row>
+                        <Button type="button" onClick={props.handleSubmit}>Register</Button>
+                    </Row>
+            </Form>
         </div>
 
     )
