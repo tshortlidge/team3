@@ -35,11 +35,13 @@ class CloudDB:
 
     def __init__(self):
         creds = get_creds()  # Read credentials from file
+
         self.metadata = metadata
         self.base = Base
         self.url = creds["dialect"] + '://' + creds["user"] + ':' + \
                    creds["paswd"] + '@' + creds["server"] + ":" + creds["port"] + '/' + creds["db"]
         self.engine = create_engine(self.url, echo=True, pool_recycle=3600, pool_size=20, max_overflow=0)
+        self.metadata.bind = self.engine
 
     def get_session(self):
         # Sessions are used to create database transactions.
@@ -156,15 +158,16 @@ ratings = Table('rating', metadata,
 # Status: Pending, Diagnosing, Cancelled
 Record_Assessments = Table('record_assessment', metadata,
                           Column('record_assessment_id', Integer, primary_key=True, autoincrement=True, unique=True),
-                          Column('record_id', Integer, ForeignKey('records.record_id')),
+                          Column('record_id', Integer, ForeignKey('record.record_id')),
                           Column('physician_id', Integer, ForeignKey('physician.phy_id')),
                           Column('pat_id', Integer, ForeignKey('patient.pat_id')),
                           Column('assessment', String(1200)),
                           Column('completion_dt', Date),
+                          Column("create_dt", Date),
                           Column('status', String(15)),
                           )
 # For the patient.
-records = Table('Record', metadata,
+records = Table('record', metadata,
                 Column('record_id', Integer, autoincrement=True, primary_key=True, unique=True),
                 Column('pat_id', Integer, ForeignKey('patient.pat_id')),
                 Column('physician_id', Integer, ForeignKey('physician.phy_id')),
@@ -200,7 +203,7 @@ hospitals = Table('hospital', metadata,
 Payment = Table('payment', metadata,
                 Column('payment_id', Integer, autoincrement=True, primary_key=True, unique=True),
                 Column('pat_id', Integer, ForeignKey('patient.pat_id')),
-                Column('record_id', Integer, ForeignKey('records.record_id')),
+                Column('record_id', Integer, ForeignKey('record.record_id')),
                 Column('total', Float),
                 Column('is_paid', Boolean)
                 )
@@ -231,6 +234,8 @@ db = CloudDB()
 
 if __name__ == '__main__':
     import test_insert_data
+
     db.metadata.drop_all(db.engine)
+
     db.metadata.create_all(db.engine)
     test_insert_data.insert_all()
