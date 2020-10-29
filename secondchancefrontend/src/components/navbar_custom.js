@@ -11,8 +11,8 @@ import {DrEdit} from "../components/drEdit";
 import '../css/navbar_design.css';
 import {Homepage} from "./homepage";
 import pricing from './pricingPage';
-
-
+import {OpenDrPatientSelect} from "./openDrPatientSelect";
+import {CaseCreation} from './caseCreation';
 
 import {DoctorPatientSelect} from './doctorPatientSelect'
 
@@ -39,8 +39,13 @@ function NavbarModes(modeID)
 
 }
 
+
+
+
 function NewUserNavBar()
 {
+
+
     return(
         <div>
             <Router>
@@ -61,7 +66,7 @@ function NewUserNavBar()
 
                     </nav>
                     <Switch>
-                        <Route exact path={'/hoverImgTest'} component={DoctorPatientSelect}></Route>
+                        <Route exact path={'/hoverImgTest'} component={OpenDrPatientSelect}></Route>
 
                         <Route exact path={'/'} component={Homepage}></Route>
                         <Route exact path={'/loginSelect'} component={DoctorPatientSelect}></Route>
@@ -94,6 +99,8 @@ function PatientNavBar()
 
                         <Link to="/pricing">Pricing</Link>
 
+                        <Link to={"/caseCreate"}>Case Submission</Link>
+
                         <Link to={"/clientCaseMgmt"}>Client Case Management</Link>
 
 
@@ -105,6 +112,7 @@ function PatientNavBar()
                         <Route exact path={'/edit'} component ={DrEdit}></Route>
                         <Route exact path={'/pricing'} component={pricing}></Route>
                         <Route exact path={'/clientCaseMgmt'} component={ClientCaseManagement}></Route>
+                        <Route exact path={'/caseCreate'} component={CaseCreation}></Route>
 
 
                     </Switch>
@@ -164,7 +172,7 @@ export default class NavbarClass extends React.Component
     constructor(props) {
         super(props);
         this.data={};
-        this.data.modeID= 'Cat';
+        this.data.modeID= 'patient';
     }
 
 

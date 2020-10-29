@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button, Modal} from "react-bootstrap";
+import {Registration} from "./registration";
 
 export class Modal_It extends React.Component
 {
@@ -15,10 +16,7 @@ export class Modal_It extends React.Component
         this.setState({show:!this.state.show})
     }
 
-    getFunctionToRun(props)
-    {
-        return(this.props.nameOfFunction);
-    }
+
 
     getTitle
 

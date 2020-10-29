@@ -20,7 +20,7 @@ export class CaseCreation extends React.Component
             pics: '',    //Images of the patient for the case
             caseTitle: '',
             caseCategory: '',
-            userID: '0', //0 -> Doctor User, 1 -> Patient User
+            userID: '1', //0 -> Doctor User, 1 -> Patient User
 
         };
 

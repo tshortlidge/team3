@@ -1,10 +1,12 @@
 import React from 'react';
-import {Container, Row, Col, Button} from 'react-bootstrap';
+import {Container, Row, Col, Button, Modal} from 'react-bootstrap';
 import doctor_left from '../pictures/patient_doctor_select/left_doctor.png';
 import patient_right from '../pictures/patient_doctor_select/right_patient.png';
 import {HoverImgBlkWhite} from "./hoverImgBlkWhite";
 import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 import {Registration} from "./registration";
+import {Modal_It} from "./modal_it";
+import {LoginRegisterPanel} from "./login_panel/loginRegisterPanel";
 
 export class DoctorPatientSelect extends React.Component
 {
@@ -16,15 +18,43 @@ export class DoctorPatientSelect extends React.Component
         this.data.overlayColor = "black-strong";
         this.data.selectedUserMode = "none";
         this.state={
-            showPic:true
+            showPic:true,
+            show: true
         }
 
 
     }
 
+    ShowModalRegister()
+    {
+        return(
+            <div>
+                <Modal show ={this.state.show}  class="modal-body" className="modal-dialog" role="document">
+                    <Modal.Header>{this.props.modalTitle}</Modal.Header>
+                    <Modal.Body>
+
+                        <Registration />
+
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={()=>{this.handleModal()}}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+        )
+    }
+    handleModal()
+    {
+        this.setState({show:!this.state.show})
+    }
     toggleShowPic(selectedMode)
     {
         this.data.selectedUserMode = selectedMode;
+
+
+
         this.setState(
             {
                 showPic: !this.state.showPic
@@ -33,6 +63,7 @@ export class DoctorPatientSelect extends React.Component
     }
     handleDoctorPic = () =>
     {
+
         this.toggleShowPic('Doctor');
     }
 
@@ -45,6 +76,8 @@ export class DoctorPatientSelect extends React.Component
     DisplaySelectionPics()
     {
         return(
+            <div>
+            <LoginRegisterPanel />
             <Container style={{width: "800px"}} >
 
                 <Row>
@@ -62,6 +95,7 @@ export class DoctorPatientSelect extends React.Component
                                               imgSource = {doctor_left}
 
                             ></HoverImgBlkWhite>
+
                         </div>
                     </Col>
 
@@ -83,6 +117,8 @@ export class DoctorPatientSelect extends React.Component
                 </Row>
 
             </Container>
+
+            </div>
         );
     }
 
@@ -101,6 +137,7 @@ export class DoctorPatientSelect extends React.Component
             return(
                 <div>
                     <Registration userMode={this.data.selectedUserMode}/>
+
                 </div>
             );
         }

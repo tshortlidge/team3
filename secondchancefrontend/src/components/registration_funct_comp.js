@@ -62,13 +62,10 @@ function GetTitle(data)
     }
 }
 
-
-export function RegFunctionalComponent(props)
+function ShowRegistrationForm(props)
 {
-    let modeID = props.data.userMode;
-
+    let modeID = props.outerProps.data.userMode;
     return(
-
         <div>
 
             <Form id={"myForm"} style={{width:"500px", margin:"auto"}}>
@@ -78,18 +75,18 @@ export function RegFunctionalComponent(props)
                 </Form.Label>
                 <Form.Group controlId={"formEmail"}>
                     <Form.Label>Email</Form.Label>
-                    <Form.Control name="email" value={props.data.email} type={"email"} placeholder={"Enter email"}/>
+                    <Form.Control name="email" value={props.outerProps.data.email} type="email" placeholder={"Enter email"}/>
                 </Form.Group>
 
                 <Form.Group controlId={"formPassword"}>
                     <Row>
                         <Col>
                             <Form.Label>Password</Form.Label>
-                            <Form.Control name="password" value={props.data.password} type={"password"} placeholder={"Enter Password"} />
+                            <Form.Control name="password" value={props.outerProps.data.password} type={"password"} placeholder={"Enter Password"} />
                         </Col>
                         <Col>
                             <Form.Label>Repeat Password</Form.Label>
-                            <Form.Control name="repassword" value={props.data.repassword} type={"password"} placeholder={"Re-Enter Password"} />
+                            <Form.Control name="repassword" value={props.outerProps.data.repassword} type={"password"} placeholder={"Re-Enter Password"} />
                         </Col>
                     </Row>
                 </Form.Group>
@@ -97,10 +94,10 @@ export function RegFunctionalComponent(props)
                     <Form.Label>Name</Form.Label>
                     <Row>
                         <Col>
-                            <Form.Control name="firstName" value={props.data.firstName} placeholder={"Enter First name"}/>
+                            <Form.Control name="firstName" value={props.outerProps.data.firstName} placeholder={"Enter First name"}/>
                         </Col>
                         <Col>
-                            <Form.Control name="lastName" value={props.data.lastName} placeholder={"Enter Last name"}/>
+                            <Form.Control name="lastName" value={props.outerProps.data.lastName} placeholder={"Enter Last name"}/>
                         </Col>
                     </Row>
                 </Form.Group>
@@ -108,31 +105,40 @@ export function RegFunctionalComponent(props)
                 <Row>
 
                     <Col>
-                        <DropDownMenu name={"selectedBirthMonth"} dataArr = {props.data.date.month} />
+                        <DropDownMenu name={"selectedBirthMonth"} dataArr = {props.outerProps.data.date.month} />
                     </Col>
                     <Col>
-                        <DropDownMenu name={"selectedBirthDay"} dataArr = {props.data.date.day} />
+                        <DropDownMenu name={"selectedBirthDay"} dataArr = {props.outerProps.data.date.day} />
                     </Col>
                     <Col>
-                        <DropDownMenu name={"selectedBirthYear"} dataArr = {props.data.date.year} />
+                        <DropDownMenu name={"selectedBirthYear"} dataArr = {props.outerProps.data.date.year} />
                     </Col>
 
                 </Row>
 
 
 
-                    <DrAttritube modeID={modeID} dataArr = {props.data.hospitalNameArr}/>
+                <DrAttritube modeID={modeID} dataArr = {props.outerProps.data.hospitalNameArr}/>
 
 
                 <Form.Label>Bio:</Form.Label>
-                        <br />
-                        <Form.Control name={"bio"} as={"textarea"} rows={3} cols={100}/>
+                <br />
+                <Form.Control name={"bio"} as={"textarea"} rows={3} cols={100}/>
 
-                    <Row>
-                        <Button type="button" onClick={props.handleSubmit}>Register</Button>
-                    </Row>
+                <Row>
+                    <Button type="button" onClick={props.outerProps.handleSubmit}>Register</Button>
+                </Row>
             </Form>
         </div>
+    );
+}
 
-    )
+
+export function RegFunctionalComponent(props)
+{
+   return(
+       <div>
+           <ShowRegistrationForm outerProps = {props} />
+       </div>
+   )
 }
