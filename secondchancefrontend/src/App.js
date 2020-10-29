@@ -13,7 +13,8 @@ import {Login} from './components/login';
 import {DrEdit} from "./components/drEdit";
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import {Homepage} from './components/homepage';
-
+import Header from './views/header';
+import Body from './views/body';
 import './css/animatedBackground.scss'
 function App() {
     /*
@@ -31,7 +32,8 @@ function App() {
         <div className="App" >
 
             <NavbarClass />
-
+<Header />
+<Body />
         </div>
   );
 }
