@@ -72,17 +72,17 @@ def insert_all():
                       username="Hassan", qual="PhDoctorate", reviewCnt="0", email="email3@aol.hotmail",
                       password="password_is_plain_text")
 
-    insert_into_table(tablename="records", pat_id=1, comment="Yep, thats bad", hospital_id=1)
-    insert_into_table(tablename="records", pat_id=2, comment="not that bad", hospital_id=1)
-    insert_into_table(tablename="records", pat_id=3, comment="whoa nelly!", hospital_id=1)
+    insert_into_table(tablename="record", pat_id=1, comment="Yep, thats bad", hospital_id=1)
+    insert_into_table(tablename="record", pat_id=2, comment="not that bad", hospital_id=1)
+    insert_into_table(tablename="record", pat_id=3, comment="whoa nelly!", hospital_id=1)
 
     # RECORD ASSESMENT ENTRIES
-    insert_into_table(tablename="record_assesment", record_id=1, physician_id=1, pat_id=1,
-                      assesment="assessed", completion_dt=date(2020, 2, 1), create_dt=date(2020, 1, 3), status="assessed")
-    insert_into_table(tablename="record_assesment", record_id=2, physician_id=2, pat_id=2,
-                      assesment="assessed", completion_dt=date(2020, 3, 1), create_dt=date(2020, 1, 2), status="assessed")
-    insert_into_table(tablename="record_assesment", record_id=3, physician_id=3, pat_id=3,
-                      assesment=None, completion_dt=date(2020, 2, 1), create_dt=date(2020, 1, 1), status="pending")
+    insert_into_table(tablename="record_assessment", record_id=1, physician_id=1, pat_id=1,
+                      assessment="assessed", completion_dt=date(2020, 2, 1), create_dt=date(2020, 1, 3), status="assessed")
+    insert_into_table(tablename="record_assessment", record_id=2, physician_id=2, pat_id=2,
+                      assessment="assessed", completion_dt=date(2020, 3, 1), create_dt=date(2020, 1, 2), status="assessed")
+    insert_into_table(tablename="record_assessment", record_id=3, physician_id=3, pat_id=3,
+                      assessment=None, completion_dt=date(2020, 2, 1), create_dt=date(2020, 1, 1), status="pending")
 
     # PAYMENT ENTRIES
     insert_into_table(tablename="payment", pat_id=1, record_id=1, total=1, is_paid=1)
