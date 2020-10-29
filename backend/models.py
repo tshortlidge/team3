@@ -154,12 +154,12 @@ ratings = Table('rating', metadata,
 # After the doctor finishes making their assement.
 # Flow: Patient picks their doctor -> creates entry here -> When doctor says yes/no -> status updates
 # Status: Pending, Diagnosing, Cancelled
-Record_Assesments = Table('record_assesment', metadata,
-                          Column('record_assesment_id', Integer, primary_key=True, autoincrement=True, unique=True),
+Record_Assessments = Table('record_assessment', metadata,
+                          Column('record_assessment_id', Integer, primary_key=True, autoincrement=True, unique=True),
                           Column('record_id', Integer, ForeignKey('records.record_id')),
                           Column('physician_id', Integer, ForeignKey('physician.phy_id')),
                           Column('pat_id', Integer, ForeignKey('patient.pat_id')),
-                          Column('assesment', String(1200)),
+                          Column('assessment', String(1200)),
                           Column('completion_dt', Date),
                           Column('status', String(15)),
                           )

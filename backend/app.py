@@ -1,5 +1,6 @@
 from api_client import client_blueprint
 from api_physician import physician_blueprint
+from api_record_assessment import record_assessment_blueprint
 from flask import Flask, request, jsonify, render_template, send_from_directory, session
 import models
 from flask_cors import CORS, cross_origin
@@ -10,6 +11,7 @@ print(template_dir)
 app = Flask(__name__, static_folder=template_dir)
 app.register_blueprint(client_blueprint)
 app.register_blueprint(physician_blueprint)
+app.register_blueprint(record_assessment_blueprint)
 
 # To let the front end team execute javascript from a different ip address
 cors = CORS(app)
