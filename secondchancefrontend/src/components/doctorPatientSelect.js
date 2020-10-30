@@ -6,7 +6,7 @@ import {HoverImgBlkWhite} from "./hoverImgBlkWhite";
 import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 import {Registration} from "./registration";
 import {Modal_It} from "./modal_it";
-import {LoginRegisterPanel} from "./login_panel/loginRegisterPanel";
+
 
 export class DoctorPatientSelect extends React.Component
 {
@@ -77,7 +77,7 @@ export class DoctorPatientSelect extends React.Component
     {
         return(
             <div>
-            <LoginRegisterPanel />
+
             <Container style={{width: "800px"}} >
 
                 <Row>

@@ -2,6 +2,9 @@ import React from 'react';
 import {PicCarousel} from './picCarousel';
 import {MultiBrowsePic} from './multiBrowsePic';
 import {NewWindow} from 'react-new-window';
+import {Button} from 'react-bootstrap';
+
+import {Caller_SwipeCardAnimation} from './caller_SwipeCardAnimation';
 
 export class CaseCreation extends React.Component
 {
@@ -115,11 +118,16 @@ export class CaseCreation extends React.Component
 
     }
 
+    handleSelectDoctor ()
+    {
+        return(<Caller_SwipeCardAnimation />);
+    }
+
     drCaseCreationComponents = (event) =>
     {
         return(
             <div>
-
+                <Caller_SwipeCardAnimation />
                 <form style={{textAlign:"center"}}>
                     {this.pageTitleUserDisplay()}
                     <br />
@@ -144,6 +152,7 @@ export class CaseCreation extends React.Component
 
                     <br />
 
+                    <Button onClick={this.handleSelectDoctor}>Select Physician</Button>
                     {this.viewOrAddPicMode()}
 
                     <label>
