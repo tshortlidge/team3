@@ -1,6 +1,7 @@
 import React from 'react';
+import {Button, Form, Col, Row, Container} from 'react-bootstrap';
 import '../css/hoverForText.css';
-
+import {MDBInput} from 'mdbreact';
 export class DrEdit extends React.Component
 {
     constructor(props) {
@@ -31,6 +32,36 @@ export class DrEdit extends React.Component
 
     }
 
+    iter_over_items(){
+        let inputs = document.getElementById("myForm").elements;
+
+        let to_send = {};
+
+        for (var i = 0; i < inputs.length; i++) {
+            let element = inputs[i];
+
+            to_send[element.name] = element.value;
+
+
+        }
+
+
+        return to_send;
+    }
+
+    FetchClientInfo()
+    {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({username: 1, password: 1})
+        };
+
+        fetch("http://52.247.220.137:80/physician/login", requestOptions)
+            .then(response => console.log(response));
+
+    }
+
     setDefaultHospital = (event) =>
     {
         let indxCurrentHospital = 0;
@@ -46,7 +77,7 @@ export class DrEdit extends React.Component
 
         console.log('----------- ' + indxCurrentHospital);
         return(
-            <label>
+            <Form.Label>
                 Select Clinic:
 
                 <br/>
@@ -62,7 +93,7 @@ export class DrEdit extends React.Component
                 </select>
 
 
-            </label>
+            </Form.Label>
         );
 
     }
@@ -132,39 +163,40 @@ export class DrEdit extends React.Component
     render() {
         return (
             <div>
-                <form onSubmit={this.handleSubmit}>
-                    <label>
+                <Button onClick={this.FetchClientInfo}>testFetch</Button>
+                <Form onSubmit={this.handleSubmit}>
+                    <Form.Label>
                         <u>Edit Personal Info</u>
                         <br />
-                    </label>
+                    </Form.Label>
                     <br />
-                    <label>
+                    <Form.Label>
                         Email:
-                        <input
+                        <Form.Control as={"input"}
                             name="email"
                             type="text"
                             value={this.state.email}
                             onChange={this.handleInputChange}
 
                         />
-                    </label>
+                    </Form.Label>
 
                     <br />
 
-                    <label>
+                    <Form.Label>
                         Change Password:
-                        <input
+                        <Form.Control as={"input"}
                             name="password"
                             type="password"
                             value={this.state.password}
                             onChange={this.handleInputChange}
                             placeholder={'******'}
                             />
-                    </label>
+                    </Form.Label>
 
                     <br />
 
-                    <label>
+                    <Form.Label>
                         Repeat Password:
                         <input
                             name="repassword"
@@ -173,46 +205,46 @@ export class DrEdit extends React.Component
                             onChange={this.handleInputChange}
                             placeholder={'******'}
                             />
-                    </label>
+                    </Form.Label>
 
                     <br />
-                    <label>
+                    <Form.Label>
                         First Name:
-                        <input
+                        <Form.Control as={"input"}
                             name="firstName"
                             type="text"
                             value={this.state.firstName}
                             onChange={this.handleInputChange}
 
                             />
-                    </label>
+                    </Form.Label>
 
                     <br />
 
-                    <label>
+                    <Form.Label>
                         Last Name:
-                        <input
+                        <Form.Control as={"input"}
                             name="lastName"
                             type="text"
                             value={this.state.lastName}
                             onChange={this.handleInputChange}
 
                             />
-                    </label>
+                    </Form.Label>
 
                     <br />
 
 
-                    <label>
+                    <Form.Label>
                         Speciality:
-                        <input
+                        <Form.Control as={"input"}
                             name="speciality"
                             type="text"
                             value={this.state.speciality}
                             onChange={this.handleInputChange}
 
                             />
-                    </label>
+                    </Form.Label>
 
                     <br />
 
@@ -220,19 +252,8 @@ export class DrEdit extends React.Component
                     {this.setDefaultHospital()}
 
 
-
                     <br />
-                    <label>
-                        Upload Profile Picture:
-                        <br />
-                        <div className={"UploadImg"}>
-                            <input type={"file"} onChange={this.fileSelectedHandler}/>
-                            <button onClick={this.fileUploadHandler}>Upload</button>
-                        </div>
-                    </label>
-
-                    <br />
-                    <label>
+                    <Form.Label>
                         Bio:
                         <br /><br />
                         <div className="dropdownText">
@@ -243,22 +264,22 @@ export class DrEdit extends React.Component
                         </div>
                         <br />
                         <br />
-                        <textarea name="oldBio" value={this.state.oldBio} ref="newText" rows="20" cols="100" onChange={this.handleInputChange} ></textarea>
-                    </label>
+                        <MDBInput type="textarea" name="oldBio" value={this.state.oldBio} ref="newText" rows="20" cols="100" onChange={this.handleInputChange} ></MDBInput>
+                    </Form.Label>
                     <br />
-                    <label>
+                    <Form.Label>
                         Enter Password to submit changes:
-                        <input
+                        <MDBInput as={"input"}
                             name="repassword"
                             type="password"
                             value={this.state.repassword}
                             onChange={this.handleInputChange}
                             placeholder={'******'}
                             required/>
-                    </label>
+                    </Form.Label>
                     <br />
-                    <button type="submit" value={this.state.value}>Submit</button>
-                </form>
+                    <Button type="submit" value={this.state.value}>Submit</Button>
+                </Form>
             </div>
         );
     }
