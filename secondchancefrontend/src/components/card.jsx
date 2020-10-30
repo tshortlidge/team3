@@ -1,6 +1,6 @@
 import React from "react";
 import "../assets/card.scss";
-
+import '../css/makeImgUndraggable.css';
 
 const FrontCard = (props) => {
   return (
@@ -14,7 +14,7 @@ const FrontCard = (props) => {
         <p>{props.user.name}</p>
         <p>{props.user.rating} out of 5</p>
         <p>{props.user.specialty}</p>
-        <img align={"center"} height={180} width={180} src={props.user.image} alt={"docimg"} />
+        <img className={'imgUndraggable'} align={"center"} height={180} width={180} src={props.user.image} alt={"docimg"} />
       </div>
     </article>
   );

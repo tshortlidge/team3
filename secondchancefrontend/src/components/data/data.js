@@ -7,6 +7,8 @@ import PicOfDoc6 from '../images/dr_female/female_quality_1/female_doctor_6.jpg'
 import PicOfDoc7 from '../images/dr_male/male_quality_1/male_doctor_1.jpg';
 import PicOfDoc8 from '../images/dr_male/male_quality_1/male_doctor_2.jpg';
 import PicOfDoc9 from '../images/dr_male/male_quality_1/male_doctor_3.jpg';
+
+
 export const people1 = [
   {
     name: "Dr.Stevens",
@@ -16,7 +18,7 @@ export const people1 = [
     location: "Ronald Reagan UCLA Medical Center",
     email: "somedoctor@medicalplace.com",
     rating: "4.5",
-    npi:"123457894",
+    npi:"0",
     specialty:"Orthopedic surgeon"
   },
   {
@@ -27,6 +29,7 @@ export const people1 = [
     location: "Some Hospital",
     email: "somedoctor@medicalplace.com",
     rating: "3.5",
+    npi:"1",
     specialty:"Surgeon"
   },
   {
@@ -37,6 +40,7 @@ export const people1 = [
     location: "Some Hospital",
     email: "somedoctor@medicalplace.com",
     rating: "3.5",
+    npi:"2",
     specialty:"Orthopedic Surgeon"
   },
   {
@@ -47,6 +51,7 @@ export const people1 = [
     location: "Some Hospital",
     email: "somedoctor@medicalplace.com",
     rating: "4",
+    npi:"3",
     specialty:"Surgeon"
   },
   {
@@ -57,6 +62,7 @@ export const people1 = [
     location: "Ronald Reagan UCLA Medical Center",
     email: "somedoctor@medicalplace.com",
     rating: "5",
+    npi:"4",
     specialty:"orthopedic surgeon"
   },
   {
@@ -67,6 +73,7 @@ export const people1 = [
     location: "Ronald Reagan UCLA Medical Center",
     email: "somedoctor@medicalplace.com",
     rating: "1.7",
+    npi:"5",
     specialty:"orthopedic surgeon"
   },
   {
@@ -77,6 +84,7 @@ export const people1 = [
     location: "Ronald Reagan UCLA Medical Center",
     email: "somedoctor@medicalplace.com",
     rating: "4.5",
+    npi:"6",
     specialty:"orthopedic surgeon"
   },
   {
@@ -87,6 +95,7 @@ export const people1 = [
     location: "Some Hospital",
     email: "somedoctor@medicalplace.com",
     rating: "4",
+    npi:"7",
     specialty:"orthopedic surgeon"
   },
   {
@@ -97,6 +106,9 @@ export const people1 = [
     location: "Some Hospital",
     email: "somedoctor@medicalplace.com",
     rating: "5",
+    npi:"8",
     specialty:"orthopedic surgeon"
   }
 ];
+
+

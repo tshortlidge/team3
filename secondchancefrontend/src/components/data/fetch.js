@@ -12,7 +12,8 @@ const fetchUserData = (counter) => {
 
 export const createDataList = (list = []) => {
   let counter = 0;
-  while (list.length < 7) {
+  let maxNumCard = 7;
+  while (list.length < maxNumCard) {
     list.push(fetchUserData(counter));
     counter = counter + 1;
   }

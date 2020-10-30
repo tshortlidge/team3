@@ -1,10 +1,11 @@
 import React from 'react';
 import {PicCarousel} from './picCarousel';
 import {MultiBrowsePic} from './multiBrowsePic';
-import {NewWindow} from 'react-new-window';
-import {Button} from 'react-bootstrap';
+import {people1} from './data/data';
+import {Row, Col, Button, Modal} from 'react-bootstrap';
 
 import {Caller_SwipeCardAnimation} from './caller_SwipeCardAnimation';
+
 
 export class CaseCreation extends React.Component
 {
@@ -24,11 +25,13 @@ export class CaseCreation extends React.Component
             caseTitle: '',
             caseCategory: '',
             userID: '1', //0 -> Doctor User, 1 -> Patient User
+            show: false
 
         };
 
         this.drModeID = '0';  //ID for a doctor user
         this.patModeID = '1'; //ID for a patient user
+        this.selectedDoctorInfo={};
     }
 
     pageTitleUserDisplay = () =>
@@ -80,15 +83,7 @@ export class CaseCreation extends React.Component
 
     }
 
-    /*Pops up a window and ask to fill in description for each picture */
-    pictureDescPopup = () =>
-    {
-        return(
-            <NewWindow>
-                <h1>Hi</h1>
-            </NewWindow>
-        );
-    }
+
 
     descriptionTitleUserDisplay = () =>
     {
@@ -123,11 +118,13 @@ export class CaseCreation extends React.Component
         return(<Caller_SwipeCardAnimation />);
     }
 
+
+
     drCaseCreationComponents = (event) =>
     {
         return(
             <div>
-                <Caller_SwipeCardAnimation />
+
                 <form style={{textAlign:"center"}}>
                     {this.pageTitleUserDisplay()}
                     <br />
@@ -152,34 +149,41 @@ export class CaseCreation extends React.Component
 
                     <br />
 
-                    <Button onClick={this.handleSelectDoctor}>Select Physician</Button>
+
+
                     {this.viewOrAddPicMode()}
 
-                    <label>
+                    <Row>
+                        <Col style={{width: "10000px"}}>
+                            <label>
 
-                        {this.categoryTitleUserDisplay()}
+                                {this.categoryTitleUserDisplay()}
 
-                        <select name="caseCategory" value={this.state.value} onChange={this.handleInputChange}>
-                            <option value="Allergy and Immunology">Allergy and Immunology</option>
-                            <option value="Endovascular Surgical Neuroradiology">Endovascular Surgical Neuroradiology</option>
-                            <option value="Gastroenterology">Gastroenterology</option>
-                            <option value="General Surgery">General Surgery</option>
-                            <option value="Hematology">Hematology</option>
-                            <option value="Musculoskeletal Radiology">Musculoskeletal Radiology</option>
-                            <option value="Neurology">Neurology</option>
-                            <option value="Orthopaedics">Orthopaedics</option>
-                            <option value="Otolaryngology">Otolaryngology</option>
-                            <option value="Pathology">Pathology</option>
-                            <option value="Pediatric">Pediatric</option>
-                            <option value="Radiation Oncology">Radiation Oncology</option>
-                            <option value="Reproductive Endocrinology and Infertility">Reproductive Endocrinology and Infertility</option>
-                            <option value="Spinal Cord Injury Medicine">Spinal Cord Injury Medicine</option>
-                            <option value="Sports Medicine">Sports Medicine</option>
-                            <option value="Thoracic Surgery">Thoracic Surgery</option>
-                            <option value="Vascular and Interventional Radiology">Vascular and Interventional Radiology</option>
-                        </select>
-                    </label>
-
+                                <select name="caseCategory" value={this.state.value} onChange={this.handleInputChange}>
+                                    <option value="Allergy and Immunology">Allergy and Immunology</option>
+                                    <option value="Endovascular Surgical Neuroradiology">Endovascular Surgical Neuroradiology</option>
+                                    <option value="Gastroenterology">Gastroenterology</option>
+                                    <option value="General Surgery">General Surgery</option>
+                                    <option value="Hematology">Hematology</option>
+                                    <option value="Musculoskeletal Radiology">Musculoskeletal Radiology</option>
+                                    <option value="Neurology">Neurology</option>
+                                    <option value="Orthopaedics">Orthopaedics</option>
+                                    <option value="Otolaryngology">Otolaryngology</option>
+                                    <option value="Pathology">Pathology</option>
+                                    <option value="Pediatric">Pediatric</option>
+                                    <option value="Radiation Oncology">Radiation Oncology</option>
+                                    <option value="Reproductive Endocrinology and Infertility">Reproductive Endocrinology and Infertility</option>
+                                    <option value="Spinal Cord Injury Medicine">Spinal Cord Injury Medicine</option>
+                                    <option value="Sports Medicine">Sports Medicine</option>
+                                    <option value="Thoracic Surgery">Thoracic Surgery</option>
+                                    <option value="Vascular and Interventional Radiology">Vascular and Interventional Radiology</option>
+                                </select>
+                            </label>
+                        </Col>
+                        <Col style={{width: "50px"}}>
+                            <Caller_SwipeCardAnimation />
+                        </Col>
+                    </Row>
                     <br />
 
                     <br />
@@ -207,6 +211,22 @@ export class CaseCreation extends React.Component
     {
         event.preventDefault();
 
+        let selectedDoctorIndex = localStorage.getItem('selectedDoctorIndx');
+        let selectedNPI = 0;
+
+        console.log(selectedDoctorIndex*1)
+        people1.map((obj, indx) => {
+
+                if (indx === Number(selectedDoctorIndex)) {
+                    console.log('hello');
+                    console.log(Number(selectedDoctorIndex));
+                    selectedNPI = (obj.npi*1);
+                }
+            }
+        );
+
+        console.log(selectedNPI);
+
         //this.pictureDescPopup();
 
         //Have an overlay pop up to select physician
@@ -221,6 +241,8 @@ export class CaseCreation extends React.Component
   
             `
         );
+
+
     }
 
     render()
