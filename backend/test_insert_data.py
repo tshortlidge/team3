@@ -76,7 +76,7 @@ def insert_all():
     insert_into_table(tablename="record", pat_id=2, comment="not that bad", hospital_id=1)
     insert_into_table(tablename="record", pat_id=3, comment="whoa nelly!", hospital_id=1)
 
-    # RECORD ASSESMENT ENTRIES
+    # RECORD assessed ENTRIES
     insert_into_table(tablename="record_assessment", record_id=1, physician_id=1, pat_id=1,
                       assessment="assessed", completion_dt=date(2020, 2, 1), create_dt=date(2020, 1, 3), status="assessed")
     insert_into_table(tablename="record_assessment", record_id=2, physician_id=2, pat_id=2,
@@ -90,6 +90,9 @@ def insert_all():
     insert_into_table(tablename="payment", pat_id=3, record_id=3, total=3, is_paid=0)
 
     # HOSPITAL ENTRIES
+
+
+
 
 if __name__ == "__main__":
     insert_all()
