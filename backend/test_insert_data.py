@@ -1,6 +1,7 @@
 import models
 from sqlalchemy.sql import text
 from datetime import date
+import requests
 
 
 def insert_into_table(**kwargs):
@@ -76,7 +77,7 @@ def insert_all():
     insert_into_table(tablename="record", pat_id=2, comment="not that bad", hospital_id=1)
     insert_into_table(tablename="record", pat_id=3, comment="whoa nelly!", hospital_id=1)
 
-    # RECORD ASSESMENT ENTRIES
+    # RECORD assessed ENTRIES
     insert_into_table(tablename="record_assessment", record_id=1, physician_id=1, pat_id=1,
                       assessment="assessed", completion_dt=date(2020, 2, 1), create_dt=date(2020, 1, 3), status="assessed")
     insert_into_table(tablename="record_assessment", record_id=2, physician_id=2, pat_id=2,
@@ -91,9 +92,38 @@ def insert_all():
 
     # HOSPITAL ENTRIES
 
+
+
+def insert_from_npi_gov(name="eric"):
+    d = requests.get("https://npiregistry.cms.hhs.gov/api/?first_name="+name+"&limit=15&version=2.1")
+    jsn = d.json()
+    lngth = len(jsn["results"])
+    if lngth == 0:
+        return
+    r = jsn["results"]
+    for i in range(lngth):
+        i = r[i]
+        try:
+            insert_into_table(tablename="physician",
+                              npi=i["number"], name=i["basic"]["first_name"] + " " + i["basic"]["last_name"],
+                              bio=i["taxonomies"][0]["desc"], addr=i["addresses"][0]["address_1"],
+                              username=i["basic"]["first_name"]+i["addresses"][0]["postal_code"],
+                              qual=i["taxonomies"][0]["desc"], reviewCnt=0,
+                              email=i["basic"]["first_name"]+i["basic"]["last_name"]+"@aol.com",
+                              password="123pass")
+        except Exception as e:
+            print(e)
+
+
+
 if __name__ == "__main__":
     insert_all()
-
+    insert_from_npi_gov()
+    insert_from_npi_gov("Kevin")
+    insert_from_npi_gov("Trevor")
+    insert_from_npi_gov("Lee")
+    insert_from_npi_gov("Bernard")
+    insert_from_npi_gov("Alannah")
     with models.db.engine.connect() as con:
         payment_entries = con.execute("select * from payment")
         for p_e in payment_entries:

@@ -34,3 +34,17 @@ def api_record_assessment_add():
     con.close()
     return "Record Assessment registered."
 
+
+@record_assessment_blueprint.route('/client_records', methods=["GET", 'POST'])
+@cross_origin()
+def route_client_records():
+    if not request.is_json:
+        return "not json"
+    post_data = request.get_json()
+    sess = models.db.get_session()
+    entries = sess.query(models.records).filter(models.records.c.pat_id == post_data["pat_id"]).all()
+    to_ret = []
+    for i in entries:
+        to_ret.append(i._asdict())
+
+    return jsonify(to_ret)

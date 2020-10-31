@@ -248,6 +248,7 @@ def route_accept_pending_record():
 
 
 @app.route('/insertreview', methods=["POST"])
+@cross_origin()
 def insertreview():
 
     if not request.is_json():
@@ -269,6 +270,7 @@ def insertreview():
 
 
 @app.route('/checkspecificdocrev', methods=["GET"])
+@cross_origin()
 def checkspecificdocrev():
     if not request.is_json():
         return "not json"
@@ -290,6 +292,7 @@ def checkspecificdocrev():
 
 
 @app.route('/displayallratings', methods=["GET"])
+@cross_origin()
 def displayallratings():
     my_session = models.db.get_session()
     datareturn = []
@@ -302,6 +305,17 @@ def displayallratings():
         data["score"] = entry.score
         datareturn.append(data)
     return jsonify(datareturn)
+
+
+@app.route("/hospitals")
+@cross_origin()
+def route_get_all_hospitals():
+    sess = models.db.get_session()
+    entries = sess.query(models.hospitals).all()
+    to_ret = []
+    for i in entries:
+        to_ret.append(i._asdict())
+    return jsonify(to_ret)
 
 
 if __name__ == '__main__':
