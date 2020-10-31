@@ -201,7 +201,7 @@ def route_get_pending_records():
 @app.route("/update_pending_records", methods=["PUT"])
 @cross_origin()
 def route_update_pending_record_assessment():
-    if not request.is_json():
+    if not request.is_json:
         return "not json"
     post_data = request.get_json()
     try:
