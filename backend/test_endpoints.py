@@ -7,40 +7,113 @@ if __name__ == "__main__":
     remote_url = "http://52.247.220.137"
     local_url = "http://127.0.0.1:5000"
     url = local_url
+
+    failed_endpoints = []
     try:
         sys.argv[1]
         url = remote_url
     except:
         pass
     print(url)
-    d = requests.get(url+"/client/1")
+    endpoint = "/client/1"
+    d = requests.get(url+endpoint)
+    if d.status_code >= 400:
+        failed_endpoints.append(endpoint)
     print(d.text)
     try:
         print(d.json())
     except Exception as e:
         print(e)
-    d = requests.get(url+"/client/all")
+    endpoint = "/client/all"
+    d = requests.get(url+endpoint)
+    print(d.text)
+    if d.status_code >= 400:
+        failed_endpoints.append(endpoint)
+    try:
+        print(d.json())
+    except Exception as e:
+        print(e)
+
+    endpoint = "/hospitals"
+    d = requests.get(url+endpoint)
     print(d.text)
     try:
         print(d.json())
     except Exception as e:
         print(e)
-    print(d.text)
-    try:
-        print(d.json())
-    except Exception as e:
-        print(e)
-    d = requests.get(url+"/hospitals")
+    endpoint = "/get_pending_records"
+    d = requests.get(url+endpoint, json={"phy_id": 3})
     print(d.text)
     try:
         print(d.json())
     except Exception as e:
         print(e)
 
-    d = requests.get(url+"/get_pending_records", json={"phy_id": 3})
+    endpoint = "/physician/all"
+    d = requests.get(url+endpoint)
     print(d.text)
     try:
         print(d.json())
     except Exception as e:
         print(e)
+
+    endpoint = "/physician/login"
+    d = requests.post(url+endpoint, json={"username": "ericisbalanced", "password": "password_is_plain_text"})
+    if d.status_code >= 400:
+        failed_endpoints.append(endpoint)
+    print(d.text)
+    try:
+        print(d.json())
+    except Exception as e:
+        print(e)
+
+    endpoint = "/hospitals"
+    d = requests.get(url+endpoint)
+    print(d.text)
+    try:
+        print(d.json())
+    except Exception as e:
+        print(e)
+
+    endpoint = "/client/all"
+    d = requests.get(url+endpoint)
+    if d.status_code >= 400:
+        failed_endpoints.append(endpoint)
+    print(d.text)
+    if d.status_code >= 400:
+        failed_endpoints.append(endpoint)
+    try:
+        print(d.json())
+    except Exception as e:
+        print(e)
+
+    endpoint = "/client"
+    d = requests.put(url+endpoint, json={"username": "impatient", "password": "123pass",
+                                         "pat_id": 6,"age": 56, "sex":"m", "name": "Eric Franky",
+                                         "medical_history": "yes, I have history.", "email": "123@aol.hotmail" })
+    print(d.text)
+    if d.status_code >= 400:
+        failed_endpoints.append(endpoint)
+
+    endpoint = "/physician/all"
+    d = requests.get(url+endpoint)
+    if d.status_code >= 400:
+        failed_endpoints.append(endpoint)
+    print(d.text)
+
+    endpoint = "/physician"
+    d = requests.put(url+endpoint, json={"addr":"96 ave lane","bio":"Human Butcher","email":"email@aol.hotmail",
+                                         "name":"Ericasdfasdfasdf Diaz","npi":"1","password":"password_is_plain_text","phy_id":1,"qual":"PhDoctorate","reviewCnt":"0","username":"ericisbalanced"})
+    if d.status_code >= 400:
+        failed_endpoints.append(endpoint)
+
+    print(d.text)
+    endpoint = "/client_records"
+    d = requests.get(url+endpoint, json={"pat_id": 3})
+
+    if d.status_code >= 400:
+        failed_endpoints.append(endpoint)
+    print(d.text)
+
+    print(failed_endpoints)
 

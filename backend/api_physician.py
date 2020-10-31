@@ -127,6 +127,28 @@ def api_physician_all():
     return jsonify(data_to_return)
 
 
+@physician_blueprint.route('/physician/login', methods=["POST"])
+@cross_origin()
+def api_physician_login():
+    if not request.is_json:
+        return "not json"
+    post_data = request.get_json()
+    session = models.db.get_session()
+    print(post_data)
+    username = post_data["username"]
+    password = post_data["password"]
+    r = session.query(models.Physician).filter(models.Physician.c.username == username,
+                                               models.Physician.c.password == password)
+
+    if r.count() == 1:
+        v = r.first()
+        flask_session["logged_in"] = True
+        return jsonify(v._asdict())
+    elif r.count > 1:
+        return "system error. something went MAJORLY wrong"
+    return "not logged in"
+
+
 def physician_email(p_email):
     session = models.db.get_session()
     data_to_return = []
