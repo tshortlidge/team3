@@ -165,16 +165,20 @@ def choose_doctor():
     return "doctor registered"
 
 
-@app.route("/get_pending_records", methods=["GET"])
+@app.route("/get_pending_records", methods=["GET", "POST"])
 @cross_origin()
 def route_get_pending_records():
+    print("get_pending_records")
     if not request.is_json:
+        print("yolo1")
         return "not json"
     data = request.get_json()
+    print("before try")
     try:
         phy_id = data["phy_id"]
     except:
         return "need phy_id"
+    print("After try")
     sess = models.db.get_session()
     entries = sess.query(models.Record_Assessments, models.Patient, models.records)\
         .filter(models.Record_Assessments.c.physician_id == phy_id,
@@ -201,9 +205,12 @@ def route_get_pending_records():
 @app.route("/update_pending_records", methods=["PUT"])
 @cross_origin()
 def route_update_pending_record_assessment():
+    print("updatepending recrods")
     if not request.is_json:
+        print("Not working")
         return "not json"
     post_data = request.get_json()
+    print("Before Try update pending")
     try:
         record_assessment_id = post_data["record_assessment_id"]
         assessment = post_data["assessment"]
@@ -211,14 +218,16 @@ def route_update_pending_record_assessment():
         status = post_data["status"]
 
     except Exception as e:
+        print("ERRORING OUT")
+        print(e)
         return "need fields: 'record_assessment_id', 'assessment'"
 
     if status == "Cancelled":
-        stmt = models.Record_assessments.update(). \
-                     where(models.Record_assessments.c.record_assessment_id == record_assessment_id). \
+        stmt = models.Record_Assessments.update(). \
+                     where(models.Record_Assessments.c.record_assessment_id == record_assessment_id). \
                      values(completion_dt=completion_date, status=status)
     else:
-        stmt = models.Record_assessments.update().where(models.Record_assessments.c.record_assessment_id == record_assessment_id)\
+        stmt = models.Record_Assessments.update().where(models.Record_Assessments.c.record_assessment_id == record_assessment_id)\
             .values(assessment=assessment, completion_dt=completion_date, status=status)
 
     con = models.db.engine.connect()
@@ -230,17 +239,22 @@ def route_update_pending_record_assessment():
 @app.route("/accept_pending_record", methods=["PUT"])
 @cross_origin()
 def route_accept_pending_record():
-    if not request.is_json():
+    print("accept_pending_record")
+    if not request.is_json:
         return "not json"
     post_data = request.get_json()
+    print("Before Try accept")
+    print(post_data)
     try:
         record_assessment_id = post_data["record_assessment_id"]
-    except:
+    except Exception as e:
+        print("ERRORING OUT")
+        print(e)
         return "need 'record_assessment_id'"
-    stmt = models.Record_assessments.update().where(
-        models.Record_assessments.c.record_assessment_id == record_assessment_id) \
+    stmt = models.Record_Assessments.update().where(
+        models.Record_Assessments.c.record_assessment_id == record_assessment_id) \
         .values(status="Diagnosing")
-
+    print("BEFORE EXECUTE")
     con = models.db.engine.connect()
     con.execute(stmt)
     con.close()
@@ -319,4 +333,4 @@ def route_get_all_hospitals():
 
 
 if __name__ == '__main__':
-    app.run(host="127.0.0.1", port=5000, debug=False)
+    app.run(host="0.0.0.0", port=80, debug=False)

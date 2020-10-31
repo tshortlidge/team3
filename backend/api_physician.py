@@ -144,7 +144,7 @@ def api_physician_login():
         v = r.first()
         flask_session["logged_in"] = True
         return jsonify(v._asdict())
-    elif r.count > 1:
+    elif r.count() > 1:
         return "system error. something went MAJORLY wrong"
     return "not logged in"
 
