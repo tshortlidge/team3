@@ -306,6 +306,7 @@ def displayallratings():
         datareturn.append(data)
     return jsonify(datareturn)
 
+
 @app.route("/hospitals")
 @cross_origin()
 def route_get_all_hospitals():
