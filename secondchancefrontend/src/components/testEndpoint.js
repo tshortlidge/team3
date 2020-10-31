@@ -18,11 +18,12 @@ export class TestEndpoint extends React.Component
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({username: 1, age: 1, sex: 1, medical_history: 1, email: "1@yahoo.com", password: 1})
+            body: JSON.stringify({"username": 1, "name":'Kevin Vo', "age": 1, "sex": 1, "medical_history": 1, "email": "1@yahoo.com", "password": 1, "pat_id": 3})
         };
 
         fetch("http://52.247.220.137:80/client", requestOptions)
             .then(response => console.log(response));
+
     }
 
     Test_physician_Handle()
@@ -32,7 +33,8 @@ export class TestEndpoint extends React.Component
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({npi: 1, username: 1, name: 1, bio: 1, addr: 1, qual: 1, reviewCnt: 1, email: 1, password: 1})
+            body: JSON.stringify({"npi": 99, "username": 1, "name": "Eric Diaz", "bio": "Dances in the evening",
+                "addr": "1987 Apple Dr", "qual": "Butts", "reviewCnt": 1, "email": "phy@phy.com", "password": "258", "phy_id":3})
         };
 
         fetch("http://52.247.220.137:80/physician", requestOptions)
@@ -46,12 +48,16 @@ export class TestEndpoint extends React.Component
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({record_assesment_id: 1, assesment: 1, status: 1})
+            body: JSON.stringify({"record_assessment_id": 1, "assessment": 1, "status": "Complete"})
         };
 
         fetch("http://52.247.220.137:80/update_pending_records", requestOptions)
-            .then(response => console.log(response));
+            .then(response=>response.text()).then(text => console.log(text));
+
     }
+
+
+
 
     Test_WTFFF_accept_pending_record_Handle()
     {
@@ -60,7 +66,7 @@ export class TestEndpoint extends React.Component
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({record_assesment_id: 1})
+            body: JSON.stringify({"record_assessment_id": 2})
         };
 
         fetch("http://52.247.220.137:80/accept_pending_record", requestOptions)
@@ -69,7 +75,7 @@ export class TestEndpoint extends React.Component
 
     /**********************************
      *                                *
-     *          The POSTs              *
+     *          The POSTs             *
      *                                *
      **********************************/
 
@@ -81,35 +87,62 @@ export class TestEndpoint extends React.Component
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({username: 1, password: 1})
+            body: JSON.stringify({"username": "hassan", "password": "password_is_plain_text"})
         };
 
         fetch("http://52.247.220.137:80/physician/login", requestOptions)
-            .then(response => console.log(response));
+            .then(response => console.log(response.json()))
+
+
     }
+
+    Test_get_client_records_Handle()
+    {
+        console.log("Testing get_client_records GET");
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({"record_id":1,"pat_id":1,"physician_id":1})
+        };
+
+        fetch("http://52.247.220.137:80/client_records",requestOptions)
+            .then(response => response.json())
+            .then(json => console.log(json));
+
+
+
+    }
+
 
     /**********************************
      *                                *
      *          The GETs              *
      *                                *
      **********************************/
+    Test_get_pending_records_Handle()
+    {
+        console.log("Testing get_pending_records GET");
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({"phy_id": 3})
+        };
+
+        fetch("http://52.247.220.137/get_pending_records", requestOptions)
+            .then(response => response.json())
+            .then(json => console.log(json));
+
+    }
+
     Test_hospitals_Handle()
     {
         console.log("Testing Hospitals GET");
 
-        fetch("http://52.247.220.137:80/hospitals?phy_id=3")
+        fetch("http://52.247.220.137:80/hospitals")
             .then(response => response.json())
             .then(json => console.log(json));
     }
 
-    Test_get_pending_records_Handle()
-    {
-        console.log("Testing get_pending_records GET");
-
-        fetch("http://52.247.220.137:80/get_pending_records?phy_id=3")
-            .then(response => response.json())
-            .then(json => console.log(json));
-    }
 
     Test_client_all_Handle()
     {
@@ -162,6 +195,9 @@ export class TestEndpoint extends React.Component
                                 <Row>
                                     <Col>POSTs</Col>
 
+                                </Row>
+                                <Row>
+                                    <Button onClick={this.Test_get_client_records_Handle}>/client_records</Button>
                                 </Row>
                                 <Row>
                                     <Button onClick={this.Test_physician_login_Handle}>/physician/login</Button>

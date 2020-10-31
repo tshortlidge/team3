@@ -19,7 +19,7 @@ export class PatientSlidePanel extends React.Component
         this.data.pat_bio= 'A delight for the senses.';
         this.data.pat_sex= 'M';
         this.data.pat_height= '167.64';
-        this.data.pat_weight= "86.1826"
+        this.data.pat_weight= "86.1826";
 
         this.RightPaneHandle = this.RightPaneHandle.bind(this)
 
