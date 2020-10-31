@@ -4,6 +4,8 @@ import {ContactUs_HomePage} from './homepage_sections/contact_us/contactus';
 //import '../css/style_homepage_background_scroll.css'
 import {Carousel_it} from "./carousel_it";
 import {AcceptCasePage} from "./acceptCasePage";
+import {TestEndpoint} from "./testEndpoint";
+
 const COLORS = [
     'black',
     'white',
@@ -21,6 +23,19 @@ function Contact_us_display()
 
 }
 
+export class Homepage extends React.Component
+{
+    render()
+    {
+        return(
+            <div>
+                <TestEndpoint />
+            </div>
+        )
+    }
+}
+
+/*
 export class Homepage extends React.Component {
     state = { y: 0 }
     el = React.createRef()
@@ -30,7 +45,9 @@ export class Homepage extends React.Component {
     // Doing this on onWheel isn't enough, but just to illustrate ...
     stop = () => this.spring.current.stop()
     render() {
+
         const y = this.el.current ? this.el.current.scrollTop : 0
+
         return (
             <>
                 <div className="scrolltop-main">
@@ -58,10 +75,14 @@ export class Homepage extends React.Component {
                             </animated.div>
                         )}
                     </Spring>
+
                 </div>
 
             </>
         )
-    }
-}
 
+
+    }
+
+}
+*/
