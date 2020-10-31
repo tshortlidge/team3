@@ -2,19 +2,26 @@ import React from 'react';
 import {PicCarousel} from './picCarousel';
 import {MultiBrowsePic} from './multiBrowsePic';
 import {people1} from './data/data';
-import {Row, Col, Button, Modal} from 'react-bootstrap';
-
+import {Row, Col, Button, Form, Container} from 'react-bootstrap';
+import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import {Caller_SwipeCardAnimation} from './caller_SwipeCardAnimation';
-
+import {MDBInput} from "mdbreact";
+import {PatientSlidePanel} from "./patientSidePanel";
+import 'mdbreact/dist/css/mdb.css';
+import 'mdbreact/dist/css/style.css';
 
 export class CaseCreation extends React.Component
 {
     constructor(props) {
         super(props);
-
-        this.state = {
+        this.state =
+            {
+                pat_notes: '',  //Details that patients can add to case
+                patientSelectedCategory: ''
+            };
+        this.data = {
             pat_email: '',  //For identifying who the case belongs to
-            pat_notes: '',  //Details that patients can add to case
             phy_email: '',
             phy_firstName: '',
             phy_lastName: '',
@@ -23,9 +30,11 @@ export class CaseCreation extends React.Component
             phy_hospital: '',
             pics: '',    //Images of the patient for the case
             caseTitle: '',
-            caseCategory: '',
             userID: '1', //0 -> Doctor User, 1 -> Patient User
-            show: false
+            show: false,
+            prim_case_name: 'Menstrual Cramps',
+            prim_case_description: 'Patient seems to exhibit abnormal menstrual cramps. X-rays shows vitamin D3 and Calcium deficiency' +
+                '. Course of action is to prescribe Oxycodone and oral vitamin supplements.'
 
         };
 
@@ -36,29 +45,29 @@ export class CaseCreation extends React.Component
 
     pageTitleUserDisplay = () =>
     {
-        if(this.state.userID === this.patModeID)
+        if(this.data.userID === this.patModeID)
         {
             return(
-                <label>
-                    <h1>Submit Case for Second Opinion</h1>
-                </label>
+                <Form.Label>
+                    <h2><u>Submit Case for Second Opinion</u></h2>
+                </Form.Label>
             );
         }
         else
         {
             return(
-                <label>
+                <Form.Label>
                     <h1>Submit Case</h1>
-                </label>
+                </Form.Label>
             );
         }
     }
 
     categoryTitleUserDisplay = () =>
     {
-        console.log(this.state.userID + " - pat - " + this.patModeID);
+        console.log(this.data.userID + " - pat - " + this.patModeID);
 
-        if(this.state.userID === this.patModeID)
+        if(this.data.userID === this.patModeID)
         {
             return <h3 style={{display:"inline"}}>Category for Second Opinion:</h3>
         }
@@ -72,7 +81,7 @@ export class CaseCreation extends React.Component
     viewOrAddPicMode = () =>
     {
         //if
-        if(this.state.userID === this.patModeID)
+        if(this.data.userID === this.patModeID)
         {
             return (<PicCarousel />)
         }
@@ -120,32 +129,27 @@ export class CaseCreation extends React.Component
 
 
 
+
     drCaseCreationComponents = (event) =>
     {
         return(
             <div>
-
-                <form style={{textAlign:"center"}}>
+                <PatientSlidePanel pat_data={this.data}/>
+                <Form style={{textAlign:"center"}}>
                     {this.pageTitleUserDisplay()}
                     <br />
-                    <label>
-                        <h3 style={{display:"inline"}}>Name for Case:</h3>
-                        <textarea  name="caseTitle" rows="1" cols="80" value={this.state.caseTitle} onChange={this.handleInputChange}/>
-                    </label>
-
-                    <br />
-                    <label>
-                        <h3 style={{display:"inline"}}>Patient's Name:</h3>
-                        <textarea  name="caseTitle" rows="1" cols="80" value={this.state.caseTitle} onChange={this.handleInputChange}/>
-                    </label>
 
 
-
-                    <br />
-                    <label style={{float: "left"}}>
-                        <h3 style={{display:"inline"}}>Patient's ID:</h3>
-                        <textarea  name="caseTitle" rows="1" cols="30" value={this.state.caseTitle} onChange={this.handleInputChange}/>
-                    </label>
+                        <Container style={{width:"1000px", margin:"auto", border:"0px"}}>
+                            <Row>
+                                <Col style={{width:"0px", marginLeft:"200px", border:"0px"}}>
+                                    <h3 style={{width:"250px", margin:"0px", border:"0px", textAlign:"right"}}>Name for Case:</h3>
+                                </Col>
+                                <Col >
+                                    <p style={{width:"500px", margin:"0px", border:"0px", textAlign:"left"}}>{this.data.prim_case_description}</p>
+                                </Col>
+                            </Row>
+                        </Container>
 
                     <br />
 
@@ -154,12 +158,12 @@ export class CaseCreation extends React.Component
                     {this.viewOrAddPicMode()}
 
                     <Row>
-                        <Col style={{width: "10000px"}}>
-                            <label>
+                        <Col style={{width: "1000px", margin:"auto"}}>
+                            <Form.Label style={{width: "500px", marginLeft:"45%", marginRight:"1px"}}>
 
                                 {this.categoryTitleUserDisplay()}
-
-                                <select name="caseCategory" value={this.state.value} onChange={this.handleInputChange}>
+                                <Form.Control name={"patientSelectedCategory"} as={"select"} defaultValue={"January"}
+                                              value={this.state.value} onChange={this.handleInputChange}>
                                     <option value="Allergy and Immunology">Allergy and Immunology</option>
                                     <option value="Endovascular Surgical Neuroradiology">Endovascular Surgical Neuroradiology</option>
                                     <option value="Gastroenterology">Gastroenterology</option>
@@ -177,8 +181,8 @@ export class CaseCreation extends React.Component
                                     <option value="Sports Medicine">Sports Medicine</option>
                                     <option value="Thoracic Surgery">Thoracic Surgery</option>
                                     <option value="Vascular and Interventional Radiology">Vascular and Interventional Radiology</option>
-                                </select>
-                            </label>
+                                </Form.Control>
+                            </Form.Label>
                         </Col>
                         <Col style={{width: "50px"}}>
                             <Caller_SwipeCardAnimation />
@@ -195,7 +199,7 @@ export class CaseCreation extends React.Component
                     <button name="submit" style={{display:"inline"}} onClick={this.handleSubmit}>Submit</button>
 
 
-                </form>
+                </Form>
             </div>
         );
     }
@@ -233,11 +237,11 @@ export class CaseCreation extends React.Component
 
         alert(`Test Variables
                --------------
-                 Email: ${this.state.pat_email} 
+                 Email: ${this.data.pat_email} 
              pat_notes/Desc: ${this.state.pat_notes}
-             phy_email: ${this.state.phy_email}
-             caseTitle: ${this.state.caseTitle}
-          caseCategory: ${this.state.caseCategory}
+             phy_email: ${this.data.phy_email}
+             caseTitle: ${this.data.caseTitle}
+          patientSelectedCategory: ${this.state.patientSelectedCategory}
   
             `
         );

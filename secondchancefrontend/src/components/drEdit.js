@@ -51,15 +51,23 @@ export class DrEdit extends React.Component
 
     FetchClientInfo()
     {
+/*
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({username: 1, password: 1})
+            body: JSON.stringify({username: 1, password: 1, name: 1, age: 1, sex: 1, medical_history: 1, email: 1})
         };
 
-        fetch("http://52.247.220.137:80/physician/login", requestOptions)
+        fetch("http://52.247.220.137:80/client", requestOptions)
             .then(response => console.log(response));
+*/
 
+
+/*
+        fetch("http://52.247.220.137:80/client/all")
+            .then(response => response.json())
+            .then(json => console.log(json));
+*/
     }
 
     setDefaultHospital = (event) =>
