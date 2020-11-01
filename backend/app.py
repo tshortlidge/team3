@@ -261,6 +261,28 @@ def route_accept_pending_record():
     return "accepted"
 
 
+@app.route("/get_all_physician_records", methods=["POST"])
+@cross_origin()
+def route_get_all_records():
+    if not request.is_json:
+        return "not json"
+    post_data = request.get_json()
+
+    try:
+        phy_id = post_data["phy_id"]
+    except Exception as e:
+        print(e)
+        return "need 'record_assessment_id'"
+
+    sess = models.db.get_session()
+    to_ret = []
+    entries = sess.query(models.Record_Assessments).filter(models.Record_Assessments.c.physician_id == phy_id).all()
+    for entry in entries:
+        to_ret.append(entry._asdict())
+
+    return jsonify(to_ret)
+
+
 @app.route('/insertreview', methods=["POST"])
 @cross_origin()
 def insertreview():
@@ -333,4 +355,4 @@ def route_get_all_hospitals():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=80, debug=False)
+    app.run(host="0.0.0.0", port=5000, debug=False)
