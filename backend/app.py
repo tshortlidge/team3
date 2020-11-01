@@ -272,7 +272,7 @@ def route_get_all_records():
         phy_id = post_data["phy_id"]
     except Exception as e:
         print(e)
-        return "need 'record_assessment_id'"
+        return "need 'phy_id'"
 
     sess = models.db.get_session()
     to_ret = []
@@ -281,6 +281,29 @@ def route_get_all_records():
         to_ret.append(entry._asdict())
 
     return jsonify(to_ret)
+
+
+@app.route("/get_all_patient_records", methods=["POST"])
+@cross_origin()
+def route_get_all_records():
+    if not request.is_json:
+        return "not json"
+    post_data = request.get_json()
+
+    try:
+        pat_id = post_data["pat_id"]
+    except Exception as e:
+        print(e)
+        return "need 'phy_id'"
+
+    sess = models.db.get_session()
+    to_ret = []
+    entries = sess.query(models.Record_Assessments).filter(models.Record_Assessments.c.pat_id == pat_id).all()
+    for entry in entries:
+        to_ret.append(entry._asdict())
+
+    return jsonify(to_ret)
+
 
 
 @app.route('/insertreview', methods=["POST"])
