@@ -1,15 +1,19 @@
 import React from 'react';
-import {Button, Form, Col, Row, Container} from 'react-bootstrap';
+import {Button, Form, Col, Row, Container, Collapse} from 'react-bootstrap';
 import '../css/hoverForText.css';
 import {MDBInput} from 'mdbreact';
+import 'bootstrap/dist/css/bootstrap.css';
 export class DrEdit extends React.Component
 {
     constructor(props) {
         super(props);
 
+        this.data = {};
+        this.data.oldBio = 'I danced all night with no water.'
+
         this.state =
             {
-                oldBio: 'I danced all night with no water.',
+                bio: this.data.oldBio,
                 email: 'KM@gg.com',
                 password: '',
                 repassword: '',
@@ -25,8 +29,12 @@ export class DrEdit extends React.Component
                     {label: "Mayo Clinic", value: "Mayo Clinic"},
                     {label: "UCLA Medical Center", value: "UCLA Medical Center"}
                     ],
-                currentHospital: 'Johns Hopkins Hospital'
+                currentHospital: 'Johns Hopkins Hospital',
+                passwordAuthorization: '',
+                showOldBio: false
             };
+
+
 
 
 
@@ -83,14 +91,13 @@ export class DrEdit extends React.Component
             }
         })}
 
-        console.log('----------- ' + indxCurrentHospital);
         return(
             <Form.Label>
                 Select Clinic:
 
                 <br/>
 
-                <select name = "selectedHospitalName" value={this.state.value}
+                <Form.Control as={"select"} name = "selectedHospitalName" value={this.state.value}
                         defaultValue={this.state.hospitalNameArr[indxCurrentHospital].value}
                         onChange={this.handleInputChange}>
                     {this.state.hospitalNameArr.map(function(hospitalName, index){
@@ -98,12 +105,23 @@ export class DrEdit extends React.Component
                     })}
 
 
-                </select>
+                </Form.Control>
 
 
             </Form.Label>
         );
 
+    }
+
+    handleShowOldBio(showOldBioNew)
+    {
+        console.log("Before "+ this.state.showOldBio)
+
+        this.setState({
+            showOldBio: !showOldBioNew
+        });
+
+        console.log("After "+ this.state.showOldBio)
     }
 
     handleInputChange = (event) => {
@@ -138,7 +156,7 @@ export class DrEdit extends React.Component
 
         console.log(toConsoles);
 
-        console.log("oldBio = " + this.state.oldBio)
+
         alert(`Test Variables
                --------------
                   Email: ${this.state.email} 
@@ -150,7 +168,7 @@ export class DrEdit extends React.Component
              Speciality: ${this.state.speciality}
                 selectedHospitalName: ${this.state.selectedHospitalName}
                 Picture: ${this.state.picture}
-                    oldBio: ${this.state.oldBio}
+                    bio: ${this.state.bio}
                     
                     
                     xxxxxxxxxxxxxxxxxxxxxxxx
@@ -171,11 +189,10 @@ export class DrEdit extends React.Component
     render() {
         return (
             <div>
-                <Button onClick={this.FetchClientInfo}>testFetch</Button>
+            <Container>
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Label>
-                        <u>Edit Personal Info</u>
-                        <br />
+                        Edit Personal Info
                     </Form.Label>
                     <br />
                     <Form.Label>
@@ -206,7 +223,7 @@ export class DrEdit extends React.Component
 
                     <Form.Label>
                         Repeat Password:
-                        <input
+                        <Form.Label as={"input"}
                             name="repassword"
                             type="password"
                             value={this.state.repassword}
@@ -261,33 +278,50 @@ export class DrEdit extends React.Component
 
 
                     <br />
-                    <Form.Label>
-                        Bio:
+
+                    <Form.Label>Bio:</Form.Label>
                         <br /><br />
-                        <div className="dropdownText">
-                            <span>Hover for Old Bio</span>
-                            <div className="dropdownText-content">
-                                <p><div style={{textAlign:"center"}}>Current Bio:</div><br />{this.state.oldBio}</p>
+
+
+                        <Button onClick={()=> this.handleShowOldBio(this.state.showOldBio)}
+                                aria-controls={"oldBioCollapse"}
+                                aria-expanded={this.state.showOldBio}>Show Old Bio</Button>
+
+                        <Collapse in={this.state.showOldBio}>
+                            <div id={"oldBioCollapse"} style={{border: "2px solid",
+                                padding: "20px",
+                                margin: "30px",
+                                width: "300px",
+                                resize: "horizontal",
+                                overflow: "auto"}}>
+                                <p><u>Old Bio:</u></p>
+                                <p><i>{this.data.oldBio}</i></p>
                             </div>
-                        </div>
+                        </Collapse>
+
                         <br />
                         <br />
-                        <MDBInput type="textarea" name="oldBio" value={this.state.oldBio} ref="newText" rows="20" cols="100" onChange={this.handleInputChange} ></MDBInput>
-                    </Form.Label>
+                        <Form.Control as="textarea" name="bio" value={this.state.bio} ref="newText"
+                                  style={{ rows:"10", cols:"10"}} onChange={this.handleInputChange} ></Form.Control>
+
+
                     <br />
                     <Form.Label>
-                        Enter Password to submit changes:
                         <MDBInput as={"input"}
-                            name="repassword"
+                            name="passwordAuthorization"
+                                  label={"Enter Password to submit changes:"}
                             type="password"
-                            value={this.state.repassword}
+                            value={this.state.passwordAuthorization}
                             onChange={this.handleInputChange}
-                            placeholder={'******'}
+                            style={{width:"100%", padding: "12px 40px",
+                                margin: "auto"}}
+
                             required/>
                     </Form.Label>
                     <br />
                     <Button type="submit" value={this.state.value}>Submit</Button>
                 </Form>
+                </Container>
             </div>
         );
     }

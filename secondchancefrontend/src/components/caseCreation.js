@@ -102,7 +102,7 @@ export class CaseCreation extends React.Component
                     <label>
                         Description (Optional):
                         <br/>
-                        <textarea name="pat_notes" rows="20" cols="100" value={this.state.pat_notes}
+                        <textarea name="pat_notes" rows="5" cols="100" value={this.state.pat_notes}
                                   onChange={this.handleInputChange}/>
                     </label>
                 </div>
