@@ -285,7 +285,7 @@ def route_get_all_records():
 
 @app.route("/get_all_patient_records", methods=["POST"])
 @cross_origin()
-def route_get_all_records():
+def route_get_all_pat_records():
     if not request.is_json:
         return "not json"
     post_data = request.get_json()
@@ -298,7 +298,9 @@ def route_get_all_records():
 
     sess = models.db.get_session()
     to_ret = []
-    entries = sess.query(models.Record_Assessments).filter(models.Record_Assessments.c.pat_id == pat_id).all()
+    entries = sess.query(models.Record_Assessments,
+                         models.records.c.comment).filter(models.Record_Assessments.c.pat_id == pat_id,
+                                                          models.Record_Assessments.c.record_id == models.records.c.record_id).all()
     for entry in entries:
         to_ret.append(entry._asdict())
 
