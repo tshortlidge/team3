@@ -1,6 +1,6 @@
 import React from 'react';
 import '../css/clientCaseManagementPage.css';
-import {AcceptCasePage} from './acceptCasePage';
+import {AcceptRejectCasePage} from './acceptRejectCasePage';
 import {Button} from "react-bootstrap";
 
 export class DrTable_Request extends React.Component

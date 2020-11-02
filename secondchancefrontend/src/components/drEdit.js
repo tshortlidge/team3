@@ -187,6 +187,8 @@ export class DrEdit extends React.Component
 
 
     render() {
+        console.log("from edit modeID = " + this.props.userInfo.modeID);
+        console.log("from edit userID = " + this.props.userInfo.userID);
         return (
             <div>
             <Container>

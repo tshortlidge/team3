@@ -3,7 +3,7 @@ import { Spring, animated, config } from 'react-spring/renderprops';
 import {ContactUs_HomePage} from './homepage_sections/contact_us/contactus';
 //import '../css/style_homepage_background_scroll.css'
 import {Carousel_it} from "./carousel_it";
-import {AcceptCasePage} from "./acceptCasePage";
+import {AcceptRejectCasePage} from "./acceptRejectCasePage";
 import {TestEndpoint} from "./testEndpoint";
 
 const COLORS = [
@@ -27,9 +27,12 @@ export class Homepage extends React.Component
 {
     render()
     {
+        console.log("from Homepage modeID = " + this.props.userInfo.modeID);
+        console.log("from Homepage userID = " + this.props.userInfo.userID);
         return(
             <div>
                 <TestEndpoint />
+
             </div>
         )
     }

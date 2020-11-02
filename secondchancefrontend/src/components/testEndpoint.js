@@ -79,6 +79,19 @@ export class TestEndpoint extends React.Component
      *                                *
      **********************************/
 
+    Test_record_assessment_Handle()
+    {
+        console.log("Testing record_assessment POST");
+
+        const requestOptions ={
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify( {"record_id": 1, "physician_id": 1, "pat_id": 1} )
+        };
+
+        fetch("http://52.247.220.137/record_assessment", requestOptions)
+            .then(response => console.log(response));
+    }
 
     Test_physician_login_Handle()
     {
@@ -87,18 +100,18 @@ export class TestEndpoint extends React.Component
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({"username": "hassan", "password": "password_is_plain_text"})
+            body: JSON.stringify({"username": "1", "password": "password_is_plain_text"})
         };
 
         fetch("http://52.247.220.137:80/physician/login", requestOptions)
-            .then(response => console.log(response.json()))
+            .then(response => console.log(response.text()))
 
 
     }
 
     Test_get_client_records_Handle()
     {
-        console.log("Testing get_client_records GET");
+        console.log("Testing get_client_records POST ");
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -106,6 +119,40 @@ export class TestEndpoint extends React.Component
         };
 
         fetch("http://52.247.220.137:80/client_records",requestOptions)
+            .then(response => response.json())
+            .then(json => console.log(json));
+
+
+
+    }
+
+    Test_get_all_physician_records_Handle()
+    {
+        console.log("Testing get_all_physician_records POST");
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({"phy_id":1})
+        };
+
+        fetch("http://52.247.220.137:80/get_all_physician_records",requestOptions)
+            .then(response => response.json())
+            .then(json => console.log(json));
+
+
+
+    }
+
+    Test_get_all_patient_records_Handle()
+    {
+        console.log("Testing get_all_patient_records POST");
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({"pat_id":1})
+        };
+
+        fetch("http://52.247.220.137:80/get_all_patient_records",requestOptions)
             .then(response => response.json())
             .then(json => console.log(json));
 
@@ -197,10 +244,19 @@ export class TestEndpoint extends React.Component
 
                                 </Row>
                                 <Row>
+                                    <Button onClick={this.Test_record_assessment_Handle}>/record_assessment</Button>
+                                </Row>
+                                <Row>
                                     <Button onClick={this.Test_get_client_records_Handle}>/client_records</Button>
                                 </Row>
                                 <Row>
                                     <Button onClick={this.Test_physician_login_Handle}>/physician/login</Button>
+                                </Row>
+                                <Row>
+                                    <Button onClick={this.Test_get_all_physician_records_Handle}>/get_all_physician_records</Button>
+                                </Row>
+                                <Row>
+                                    <Button onClick={this.Test_get_all_patient_records_Handle}>/get_all_patient_records</Button>
                                 </Row>
                             </Container>
                         </Col>

@@ -130,7 +130,7 @@ export class CaseCreation extends React.Component
 
 
 
-    drCaseCreationComponents = (event) =>
+    drCaseCreationComponents()
     {
         return(
             <div>
@@ -158,7 +158,7 @@ export class CaseCreation extends React.Component
                     {this.viewOrAddPicMode()}
 
                     <Row>
-                        <Col style={{width: "1000px", margin:"auto"}}>
+                        <Col style={{width: "600px", margin:"auto"}}>
                             <Form.Label style={{width: "500px", marginLeft:"45%", marginRight:"1px"}}>
 
                                 {this.categoryTitleUserDisplay()}
@@ -251,10 +251,12 @@ export class CaseCreation extends React.Component
 
     render()
     {
+        console.log("from Case Submission modeID = " + this.props.userInfo.modeID);
+        console.log("from Case Submission = " + this.props.userInfo.userID);
         return(
             <div>
 
-                {this.drCaseCreationComponents()}
+                {this.drCaseCreationComponents()};
             </div>
         );
     }
