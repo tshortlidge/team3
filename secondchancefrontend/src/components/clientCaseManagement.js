@@ -22,8 +22,10 @@ export class ClientCaseManagement extends React.Component
           <div>
               <h2 style={{textAlign: 'center'}}><u>Patient Case Management</u></h2>
               <ClientTable_OnGoing userInfo = {this.props.userInfo}/>
-              <ClientTable_Completed userInfo = {this.props.userInfo}/>
+
           </div>
       );
   }
 };
+
+//   <ClientTable_Completed userInfo = {this.props.userInfo}/>
