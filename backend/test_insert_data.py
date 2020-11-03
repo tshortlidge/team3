@@ -90,7 +90,7 @@ def insert_all():
     insert_into_table(tablename="payment", pat_id=2, record_id=2, total=2, is_paid=1)
     insert_into_table(tablename="payment", pat_id=3, record_id=3, total=3, is_paid=0)
 
-    # HOSPITAL ENTRIES
+    # RECORD ENTRIES
 
 
 
@@ -115,6 +115,29 @@ def insert_from_npi_gov(name="eric"):
             print(e)
 
 
+def insertintorecords():
+    my_session = models.db.get_session()
+    my_session.execute("SET FOREIGN KEY CHECKS = 0")
+    my_session.execute("INSERT INTO records (record_id, pat_id, physician_id, comment, hospital_id) "
+                       "VALUES (%s, %s, %s, %s, %s) "),(1234, 5496, 123456789, "comment1","3353")
+    my_session.execute("INSERT INTO records (record_id, pat_id, physician_id, comment, hospital_id) "
+                       "VALUES (%s, %s, %s, %s, %s) "), (12389, 5996, 5694, " comment2", "3353")
+    my_session.execute("INSERT INTO records (record_id, pat_id, physician_id, comment, hospital_id) "
+                       "VALUES (%s, %s, %s, %s, %s) "),(1894, 55696, 56654, " comment3","3363")
+    my_session.execute("INSERT INTO records (record_id, pat_id, physician_id, comment, hospital_id) "
+                       "VALUES (%s, %s, %s, %s, %s) "), (123454, 545496, 52684, " comment4", "33589")
+    my_session.execute("INSERT INTO records (record_id, pat_id, physician_id, comment, hospital_id) "
+                       "VALUES (%s, %s, %s, %s, %s) "), (147454, 5454786, 52894, " comment5", "89589")
+    my_session.execute("INSERT INTO records (record_id, pat_id, physician_id, comment, hospital_id) "
+                       "VALUES (%s, %s, %s, %s, %s) "), (125434, 545496, 545684, " comment6", "33553")
+    my_session.execute("INSERT INTO records (record_id, pat_id, physician_id, comment, hospital_id) "
+                       "VALUES (%s, %s, %s, %s, %s) "), (142389, 594596, 554694, " comment7", "33553")
+    my_session.execute("INSERT INTO records (record_id, pat_id, physician_id, comment, hospital_id) "
+                       "VALUES (%s, %s, %s, %s, %s) "), (189544, 555696, 565654, " comment8", "33563")
+    my_session.execute("INSERT INTO records (record_id, pat_id, physician_id, comment, hospital_id) "
+                       "VALUES (%s, %s, %s, %s, %s) "), (1234544, 54496, 526854, " comment9", "33589")
+    my_session.execute("INSERT INTO records (record_id, pat_id, physician_id, comment, hospital_id) "
+                       "VALUES (%s, %s, %s, %s, %s) "), (147554, 5454786, 52894, " comment10", "89589")
 
 if __name__ == "__main__":
     insert_all()
