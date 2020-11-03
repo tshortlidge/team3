@@ -11,8 +11,8 @@ const {SearchBar} = Search;
 export class GenerateSortableTable extends React.Component
 {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             parsedJSONObj: [],
             improvedArray:[
@@ -42,7 +42,10 @@ export class GenerateSortableTable extends React.Component
             .then(res => res.json())
             .then(
                 (result) => {
-                    // console.log(result);
+                    let l = result.length;
+                    for (let i = 0; i < l; i++){
+                        result[i].cancelButton = <button type={"button"}>Cancel {result[i].physician_id}</button>
+                    }
                     this.setState({
                         parsedJSONObj: result
                     })
