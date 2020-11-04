@@ -9,7 +9,7 @@ export class DrEdit extends React.Component
         super(props);
 
         this.data = {};
-        this.data.oldBio = 'I danced all night with no water.'
+        this.data.oldBio = 'I am bio.';
 
         this.state =
             {
@@ -31,13 +31,47 @@ export class DrEdit extends React.Component
                     ],
                 currentHospital: 'Johns Hopkins Hospital',
                 passwordAuthorization: '',
-                showOldBio: false
+                showOldBio: false,
+                assignJSON: []
             };
 
 
 
 
 
+    }
+
+    componentDidMount() {
+        console.log("Testing physician_<id> GET");
+
+        //Concatinates client_ID to URL for backend
+        let urlConcat = "http://52.247.220.137:80/physician/" + this.props.userInfo.userID;
+        console.log(urlConcat);
+        fetch(urlConcat)
+            .then(response => response.json())
+            .then(json => { this.setState({assignJSON: json})})
+            .then(json=>console.log(this.state.assignJSON))
+            .then(()=>{
+                this.data.oldBio = this.state.assignJSON.bio;
+                this.setState(
+                    {
+                        bio: this.data.oldBio,
+                        email: this.state.assignJSON.email,
+                        name: this.state.assignJSON.name,
+                        npi: this.state.assignJSON.npi,
+                        speciality: this.state.assignJSON.qual,
+                        hospitalNameArr: [
+                            {label:"Cleveland Clinic", value:"Cleveland Clinic"},
+                            {label: "Johns Hopkins Hospital", value: "Johns Hopkins Hospital"},
+                            {label: "Mayo Clinic", value: "Mayo Clinic"},
+                            {label: "UCLA Medical Center", value: "UCLA Medical Center"}
+                        ],
+                        currentHospital: 'Johns Hopkins Hospital',
+
+                    }
+                )
+            });
+        console.log("Testing physician_<id> GETlllllllllllllllllllll");
     }
 
     iter_over_items(){
@@ -57,25 +91,13 @@ export class DrEdit extends React.Component
         return to_send;
     }
 
-    FetchClientInfo()
+    SetStateVariablesToJSONOBJ()
     {
-/*
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({username: 1, password: 1, name: 1, age: 1, sex: 1, medical_history: 1, email: 1})
-        };
+        this.data.oldBio = this.state.assignJSON.bio;
+        console.log("beee ");
+        this.setState({
 
-        fetch("http://52.247.220.137:80/client", requestOptions)
-            .then(response => console.log(response));
-*/
-
-
-/*
-        fetch("http://52.247.220.137:80/client/all")
-            .then(response => response.json())
-            .then(json => console.log(json));
-*/
+        })
     }
 
     setDefaultHospital = (event) =>
@@ -192,6 +214,7 @@ export class DrEdit extends React.Component
         return (
             <div>
             <Container>
+                {console.log("kill me")}
                 <Form onSubmit={this.handleSubmit}>
                     <Form.Label>
                         Edit Personal Info
@@ -204,6 +227,8 @@ export class DrEdit extends React.Component
                             type="text"
                             value={this.state.email}
                             onChange={this.handleInputChange}
+                                      placeholder={this.state.email}
+
 
                         />
                     </Form.Label>

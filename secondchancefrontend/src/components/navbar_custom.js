@@ -23,7 +23,7 @@ export default class NavbarClass extends React.Component
     constructor(props) {
         super(props);
         this.data={};
-        this.data.modeID = 'patient';
+        this.data.modeID = 'doctor';
         this.data.userID = '1';
     }
 
@@ -135,9 +135,9 @@ export default class NavbarClass extends React.Component
                         <Switch>
                             <Route exact path={'/'} component={() => <Homepage userInfo = {this.data}/>}></Route>
                             <Route exact path='/contact' component={() => <Contact userInfo = {this.data}/>}></Route>
-                            <Route exact path={'/edit'} component ={DrEdit}></Route>
+                            <Route exact path={'/edit'} component={() => <DrEdit userInfo = {this.data}/>}></Route>
                             <Route exact path={'/pricing'} component={Pricing}></Route>
-                            <Route exact path={'/doctorCaseMgmt'} component={DrCaseManagement}></Route>
+                            <Route exact path={'/doctorCaseMgmt'} component={() => <DrCaseManagement userInfo = {this.data}/>}></Route>
 
 
                         </Switch>
