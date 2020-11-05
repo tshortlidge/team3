@@ -1,7 +1,7 @@
 import React from 'react';
 import {PicCarousel} from './picCarousel';
 import {MultiBrowsePic} from './multiBrowsePic';
-import {people1} from './data/data';
+//import {people1} from './data/data';
 import {Row, Col, Button, Form, Container} from 'react-bootstrap';
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
@@ -41,6 +41,8 @@ export class CaseCreation extends React.Component
         this.drModeID = '0';  //ID for a doctor user
         this.patModeID = '1'; //ID for a patient user
         this.selectedDoctorInfo={};
+        this.people1 = [];
+        this.GetDrInfoForBackend = this.GetDrInfoForBackend.bind(this);
     }
 
     pageTitleUserDisplay = () =>
@@ -124,7 +126,7 @@ export class CaseCreation extends React.Component
 
     handleSelectDoctor ()
     {
-        return(<Caller_SwipeCardAnimation />);
+        return(<Caller_SwipeCardAnimation GetDrInfoForBackend={(p) => {this.GetDrInfoForBackend(p)} }/>);
     }
 
 
@@ -211,6 +213,10 @@ export class CaseCreation extends React.Component
             })
     }
 
+    GetDrInfoForBackend(people1)
+    {
+        this.people1 = people1;
+    }
     handleSubmit = (event) =>
     {
         event.preventDefault();
@@ -219,7 +225,7 @@ export class CaseCreation extends React.Component
         let selectedNPI = 0;
 
         console.log(selectedDoctorIndex*1)
-        people1.map((obj, indx) => {
+        this.people1.map((obj, indx) => {
 
                 if (indx === Number(selectedDoctorIndex)) {
                     console.log('hello');
