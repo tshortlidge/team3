@@ -11,6 +11,7 @@ export default class Body extends Component {
   constructor(props) {
     super(props);
     let dataList = this.props.drInfo;
+    console.log(dataList)
     this.state = {
       user_data: [...dataList],
       is_moving: false,
@@ -33,7 +34,7 @@ export default class Body extends Component {
 
     ShowContentsOfBody()
     {
-        console.log(this.state);
+
         return(
             <div>
                 <div id="main-container">
