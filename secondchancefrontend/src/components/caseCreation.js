@@ -18,7 +18,8 @@ export class CaseCreation extends React.Component
         this.state =
             {
                 pat_notes: '',  //Details that patients can add to case
-                patientSelectedCategory: ''
+                patientSelectedCategory: '',
+                people1: []
             };
         this.data = {
             pat_email: '',  //For identifying who the case belongs to
@@ -41,7 +42,7 @@ export class CaseCreation extends React.Component
         this.drModeID = '0';  //ID for a doctor user
         this.patModeID = '1'; //ID for a patient user
         this.selectedDoctorInfo={};
-        this.people1 = [];
+
         this.GetDrInfoForBackend = this.GetDrInfoForBackend.bind(this);
     }
 
@@ -187,7 +188,7 @@ export class CaseCreation extends React.Component
                             </Form.Label>
                         </Col>
                         <Col style={{width: "50px"}}>
-                            <Caller_SwipeCardAnimation />
+                            <Caller_SwipeCardAnimation GetDrInfoForBackend={(p) => {this.GetDrInfoForBackend(p)}} />
                         </Col>
                     </Row>
                     <br />
@@ -215,7 +216,11 @@ export class CaseCreation extends React.Component
 
     GetDrInfoForBackend(people1)
     {
-        this.people1 = people1;
+        this.setState (
+            {
+                people1: people1
+            }
+        )
     }
     handleSubmit = (event) =>
     {
@@ -225,7 +230,7 @@ export class CaseCreation extends React.Component
         let selectedNPI = 0;
 
         console.log(selectedDoctorIndex*1)
-        this.people1.map((obj, indx) => {
+        this.state.people1.map((obj, indx) => {
 
                 if (indx === Number(selectedDoctorIndex)) {
                     console.log('hello');
