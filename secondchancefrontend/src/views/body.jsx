@@ -10,9 +10,9 @@ import Header from "./header";
 export default class Body extends Component {
   constructor(props) {
     super(props);
-    let dataList = this.props.drInfo;
+    this.dataList = this.props.drInfo;
     this.state = {
-      user_data: [...dataList],
+      user_data: [...this.dataList],
       is_moving: false,
       show_status: 0,
       scroll: "",
@@ -21,8 +21,12 @@ export default class Body extends Component {
     };
     this.data ={}
     this.data.cntIndexCard = 0;
-    this.data.numElements = dataList.length;
+    this.data.numElements = this.dataList.length;
     this.data.hadChosen = false;
+  }
+
+  componentDidMount() {
+      this.dataList = this.props.drInfo;
   }
 
 

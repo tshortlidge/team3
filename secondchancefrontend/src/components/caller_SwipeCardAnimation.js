@@ -29,7 +29,7 @@ export class Caller_SwipeCardAnimation extends React.Component
             body: JSON.stringify({"phy_id": 1})
         };
 
-        fetch("http://52.247.220.137:80/get_all_physician_records", requestOptions)
+            fetch("http://52.247.220.137:80/get_all_physician_records", requestOptions)
             .then(response => response.json())
             .then(
                 (result) => {
