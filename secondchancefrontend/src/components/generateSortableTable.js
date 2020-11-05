@@ -1,10 +1,10 @@
 import React from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search, ColumnToggle  } from 'react-bootstrap-table2-toolkit';
-
-import {Button, Container} from 'react-bootstrap';
+import {Button, Container, Modal} from 'react-bootstrap';
 
 import 'bootstrap/dist/css/bootstrap.css';
+import Header from "../views/header";
 
 const {SearchBar} = Search;
 
@@ -14,22 +14,75 @@ export class GenerateSortableTable extends React.Component
     constructor(props) {
         super(props);
         this.state = {
-            parsedJSONObj: [],
-            improvedArray:[
-                {
-                    assessment: '',
-                    comment: '',
-                    completion_dt: '',
-                    create_dt: '',
-                    pat_id: '',
-                    physician_id: '',
-                    record_id: null,
-                    status: '',
-                    cancelButton: null
-                }
-            ], //this array will have everything parsedJSONObj, but will include a url to caseID and cancel buttons
-            error: null
+            parsedJSONObj: [], //this array will have everything parsedJSONObj and will include a url to caseID and cancel buttons
+            error: null,
+            showModal: false
         };
+
+    }
+
+
+
+
+    handleModal(status)
+    {
+        console.log("I am the handleModal function")
+        this.setState({
+            showModal: status
+        })
+
+
+
+    }
+
+    CloseModalHandle()
+    {
+
+        this.handleModal(false);
+        //window.location.reload(false);
+
+    }
+
+    CancelButtonHandle(status)
+    {
+
+        if(status === true)
+        {
+            //send to backend this.state.parsedJSONObj.record_id for deletion
+            console.log("MF DELETE");
+        }
+
+
+    }
+
+
+    ConfirmCancelButtonHandle()
+    {
+        console.log("I am the ConfirmCancelButtonHandle function");
+        //Ask user to confirm
+        return(
+            <div>
+
+                <Modal show = {this.state.showModal}
+                       size = {'xl'}
+                >
+                    <Modal.Header>
+                        Select Secondary Physician
+                        <Button onClick={()=>{this.CloseModalHandle()}}>
+                            Close
+                        </Button>
+                    </Modal.Header>
+                    <Modal.Body>
+
+
+
+                    </Modal.Body>
+                    <Modal.Footer>
+
+                    </Modal.Footer>
+                </Modal>
+            </div>
+        )
 
     }
 
@@ -44,7 +97,7 @@ export class GenerateSortableTable extends React.Component
                 (result) => {
                     let l = result.length;
                     for (let i = 0; i < l; i++){
-                        result[i].cancelButton = <button type={"button"}>Cancel {result[i].physician_id}</button>
+                        result[i].cancelButton = <Button onClick={()=>{this.handleModal(true)}}>Cancel {result[i].physician_id}</Button>
                     }
                     this.setState({
                         parsedJSONObj: result
@@ -86,6 +139,7 @@ export class GenerateSortableTable extends React.Component
 
     AppendButtonsToArray()
     {
+        console.log("I am the AppendButtonsToArray")
         this.state.parsedJSONObj.map((eachEntry, index) =>
         {
             this.state.parsedJSONObj.push( "hello" )
@@ -97,6 +151,7 @@ export class GenerateSortableTable extends React.Component
         return (
             <div>
                 {this.AppendButtonsToArray()}
+                {this.ConfirmCancelButtonHandle()}
                 <Container>
                     <ToolkitProvider
                         keyField="id"

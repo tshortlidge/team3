@@ -272,7 +272,7 @@ export class TestEndpoint extends React.Component
                                     <Button onClick={this.Test_client_id_Handle}>/client/id</Button>
                                 </Row>
                                 <Row>
-                                    <Button onClick={this.Test_hospitals_Handle}>/hospitals (HARD CRASHES)</Button>
+                                    <Button onClick={this.Test_hospitals_Handle}>/hospitals</Button>
                                 </Row>
                                 <Row>
                                     <Button onClick={this.Test_get_pending_records_Handle}>/get_pending_records</Button>
