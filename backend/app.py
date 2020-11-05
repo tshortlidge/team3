@@ -276,7 +276,9 @@ def route_get_all_records():
 
     sess = models.db.get_session()
     to_ret = []
-    entries = sess.query(models.Record_Assessments).filter(models.Record_Assessments.c.physician_id == phy_id).all()
+    entries = sess.query(models.Record_Assessments,
+                         models.Physician).filter(models.Record_Assessments.c.physician_id == phy_id,
+                                                  models.Record_Assessments.c.physician_id == models.Physician.c.phy_id).all()
     for entry in entries:
         to_ret.append(entry._asdict())
 
