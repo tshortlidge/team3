@@ -9,15 +9,17 @@ export class Caller_SwipeCardAnimation extends React.Component
 
         this.state =
             {
-                people1:[]
+                people1:[],
+                isLoading: true
             };
 
         this.data = {
             totalNumofDoc: null
         }
+
     }
 
-    componentDidMount() {
+    async componentDidMount() {
 
 
         //Calls to endpoint for every doctors' info
@@ -29,7 +31,8 @@ export class Caller_SwipeCardAnimation extends React.Component
             body: JSON.stringify({"phy_id": 1})
         };
 
-            fetch("http://52.247.220.137:80/get_all_physician_records", requestOptions)
+
+        await fetch("http://52.247.220.137:80/get_all_physician_records", requestOptions)
             .then(response => response.json())
             .then(
                 (result) => {
@@ -49,15 +52,18 @@ export class Caller_SwipeCardAnimation extends React.Component
                         peopleArray[i].drId = result[i].phy_id;
 
                     }
+                    this.loading = true;
                     this.setState(
                         {
-                            people1: peopleArray
+                            people1: peopleArray,
+                            isLoading: false
                         }
                     )
-
-                    this.props.GetDrInfoForBackend(peopleArray);
+                    this.p = peopleArray;
+                    return peopleArray;
                 }
-            );
+            )
+
     }
 
     FromList = (list, index) => {
@@ -84,9 +90,13 @@ export class Caller_SwipeCardAnimation extends React.Component
 
 
     render() {
+
         return(
             <div>
-                <Body drInfo = {this.state.people1}  createDataList = {(drList) => this.createDataList(drList)}/>
+
+                {!this.state.isLoading && (
+                    <Body drInfo = {this.state.people1}  createDataList = {(drList) => this.createDataList(drList)}/>
+                )}
             </div>
         );
     }
