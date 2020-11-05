@@ -72,7 +72,9 @@ export class Caller_SwipeCardAnimation extends React.Component
 
     createDataList = (list = []) => {
     let counter = 0;
-
+    let max = 10;
+    //this.data.totalNumofDoc = max;
+        console.log("this.data.totalNumofDoc = " + this.data.totalNumofDoc)
     while (list.length < this.data.totalNumofDoc) {
         list.push(this.fetchUserData(counter));
         counter = counter + 1;
