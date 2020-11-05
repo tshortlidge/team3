@@ -28,18 +28,20 @@ from get_creds import get_creds
 
 # MetaData() contains objects that stores data about our tables to eventually be created my SQLAlchemy
 metadata = MetaData()
-Base = declarative_base()
+Base = declarative_base(metadata=metadata)
 
 
 class CloudDB:
 
     def __init__(self):
         creds = get_creds()  # Read credentials from file
+
         self.metadata = metadata
         self.base = Base
         self.url = creds["dialect"] + '://' + creds["user"] + ':' + \
                    creds["paswd"] + '@' + creds["server"] + ":" + creds["port"] + '/' + creds["db"]
         self.engine = create_engine(self.url, echo=True, pool_recycle=3600, pool_size=20, max_overflow=0)
+        self.metadata.bind = self.engine
 
     def get_session(self):
         # Sessions are used to create database transactions.
@@ -118,6 +120,7 @@ password        -> Password for login (hash-value)
 Patient = Table('patient', metadata,
                 Column('pat_id', Integer, primary_key=True, unique=True, autoincrement=True),
                 Column('medical_history', String(400)),
+                Column('name', String(100)),
                 Column('sex', String(400)),
                 Column('age', Integer),
                 Column('username', String(50), unique=True),
@@ -150,9 +153,24 @@ ratings = Table('rating', metadata,
 # comment     -> Allows for comments to be made based off of the image
 # hospital_id -> A ID specific to the hospital
 
-records = Table('records', metadata,
+# After the doctor finishes making their assement.
+# Flow: Patient picks their doctor -> creates entry here -> When doctor says yes/no -> status updates
+# Status: Pending, Diagnosing, Cancelled, Complete
+Record_Assessments = Table('record_assessment', metadata,
+                          Column('record_assessment_id', Integer, primary_key=True, autoincrement=True, unique=True),
+                          Column('record_id', Integer, ForeignKey('record.record_id')),
+                          Column('physician_id', Integer, ForeignKey('physician.phy_id')),
+                          Column('pat_id', Integer, ForeignKey('patient.pat_id')),
+                          Column('assessment', String(1200)),
+                          Column('completion_dt', Date),
+                          Column("create_dt", Date),
+                          Column('status', String(15)),
+                          )
+# For the patient.
+records = Table('record', metadata,
                 Column('record_id', Integer, autoincrement=True, primary_key=True, unique=True),
                 Column('pat_id', Integer, ForeignKey('patient.pat_id')),
+                Column('physician_id', Integer, ForeignKey('physician.phy_id')),
                 Column('comment', String(400)),
                 Column('hospital_id', Integer, ForeignKey('hospital.hospital_id')),
                 )
@@ -172,17 +190,6 @@ hospitals = Table('hospital', metadata,
 
 
 
-Record_Assesments = Table('record_assesment', metadata,
-                          Column('record_assesment_id', Integer, primary_key=True, autoincrement=True, unique=True),
-                          Column('record_id', Integer, ForeignKey('records.record_id')),
-                          Column('physician_id', Integer, ForeignKey('physician.phy_id')),
-                          Column('pat_id', Integer, ForeignKey('patient.pat_id')),
-                          Column('assesment', String(1200)),
-                          Column('completion_dt', Date), # was getting errors, this would overshadow a keyword in another function
-                          Column('status', String(15)),
-                          )
-
-
 
 # Payment
 # payment_id
@@ -196,7 +203,7 @@ Record_Assesments = Table('record_assesment', metadata,
 Payment = Table('payment', metadata,
                 Column('payment_id', Integer, autoincrement=True, primary_key=True, unique=True),
                 Column('pat_id', Integer, ForeignKey('patient.pat_id')),
-                Column('record_id', Integer, ForeignKey('records.record_id')),
+                Column('record_id', Integer, ForeignKey('record.record_id')),
                 Column('total', Float),
                 Column('is_paid', Boolean)
                 )
@@ -226,18 +233,9 @@ Payment = Table('payment', metadata,
 db = CloudDB()
 
 if __name__ == '__main__':
-    import requests
     import test_insert_data
+
     db.metadata.drop_all(db.engine)
+
     db.metadata.create_all(db.engine)
     test_insert_data.insert_all()
-    # d = {'God created war so that Americans would learn geography': 'Mark Twain'}
-    # res = requests.post('http://127.0.0.1:8080/test_post', json=d)
-    #
-    # print(res.content, d)
-
-    # new_account = { "data": {
-    #     "email": "abc123s@yahoo.com", "name": "mse", "password": "its_a_secret!"}}
-    #
-    # res = requests.post('http://127.0.0.1:8080/adduser', json=new_account)
-    # print(res.text, "res")
