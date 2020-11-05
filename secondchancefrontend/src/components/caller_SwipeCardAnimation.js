@@ -31,7 +31,7 @@ export class Caller_SwipeCardAnimation extends React.Component
             body: JSON.stringify({"phy_id": 1})
         };
 
-        let data = await fetch("http://52.247.220.137:80/get_all_physician_records", requestOptions)
+        await fetch("http://52.247.220.137:80/get_all_physician_records", requestOptions)
             .then(response => response.json())
             .then(
                 (result) => {
@@ -62,9 +62,7 @@ export class Caller_SwipeCardAnimation extends React.Component
                     return peopleArray;
                 }
             )
-        console.log("data");
-        console.log(data);
-        this.p = data;
+
     }
 
     FromList = (list, index) => {
