@@ -20,11 +20,12 @@ export class DoctorPatientSelect extends React.Component
         this.state={
             showPic:true
         }
-
+        this.changeShowPic = null;
+        this.GetShowDoctorPatientPicLoginSelect = this.GetShowDoctorPatientPicLoginSelect.bind(this);
 
     }
 
-    GetShowDoctorPatientPicLoginSelect(showIt_bool)
+    GetShowDoctorPatientPicLoginSelect = (showIt_bool) =>
     {
         this.setState(
             {
@@ -121,8 +122,7 @@ export class DoctorPatientSelect extends React.Component
         {
             return(
                 <div>
-                    <LoginRegisterDisplay userMode={this.data.selectedUserMode}
-                                          getShowPicStatus = {this.GetShowDoctorPatientPicLoginSelect(this.state.showPic)}/>
+                    <LoginRegisterDisplay userMode={this.data.selectedUserMode}/>
 
                 </div>
             );

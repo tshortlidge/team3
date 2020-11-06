@@ -2,6 +2,7 @@ import React from 'react';
 import {RegFunctionalComponent} from './registration_funct_comp';
 import {ButtonGroup, Button} from 'react-bootstrap';
 import {Login} from './login';
+import {DoctorPatientSelect} from "./doctorPatientSelect";
 import '../App.css';
 
 export class LoginRegisterDisplay extends React.Component {
@@ -136,16 +137,35 @@ export class LoginRegisterDisplay extends React.Component {
         console.log("I am logging in");
     }
 
-    SelectLoginRegisterHandle = (status, choseReturn) =>
+    SelectLoginRegisterHandle = (status, switchUserType) =>
     {
-        this.setState(
+        if(switchUserType === true){
+            if(this.data.userMode === "Doctor")
             {
-                isLogin: status,
-                choseReturn: choseReturn
+                this.data.userMode = "Patient";
             }
-        );
+            else
+            {
+                this.data.userMode = "Doctor";
+            }
+            this.setState(
+                {
+                    isLogin: status,
+                    choseReturn: true
+                }
+            );
+        }
+        else {
+            this.setState(
+                {
+                    isLogin: status,
+                    choseReturn: switchUserType
+                }
+            );
+        }
     }
     render() {
+
         console.log(this.data)
         this.setCurrentYear();
         return (
@@ -156,9 +176,10 @@ export class LoginRegisterDisplay extends React.Component {
                     <Button onClick={()=>this.SelectLoginRegisterHandle(true, true)}>Switch User Type</Button>
                 </ButtonGroup>
 
+
                 {
                     this.state.choseReturn &&
-                    this.getShowPicStatus.GetShowDoctorPatientPicLoginSelect(this.state.choseReturn)
+                    <RegFunctionalComponent data={this.data} handleSubmit={(e) => this.handleSubmit(e)}/>
                 }
 
                 {!this.state.choseReturn && !this.state.isLogin &&
