@@ -219,6 +219,7 @@ export class CaseCreation extends React.Component
         let selectedNPI = 0;
 
         console.log(selectedDoctorIndex*1)
+        /*
         people1.map((obj, indx) => {
 
                 if (indx === Number(selectedDoctorIndex)) {
@@ -228,7 +229,7 @@ export class CaseCreation extends React.Component
                 }
             }
         );
-
+*/
         console.log(selectedNPI);
 
         //this.pictureDescPopup();
