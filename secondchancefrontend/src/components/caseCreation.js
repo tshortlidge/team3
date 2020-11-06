@@ -1,7 +1,7 @@
 import React from 'react';
 import {PicCarousel} from './picCarousel';
 import {MultiBrowsePic} from './multiBrowsePic';
-import {people1} from './data/data';
+//import {people1} from './data/data';
 import {Row, Col, Button, Form, Container} from 'react-bootstrap';
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';

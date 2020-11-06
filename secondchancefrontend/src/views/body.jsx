@@ -5,7 +5,7 @@ import { createDataList } from "../components/data/fetch";
 import "../assets/body.scss";
 import {Button, Modal} from "react-bootstrap";
 import Header from "./header";
-import {people1} from "../components/data/data";
+//import {people1} from "../components/data/data";
 
 export default class Body extends Component {
   constructor() {
