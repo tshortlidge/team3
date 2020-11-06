@@ -1,8 +1,7 @@
 import React from 'react';
-import {Button, Modal} from 'react-bootstrap';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import {Button, Form, Container} from 'react-bootstrap';
 import '../css/login.css';
-import {Registration} from "./registration";
+
 
 export class Login extends React.Component
 {
@@ -12,18 +11,11 @@ export class Login extends React.Component
         this.state =
             {
                 email: '',
-                password: '',
-                show: false
-
-
+                password: ''
 
             };
 
-
-
     }
-
-
 
     handleInputChange = (event) =>
     {
@@ -35,151 +27,91 @@ export class Login extends React.Component
 
     }
 
-    getLoginButton = () =>
+    SelectTitle()
     {
-        return(
-            <div className="center">
-                <Button onClick={()=>{this.handleModal()}}>Login</Button>
-            </div>
-        );
+        if(this.props.data.userMode === 'Doctor')
+        {
+            return(<Form.Label><u className={"display-4"}>Physician Login</u></Form.Label>);
+        }
+        else
+        {
+            return(<Form.Label><u className={"display-4"}>Patient Login</u></Form.Label>);
+        }
     }
-
-    handleSubmit = (event) =>
-    {
-        const data = this.state;
-
-        alert(`Test Variables
-               --------------
-                  Email: ${this.state.email} 
-               Password: ${this.state.password}
-                    
-                    xxxxxxxxxxxxxxxxxxxxxxxx
-      
-                  Email: ${data.email} 
-               Password: ${data.password}
-                `
-
-        );
-
-
-        event.preventDefault();
-    }
-
-
-
-
 
 
     showLogin = () =>
     {
         return(
-            <form className={'loginForm'} onSubmit={this.handleSubmit}>
-                <br />
-                <label>
-                    Email:
-                    <input
-                        name="email"
-                        type="email"
-                        value={this.state.email}
-                        onChange={this.handleInputChange}
-                        required/>
-                </label>
+            <Container style={{width:"50%", margin:"auto"}}>
+                <Form className={'loginForm'} onSubmit={this.handleSubmit}>
+                    {this.SelectTitle()}
+                    <br />
+                    <Form.Label>
+                        Email:
+                        <Form.Control as={"input"}
+                            name="email"
+                            type="email"
+                            value={this.state.email}
+                            onChange={this.handleInputChange}
+                            required/>
+                    </Form.Label>
 
 
 
-                <br />
-                <label>
-                    Password:
-                    <input
-                        name="password"
-                        type="password"
-                        value={this.state.password}
-                        onChange={this.handleInputChange}
-                        required/>
-                </label>
+                    <br />
+                    <Form.Label>
+                        Password:
+                        <Form.Control as={"input"}
+                            name="password"
+                            type="password"
+                            value={this.state.password}
+                            onChange={this.handleInputChange}
+                            required/>
+                    </Form.Label>
 
-                <br />
+                    <br />
 
-                <label>
 
-                </label>
-
-                <button type="button" onClick={this.handleLoginSubmit(this.state.email, this.state.password)}>Login</button>
-            </form>
+                    <Button type="button" onClick={this.handleLoginSubmit()}>Submit</Button>
+                </Form>
+            </Container>
         );
     }
 
 
-
-    handleModal()
-    {
-        this.setState({show:!this.state.show})
-    }
-
     handleLoginSubmit()
     {
 
-    }
+        if(this.props.data.userMode === 'Doctor') {
+            const requestOptions = {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({"username": this.state.email, "password": this.state.password})
+            };
 
-    testPhysicianLogin()
-    {
-        let data = {username: "Hassan", password: "password_is_plain_text"};
-        //****************************
-        //*
-        //* POST request happens here
-        //*
-        //*****************************
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        };
+            fetch("http://52.247.220.137:80/physician/login", requestOptions)
+                .then(response => console.log(response.text()))
+        }
+        else
+        {
+            const requestOptions = {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({"username": this.state.email, "password": this.state.password})
+            };
 
-        const requestSecurityOptions = {
-            method: 'GET',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-
-        fetch("http://52.247.220.137/physician/login", requestOptions)
-            .then(response => response.json())
-            .then(response => console.log(response)) // if response == "error" displayErrormessage()
-            .then(
-                () => {
-                    console.log(1234);
-                    fetch("http://52.247.220.137/test_auth", requestSecurityOptions)
-                        .then(response => response.json())
-                        .then(response => console.log(response)) // if response == "error" displayErrormessage()
-                }
-
-    );
+            fetch("http://52.247.220.137:80/client/login", requestOptions)
+                .then(response => console.log(response.text()))
+        }
 
     }
-
 
     render() {
-        this.testPhysicianLogin();
+
         return(
             <div>
-                <div className="center" style={{borderWidth:"0px", margin:"0px", width:"0px", padding:"5px"}}>
-                    <Button  style={{alignContent: ""}} onClick={()=>{this.handleModal()}}>Login</Button>
-                </div>
-                <Modal show ={this.state.show}>
-                    <Modal.Header>Login</Modal.Header>
-                    <Modal.Body>
-                        {this.showLogin()}
-                        <a href={"http://52.247.220.137/drRegister"}>Register</a>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button onClick={()=>{this.handleModal()}}>
-                            Close
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-
+                {this.showLogin()}
             </div>
 
 

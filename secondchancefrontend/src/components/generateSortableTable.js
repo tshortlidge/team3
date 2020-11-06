@@ -39,18 +39,19 @@ export class GenerateSortableTable extends React.Component
     {
 
         this.handleModal(false);
-        //window.location.reload(false);
+        window.location.reload(false);
 
     }
 
-    CancelButtonHandle(status)
+    CaseCancellationHandle()
     {
 
-        if(status === true)
-        {
+
             //send to backend this.state.parsedJSONObj.record_id for deletion
             console.log("MF DELETE");
-        }
+            //Call in fetch to delete case with id
+
+            //Close Modal
 
 
     }
@@ -67,14 +68,12 @@ export class GenerateSortableTable extends React.Component
                        size = {'xl'}
                 >
                     <Modal.Header>
-                        Select Secondary Physician
-                        <Button onClick={()=>{this.CloseModalHandle()}}>
-                            Close
-                        </Button>
+                        Are you sure you want to delete this case?
+
                     </Modal.Header>
                     <Modal.Body>
-
-
+                        <Button onClick={()=>{this.CaseCancellationHandle()}}>Yes</Button>
+                        <Button onClick={()=>{this.CloseModalHandle()}}>No</Button>
 
                     </Modal.Body>
                     <Modal.Footer>

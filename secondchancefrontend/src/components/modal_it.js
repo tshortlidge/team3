@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, Modal} from "react-bootstrap";
-import {Registration} from "./registration";
+import {LoginRegisterDisplay} from "./loginRegisterDisplay";
 
 export class Modal_It extends React.Component
 {
