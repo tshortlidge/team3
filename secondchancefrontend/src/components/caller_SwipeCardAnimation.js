@@ -10,7 +10,8 @@ export class Caller_SwipeCardAnimation extends React.Component
         this.state =
             {
                 people1:[],
-                isLoading: true
+                isLoading: true,
+                cnt: 0
             };
 
         this.data = {
@@ -39,6 +40,7 @@ export class Caller_SwipeCardAnimation extends React.Component
 
                     let l = result.length;
                     this.data.totalNumofDoc = l;    //get number of doctors for index of cards below
+                    const numOfCardsMade = 15;
                     let peopleArray = [];
                     for (let i = 0; i < l; i++) {
                         peopleArray.push({});
@@ -78,7 +80,7 @@ export class Caller_SwipeCardAnimation extends React.Component
 
     createDataList = (list = []) => {
     let counter = 0;
-    let max = 10;
+
     //this.data.totalNumofDoc = max;
         console.log("this.data.totalNumofDoc = " + this.data.totalNumofDoc)
     while (list.length < this.data.totalNumofDoc) {

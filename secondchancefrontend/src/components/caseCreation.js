@@ -41,7 +41,6 @@ export class CaseCreation extends React.Component
 
         this.drModeID = '0';  //ID for a doctor user
         this.patModeID = '1'; //ID for a patient user
-        this.selectedDoctorInfo={};
 
         this.GetDrInfoForBackend = this.GetDrInfoForBackend.bind(this);
     }
@@ -240,22 +239,7 @@ export class CaseCreation extends React.Component
             }
         );
 
-        console.log(selectedNPI);
 
-        //this.pictureDescPopup();
-
-        //Have an overlay pop up to select physician
-
-        alert(`Test Variables
-               --------------
-                 Email: ${this.data.pat_email} 
-             pat_notes/Desc: ${this.state.pat_notes}
-             phy_email: ${this.data.phy_email}
-             caseTitle: ${this.data.caseTitle}
-          patientSelectedCategory: ${this.state.patientSelectedCategory}
-  
-            `
-        );
 
 
     }
