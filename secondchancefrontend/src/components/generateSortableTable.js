@@ -113,7 +113,7 @@ export class GenerateSortableTable extends React.Component
                     console.log(result);
                     let l = result.length;
                     for (let i = 0; i < l; i++) {
-                        if (result[i].status == "pending") {
+                        if (result[i].status == "pending" && this.props.is_patient) {
                             result[i].cancelButton = <Button onClick={() => {
                                 this.handleModal(true, result[i].record_assessment_id)
                             }}>Cancel</Button>

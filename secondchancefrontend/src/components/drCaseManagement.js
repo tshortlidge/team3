@@ -9,7 +9,9 @@ export class DrCaseManagement extends React.Component
     constructor(props) {
         super(props);
 
-        this.data={};
+        this.data={
+            is_patient: false
+        };
 
         this.data.defaultSorted = [{
             dataField: 'id',
