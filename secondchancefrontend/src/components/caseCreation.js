@@ -239,10 +239,6 @@ export class CaseCreation extends React.Component
             }
         );
 
-
-
-
-
     }
 
     render()

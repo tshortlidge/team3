@@ -150,51 +150,6 @@ export class DrEdit extends React.Component
     handleSubmit = async (event) => {
         event.preventDefault();
 
-        //this.fileUploadHandler(event);
-
-        //const data = this.state;
-
-        const data = {'name': this.state.firstName + this.state.lastName, 'email': this.state.email,
-            'password': this.state.password};
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ data })
-        };
-
-        let resp = await fetch('http://52.247.220.137:80/adduser', requestOptions);
-
-        //Getting the text of the response
-        let toConsoles = await resp.text();
-
-        console.log(toConsoles);
-
-
-        alert(`Test Variables
-               --------------
-                  Email: ${this.state.email} 
-               Password: ${this.state.password}
-             Repassword: ${this.state.repassword}
-              FirstName: ${this.state.firstName}
-               LastName: ${this.state.lastName}
-                    NPI: ${this.state.npi}
-             Speciality: ${this.state.speciality}
-                selectedHospitalName: ${this.state.selectedHospitalName}
-                Picture: ${this.state.picture}
-                    bio: ${this.state.bio}
-                    
-                    
-                    xxxxxxxxxxxxxxxxxxxxxxxx
-                    
-                    
-                  Email: ${data.email} 
-               Password: ${data.password}
-             Repassword: ${data.repassword}
-             `
-        );
-
-
-
 
     }
 
