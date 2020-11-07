@@ -301,8 +301,10 @@ def route_get_all_pat_records():
     sess = models.db.get_session()
     to_ret = []
     entries = sess.query(models.Record_Assessments,
-                         models.records.c.comment).filter(models.Record_Assessments.c.pat_id == pat_id,
-                                                          models.Record_Assessments.c.record_id == models.records.c.record_id).all()
+                         models.records.c.comment,
+                         models.Physician.c.name).filter(models.Record_Assessments.c.pat_id == pat_id,
+                                                         models.Record_Assessments.c.record_id == models.records.c.record_id,
+                                                         models.Physician.c.phy_id == models.Record_Assessments.c.physician_id).all()
     for entry in entries:
         to_ret.append(entry._asdict())
 
@@ -382,4 +384,4 @@ def route_get_all_hospitals():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    app.run(host="0.0.0.0", port=80, debug=False)
