@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import HammerArea from "../components/hammer";
-//import { createDataList } from "../components/data/fetch";
-
 import "../assets/body.scss";
 import {Button, Modal} from "react-bootstrap";
 import Header from "./header";
@@ -74,8 +72,6 @@ export default class Body extends Component {
     {
         return(
             <div>
-
-
                 <Button onClick={()=>{this.handleModal()}}>
                     Select Physician
                 </Button>
@@ -137,8 +133,8 @@ export default class Body extends Component {
 
           //console.log(people1);
           //console.log(people1[this.data.cntIndexCard]);
-
-          localStorage.setItem('selectedDoctorIndx', this.data.cntIndexCard);
+            let selectDr = JSON.stringify(this.state.user_data[this.data.cntIndexCard]);
+          sessionStorage.setItem('selectedDoctorIndx', this.data.cntIndexCard);
           this.handleModal();   //Closes the doctor selection modal
 
 
