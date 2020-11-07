@@ -113,12 +113,12 @@ export class GenerateSortableTable extends React.Component
                 (result) => {
                     console.log(result);
                     let l = result.length;
-                    for (let i = 0; i < l; i++){
-                        result[i].cancelButton = <Button onClick={()=>{
-                            console.log(i);
-                            console.log(result[i].record_assessment_id);
-                            this.handleModal(true, result[i].record_assessment_id)
-                        }}>Cancel</Button>
+                    for (let i = 0; i < l; i++) {
+                        if (result[i].status == "pending") {
+                            result[i].cancelButton = <Button onClick={() => {
+                                this.handleModal(true, result[i].record_assessment_id)
+                            }}>Cancel</Button>
+                        }
                     }
                     this.setState({
                         parsedJSONObj: result

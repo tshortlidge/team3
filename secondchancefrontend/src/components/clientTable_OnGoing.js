@@ -16,24 +16,16 @@ export class ClientTable_OnGoing extends React.Component
         }];
 
         this.data.columns = [{
-            dataField: 'id',
-            text: 'Case ID',
-            sort: true
-        }, {
             dataField: 'name',
             text: 'Doctor',
             sort: true
         }, {
             dataField: 'comment',
-            text: 'Diagnosis',
+            text: 'Original Diagnosis',
             sort: true
         }, {
-            dataField: 'record_assessment_id',
-            text: 'Record Assessment ID',
-            sort: true
-        }, {
-            dataField: 'record_id',
-            text: 'Record ID',
+            dataField: 'assessment',
+            text: 'Secondary Diagnosis',
             sort: true
         }, {
             dataField: 'completion_dt',

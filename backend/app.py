@@ -277,8 +277,10 @@ def route_get_all_records():
     sess = models.db.get_session()
     to_ret = []
     entries = sess.query(models.Record_Assessments,
-                         models.Physician).filter(models.Record_Assessments.c.physician_id == phy_id,
-                                                  models.Record_Assessments.c.physician_id == models.Physician.c.phy_id).all()
+                         models.Physician,
+                         models.Patient).filter(models.Record_Assessments.c.physician_id == phy_id,
+                                                models.Record_Assessments.c.physician_id == models.Physician.c.phy_id,
+                                                models.Record_Assessments.c.pat_id == models.Patient.c.pat_id).all()
     for entry in entries:
         to_ret.append(entry._asdict())
 

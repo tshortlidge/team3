@@ -79,8 +79,7 @@ export class DoctorPatientSelect extends React.Component
 
                             <HoverImgBlkWhite data={this.data} overlayText = "Sign In / Register as Doctor"
                                               imgSource = {doctor_left}
-
-                            ></HoverImgBlkWhite>
+                            />
 
                         </div>
                     </Col>
