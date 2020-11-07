@@ -51,7 +51,7 @@ export function GrabDrCardInfo(props)
               for(let i = 0; i < l; i++)
               {
                 peopleArray[i].name = result[i].name;
-                peopleArray[i].age = Math.random()%30+30;
+                peopleArray[i].age = Math.floor(Math.random(i)%30+30);
                 peopleArray[i].location = result[i].addr;
                 peopleArray[i].email = result[i].email;
                 peopleArray[i].rating = "CONSULT BACKEND ABOUT A FLOAT RATING [0.0, 5.0]";

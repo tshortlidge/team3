@@ -82,7 +82,7 @@ export class CaseCreation extends React.Component
 
     viewOrAddPicMode = () =>
     {
-        //if
+
         if(this.data.userID === this.patModeID)
         {
             return (<PicCarousel />)
@@ -186,10 +186,13 @@ export class CaseCreation extends React.Component
                                 </Form.Control>
                             </Form.Label>
                         </Col>
+
                         <Col style={{width: "50px"}}>
-                            <Caller_SwipeCardAnimation GetDrInfoForBackend={(p) => {this.GetDrInfoForBackend(p)}} />
+                            <Caller_SwipeCardAnimation GetDrInfoForBackend = {(p) => {this.GetDrInfoForBackend(p)}}/>
                         </Col>
+
                     </Row>
+
                     <br />
 
                     <br />
@@ -198,7 +201,7 @@ export class CaseCreation extends React.Component
 
                     <br />
 
-                    <button name="submit" style={{display:"inline"}} onClick={this.handleSubmit}>Submit</button>
+                    <Button name="submit" style={{display:"inline"}} onClick={this.handleSubmit}>Submit</Button>
 
 
                 </Form>
@@ -221,25 +224,39 @@ export class CaseCreation extends React.Component
             }
         )
     }
-    handleSubmit = (event) =>
-    {
+    handleSubmit = (event) => {
         event.preventDefault();
 
-        let selectedDoctorIndex = localStorage.getItem('selectedDoctorIndx');
+        let selectedDr = JSON.parse(sessionStorage.getItem('selectedDoctorIndx'));
         let selectedNPI = 0;
 
-        console.log(selectedDoctorIndex*1)
-        this.state.people1.map((obj, indx) => {
+        console.log(selectedDr*1)
+        selectedNPI = this.state.people1[selectedDr];
+        console.log(selectedNPI)
+        const requestMethods = {
+            method: "PUT",
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify( {
+                record_assessment_id: selectedDr.record_assessment_id,
+                assessment:this.state.pat_notes,
+                status: "Assessed"
 
-                if (indx === Number(selectedDoctorIndex)) {
-                    console.log('hello');
-                    console.log(Number(selectedDoctorIndex));
-                    selectedNPI = (obj.npi*1);
+            })
+        }
+        //Res PendingRec is response pending records
+        // needs to be tested still. sever was down 11/7/20.
+        // server should be up by 3pm
+        fetch("52.247.220.137/update_pending_records", requestMethods)
+            .then(ResPendingRec => ResPendingRec.text())
+            .then(s => {
+                if (s === "record updated") {
+                    this.setState({responsestatus: "success"})
                 }
-            }
-        );
+                else {
+                    this.setState({responsestatus:"error"})
+                }
 
-
+            })
 
 
 

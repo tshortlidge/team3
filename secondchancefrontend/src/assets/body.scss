@@ -2,13 +2,13 @@
 
 #main-container{
   .card-area {
-    position: relative;
-    width: 100%;
+    position: center;
+    width: 200%;
     height: 600px;
   }
   .button-area {
-    width: 50%;
-    margin: 0 auto;
+    width: 35%;
+    margin: 0px auto;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -22,7 +22,7 @@
     button:first-child {
 
     }
-    button:nth-child(2n) {
+    button:nth-child(n) {
 
     }
     button:last-child {
@@ -31,7 +31,7 @@
   }
 }
 
-@media (max-width:767px){
+@media (max-width:600px){
   .button-area{
     width: 100% !important;
   }
@@ -41,8 +41,8 @@
     height: 400px !important;
   }
 }
-@media (min-height:601px) and (max-height: 800px){
+@media (min-height:300px) and (max-height: 800px){
   .card-area{
-    height: 500px !important;
+    height: 550px !important;
   }
 }
