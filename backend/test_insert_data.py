@@ -91,7 +91,12 @@ def insert_all():
     insert_into_table(tablename="payment", pat_id=3, record_id=3, total=3, is_paid=0)
 
     # HOSPITAL ENTRIES
-
+    insert_from_npi_gov()
+    insert_from_npi_gov("Kevin")
+    insert_from_npi_gov("Trevor")
+    insert_from_npi_gov("Lee")
+    insert_from_npi_gov("Bernard")
+    insert_from_npi_gov("Alannah")
 
 
 def insert_from_npi_gov(name="eric"):
