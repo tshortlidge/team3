@@ -26,21 +26,17 @@ export class Caller_SwipeCardAnimation extends React.Component
         //Calls to endpoint for every doctors' info
         //then push into people1 array
         console.log("Testing get_all_physician_records POST");
-        const requestOptions = {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"phy_id": 1})
-        };
 
 
-        await fetch("http://52.247.220.137:80/get_all_physician_records", requestOptions)
+        await fetch("http://52.247.220.137:80/physician/all")
             .then(response => response.json())
             .then(
                 (result) => {
-
+                    console.log("I am in fetch.....")
+                    console.log(result);
                     let l = result.length;
                     this.data.totalNumofDoc = l;    //get number of doctors for index of cards below
-                    const numOfCardsMade = 15;
+                    const numOfCardsMade = 1;
                     let peopleArray = [];
                     for (let i = 0; i < l; i++) {
                         peopleArray.push({});
@@ -72,23 +68,23 @@ export class Caller_SwipeCardAnimation extends React.Component
         return list[index];
     };
 
-    fetchUserData = (counter) => {
-    const user_data = this.FromList(this.state.people1, counter);
+    fetchUserData = () => {
+        const user_data = this.randomlyOneOfList(this.state.people1);
+        user_data.avatar = this.state.people1;
 
-    return user_data;
-};
+        return user_data;
+    };
 
     createDataList = (list = []) => {
-    let counter = 0;
+        while(list.length < 1) {
+            list.push(this.fetchUserData());
+        }
+        return list;
+    };
 
-    //this.data.totalNumofDoc = max;
-        console.log("this.data.totalNumofDoc = " + this.data.totalNumofDoc)
-    while (list.length < this.data.totalNumofDoc) {
-        list.push(this.fetchUserData(counter));
-        counter = counter + 1;
+    randomlyOneOfList = (list) => {
+        return list[Math.floor(Math.random() * Math.floor(list.length))];
     }
-    return list;
-};
 
 
     render() {
@@ -104,25 +100,3 @@ export class Caller_SwipeCardAnimation extends React.Component
     }
 }
 
-/*
-const FromList = (list, index) => {
-  return list[index];
-};
-
-const fetchUserData = (counter) => {
-  const user_data = FromList(people1, counter);
-
-  return user_data;
-};
-
-export const createDataList = (list = []) => {
-  let counter = 0;
-  let maxNumCard = 7;
-  while (list.length < maxNumCard) {
-    list.push(fetchUserData(counter));
-    counter = counter + 1;
-  }
-  return list;
-};
-
- */

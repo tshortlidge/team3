@@ -20,25 +20,13 @@
     }
     // first button cancels the
     button:first-child {
-      @include btn(50px);
-      i {
-        color: $blue;
-        font-size: 25px;
-      }
+
     }
     button:nth-child(2n) {
-      @include btn(40px);
-      i {
-        color: $second-black;
-        font-size: 18px;
-      }
+
     }
     button:last-child {
-      @include btn(50px);
-      i {
-        color: $blue;
-        font-size: 25px;
-      }
+
     }
   }
 }

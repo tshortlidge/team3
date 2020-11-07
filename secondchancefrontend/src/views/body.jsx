@@ -51,19 +51,19 @@ export default class Body extends Component {
                             onClick={this.isLike.bind(this, false)}
                             disabled={this.state.is_moving}
                         >
-                            <i className="fas fa-square" />
+                            <Button href="#">Next</Button>
                         </button>
                         <button
                             onClick={this.isShowBackToggle.bind(this)}
                             disabled={this.state.is_moving}
                         >
-                            <i className="fas fa-info" />
+                            <Button href="#">Info</Button>
                         </button>
                         <button
                             onClick={this.isLike.bind(this, true)}
                             disabled={this.state.is_moving}
                         >
-                            <i className="fas fa-check" />
+                            <Button href="#">Select</Button>
                         </button>
                     </div>
                 </div>
