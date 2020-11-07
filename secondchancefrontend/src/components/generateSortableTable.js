@@ -36,7 +36,7 @@ export class GenerateSortableTable extends React.Component
         //Closes the modal
         this.handleModal(false);
         //Refreshes Page
-        //window.location.reload(false);
+        window.location.reload(false);
 
     }
 
@@ -60,7 +60,7 @@ export class GenerateSortableTable extends React.Component
         //Close Modal
 
         //Refreshes page
-        //window.location.reload(false);
+        window.location.reload(false);
 
     }
 
