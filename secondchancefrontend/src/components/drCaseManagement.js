@@ -9,7 +9,9 @@ export class DrCaseManagement extends React.Component
     constructor(props) {
         super(props);
 
-        this.data={};
+        this.data={
+            is_patient: false
+        };
 
         this.data.defaultSorted = [{
             dataField: 'id',
@@ -21,22 +23,18 @@ export class DrCaseManagement extends React.Component
             text: 'Case ID',
             sort: true
         }, {
-            dataField: 'pat_id',
-            text: 'Patient ID',
+            dataField: 'pat_name',
+            text: 'Patient Name',
             sort: true
         }, {
             dataField: 'comment',
-            text: 'Diagnosis',
+            text: 'Original Diagnosis',
             sort: true
-        }, {
-            dataField: 'record_assessment_id',
-            text: 'Record Assessment ID',
+        },{
+            dataField: 'assessment',
+            text: 'Secondary Diagnosis',
             sort: true
-        }, {
-            dataField: 'record_id',
-            text: 'Record ID',
-            sort: true
-        }, {
+        },{
             dataField: 'completion_dt',
             text: 'Date Completed',
             sort: true
@@ -51,6 +49,10 @@ export class DrCaseManagement extends React.Component
         }, {
             dataField: 'cancelButton',
             text: 'Cancel',
+            sort: false
+        }, {
+            dataField: 'acceptButton',
+            text: 'Accept',
             sort: false
         }];
 
