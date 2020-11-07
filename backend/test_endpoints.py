@@ -90,7 +90,8 @@ if __name__ == "__main__":
     endpoint = "/client"
     d = requests.put(url+endpoint, json={"username": "impatient", "password": "123pass",
                                          "pat_id": 6,"pat_age": 56, "pat_sex":"m", "pat_name": "Eric Franky",
-                                         "pat_medical_history": "yes, I have history.", "email": "123@aol.hotmail" })
+                                         "pat_medical_history": "yes, I have history.", "email": "123@aol.hotmail",
+                                         "hospital_id": 1})
     print(d.text)
     if d.status_code >= 400:
         failed_endpoints.append(endpoint)
@@ -104,7 +105,8 @@ if __name__ == "__main__":
     endpoint = "/physician"
     d = requests.put(url+endpoint, json={"phy_addr":"96 ave lane","phy_bio":"Human Butcher","email":"email@aol.hotmail",
                                          "phy_name":"Ericasdfasdfasdf Diaz","npi":"1","password":"password_is_plain_text",
-                                         "phy_id":1,"phy_qual":"PhDoctorate","reviewCnt":"0","username":"ericisbalanced"})
+                                         "phy_id":1,"phy_qual":"PhDoctorate","reviewCnt":"0","username":"ericisbalanced",
+                                         "hospital_id": 1})
     if d.status_code >= 400:
         failed_endpoints.append(endpoint)
 

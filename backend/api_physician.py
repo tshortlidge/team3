@@ -69,10 +69,10 @@ def api_physician_edit():
     reviewCnt = post_data["reviewCnt"]
     email = post_data["email"]
     password = post_data["password"]
-
+    hospital_id = post_data["hospital_id"]
     stmt = models.Physician.update().where(models.Physician.c.phy_id == phy_id)\
         .values(username=username, npi=npi, phy_name=name, phy_bio=bio, phy_addr=addr, phy_qual=qual, reviewCnt=reviewCnt,
-                email=email, password=password)
+                email=email, password=password, hospital_id = hospital_id)
     con = models.db.engine.connect()
     con.execute(stmt)
     con.close()

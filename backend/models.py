@@ -58,14 +58,19 @@ class CloudDB:
         return scoped_session(session)
 
 
-# Defunct
-User = Table('user', metadata,
-    Column('id', Integer, autoincrement=True, primary_key=True),
-    Column('name', String(100)),
-    Column('email', String(100)),
-    Column('password', String(2000)),
-    Column('user_type', String(100))
-             )
+# Creating table for hospital data
+# hospital_id  -> A ID specific to the hospital
+# address      -> Allows for hospital address to be displayed
+# city         -> Displays the city that the hospital is located in
+# zip code     -> Displays the city zip code for the hospital
+
+hospitals = Table('hospital', metadata,
+                  Column('hospital_id', Integer, autoincrement=True, primary_key=True, unique=True),
+                  Column('address', String(400)),
+                  Column('city', String(400)),
+                  Column('zip_code', String(400)),
+                  Column("hospital_name", String(400))
+                  )
 
 
 """
@@ -105,6 +110,7 @@ Physician = Table('physician', metadata,
                   Column('reviewCnt', String(400)),
                   Column('email', String(100), unique=True),
                   Column('password', String(50)),
+                  Column('hospital_id', Integer, ForeignKey("hospital.hospital_id"))
                   )
 
 
@@ -174,19 +180,6 @@ records = Table('record', metadata,
                 Column('comment', String(400)),
                 Column('hospital_id', Integer, ForeignKey('hospital.hospital_id')),
                 )
-
-# Creating table for hospital data
-# hospital_id  -> A ID specific to the hospital
-# address      -> Allows for hospital address to be displayed
-# city         -> Displays the city that the hospital is located in
-# zip code     -> Displays the city zip code for the hospital
-
-hospitals = Table('hospital', metadata,
-                  Column('hospital_id', Integer, autoincrement=True, primary_key=True, unique=True),
-                  Column('address', String(400)),
-                  Column('city', String(400)),
-                  Column('zip_code', String(400)),
-                  )
 
 
 
