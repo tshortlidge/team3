@@ -67,13 +67,8 @@ export class GenerateSortableTable extends React.Component
         //Close Modal
         this.CloseModalHandle();
         //Refreshes page
-<<<<<<< HEAD
         window.location.reload(false);
-||||||| 08f6e85b
-        //window.location.reload(false);
-=======
 
->>>>>>> e85a921c1e4e10bd3a65887e6f0174b0e32cf179
 
     }
 
