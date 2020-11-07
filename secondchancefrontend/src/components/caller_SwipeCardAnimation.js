@@ -29,7 +29,7 @@ export class Caller_SwipeCardAnimation extends React.Component
         const requestOptions = {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"phy_id": 1})
+            body: JSON.stringify({"phy_id": 2})
         };
 
 
@@ -44,7 +44,7 @@ export class Caller_SwipeCardAnimation extends React.Component
                     let peopleArray = [];
                     for (let i = 0; i < l; i++) {
                         peopleArray.push({});
-                        peopleArray[i].name = result[i].name;
+                        peopleArray[i].doctorName = result[i].name;
                         peopleArray[i].age = Math.random() % 30 + 30;
                         peopleArray[i].location = result[i].addr;
                         peopleArray[i].email = result[i].email;

@@ -61,11 +61,13 @@ export class GenerateSortableTable extends React.Component
         };
 
         fetch("http://52.247.220.137:80/update_pending_records", requestOptions)
-            .then(response=>response.text()).then(text => console.log(text));
+            .then(response=>response.text())
+            .then(text => console.log(text))
+            .then(() => window.location.reload(false));
         //Close Modal
-
+        this.CloseModalHandle();
         //Refreshes page
-        //window.location.reload(false);
+
 
     }
 
@@ -108,6 +110,7 @@ export class GenerateSortableTable extends React.Component
             .then(res => res.json())
             .then(
                 (result) => {
+                    console.log(result);
                     let l = result.length;
                     for (let i = 0; i < l; i++){
                         result[i].cancelButton = <Button onClick={()=>{

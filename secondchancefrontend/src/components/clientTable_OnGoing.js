@@ -20,7 +20,7 @@ export class ClientTable_OnGoing extends React.Component
             text: 'Case ID',
             sort: true
         }, {
-            dataField: 'doctorName',
+            dataField: 'name',
             text: 'Doctor',
             sort: true
         }, {
