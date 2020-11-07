@@ -48,7 +48,7 @@ export class Caller_SwipeCardAnimation extends React.Component
                     for (let i = 0; i < l; i++) {
                         peopleArray.push({});
                         peopleArray[i].doctorName = result[i].name;
-                        peopleArray[i].age = Math.random() % 30 + 30;
+                        peopleArray[i].age = Math.floor(Math.random()%30+30);
                         peopleArray[i].location = result[i].addr;
                         peopleArray[i].email = result[i].email;
                         peopleArray[i].rating = "CONSULT BACKEND ABOUT A FLOAT RATING [0.0, 5.0]";
@@ -77,7 +77,8 @@ export class Caller_SwipeCardAnimation extends React.Component
 
     fetchUserData = () => {
         const user_data = this.randomlyOneOfList(this.state.people1);
-        user_data.avatar = null;
+        user_data.avatar = this.state.people1;
+
 
         return user_data;
     };
