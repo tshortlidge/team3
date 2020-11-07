@@ -15,6 +15,7 @@ import {OpenDrPatientSelect} from "./openDrPatientSelect";
 import {CaseCreation} from './caseCreation';
 
 import {DoctorPatientSelect} from './doctorPatientSelect'
+import {DrWritesSecondOpinion} from "./drWritesSecondOpinion";
 
 
 export default class NavbarClass extends React.Component
@@ -25,6 +26,7 @@ export default class NavbarClass extends React.Component
         this.data={};
         this.data.modeID = 'doctor';
         this.data.userID = '1';
+        this.record_id = 1;
     }
 
     NewUserNavBar()
@@ -46,12 +48,8 @@ export default class NavbarClass extends React.Component
 
                             <Link to="/loginSelect">Login</Link>
 
-                            <Link to={"/hoverImgTest"}>HoverImgTest</Link>
-
                         </nav>
                         <Switch>
-                            <Route exact path={'/hoverImgTest'} component={OpenDrPatientSelect }></Route>
-
                             <Route exact path={'/'} component={() => <Homepage userInfo = {this.data}/>}></Route>
                             <Route exact path={'/loginSelect'} component={DoctorPatientSelect}></Route>
                             <Route exact path={'/contact'} component={() => <Contact userInfo = {this.data}/>}></Route>
@@ -87,7 +85,6 @@ export default class NavbarClass extends React.Component
                             <Link to={"/clientCaseMgmt"}>Client Case Management</Link>
 
 
-
                         </nav>
                         <Switch>
                             <Route exact path={'/'} component={() => <Homepage userInfo = {this.data}/>}></Route>
@@ -96,8 +93,6 @@ export default class NavbarClass extends React.Component
                             <Route exact path={'/pricing'} component={() => <Pricing/>}></Route>
                             <Route exact path={'/clientCaseMgmt'} component={() => <ClientCaseManagement userInfo = {this.data}/>}></Route>
                             <Route exact path={'/caseCreate'} component={() => <CaseCreation userInfo = {this.data}/>}></Route>
-
-
                         </Switch>
                     </div>
                 </Router>
@@ -128,7 +123,7 @@ export default class NavbarClass extends React.Component
 
                             <Link to={"/doctorCaseMgmt"}>Doctor Case Management</Link>
 
-
+                            <Link to={"/DrWritesSecondOpinion"}>DrWritesSecondOpinion</Link>
 
                         </nav>
                         <Switch>
@@ -137,7 +132,7 @@ export default class NavbarClass extends React.Component
                             <Route exact path={'/edit'} component={() => <DrEdit userInfo = {this.data}/>}></Route>
                             <Route exact path={'/pricing'} component={Pricing}></Route>
                             <Route exact path={'/doctorCaseMgmt'} component={() => <DrCaseManagement userInfo = {this.data}/>}></Route>
-
+                            <Route exact path={'/DrWritesSecondOpinion'} component={()=><DrWritesSecondOpinion passRecordId = {this.record_id}/>} ></Route>
 
                         </Switch>
                     </div>
