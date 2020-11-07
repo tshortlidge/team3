@@ -129,7 +129,7 @@ export class GenerateSortableTable extends React.Component
                                         method: 'PUT',
                                         headers: {'Content-Type': 'application/json'},
                                         body: JSON.stringify({"record_assessment_id": result[i].record_assessment_id})
-                                    }).then(() => alert("accepted!"));
+                                    }).then(() => alert("accepted!")).then(() => window.reload(false));
                             }}>Accept</Button>
                         }
                     }
