@@ -278,10 +278,12 @@ def route_get_all_records():
     to_ret = []
     entries = sess.query(models.Record_Assessments,
                          models.Physician,
-                         models.Patient)\
+                         models.Patient,
+                         models.records)\
                   .filter(models.Record_Assessments.c.physician_id == phy_id,
                           models.Record_Assessments.c.physician_id == models.Physician.c.phy_id,
-                          models.Record_Assessments.c.pat_id == models.Patient.c.pat_id).all()
+                          models.Record_Assessments.c.pat_id == models.Patient.c.pat_id,
+                          models.records.c.record_id == models.Record_Assessments.c.record_id).all()
     for entry in entries:
         to_ret.append(entry._asdict())
 
