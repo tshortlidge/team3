@@ -193,7 +193,7 @@ def route_get_pending_records():
         data["record_assessment_id"] = entry.record_assessment_id
         data["phy_id"] = entry.physician_id
         data["record_id"] = entry.record_id
-        data["patient_name"] = entry.name
+        data["patient_name"] = entry.pat_name
         data["original_assessment"] = entry.comment
         data["create_dt"] = entry.create_dt
         data_to_ret.append(data)
@@ -220,7 +220,7 @@ def route_update_pending_record_assessment():
     except Exception as e:
         print("ERRORING OUT")
         print(e)
-        return "need fields: 'record_assessment_id', 'assessment'"
+        return "need fields: 'record_assessment_id', 'assessment', 'status'"
 
     if status == "Cancelled":
         stmt = models.Record_Assessments.update(). \
@@ -228,7 +228,7 @@ def route_update_pending_record_assessment():
                      values(completion_dt=completion_date, status=status)
     else:
         stmt = models.Record_Assessments.update().where(models.Record_Assessments.c.record_assessment_id == record_assessment_id)\
-            .values(assessment=assessment, completion_dt=completion_date, status=status)
+            .values(assessment=assessment, completion_dt=completion_date, status="Complete")
 
     con = models.db.engine.connect()
     con.execute(stmt)
