@@ -13,7 +13,8 @@ export class GenerateSortableTable extends React.Component
         this.state = {
             parsedJSONObj: [], //this array will have everything parsedJSONObj and will include a url to caseID and cancel buttons
             error: null,
-            showModal: false
+            showModal: false,
+            record_assessment_id: null
         };
 
     }
@@ -22,11 +23,14 @@ export class GenerateSortableTable extends React.Component
 
 
 
-    handleModal(status)
+    handleModal(status, record_assessment_id)
     {
+
         console.log("I am the handleModal function")
+        console.log(record_assessment_id);
         this.setState({
-            showModal: status
+            showModal: status,
+            record_assessment_id: record_assessment_id
         })
 
     }
@@ -34,13 +38,13 @@ export class GenerateSortableTable extends React.Component
     CloseModalHandle()
     {
         //Closes the modal
-        this.handleModal(false);
+        this.handleModal(false, null);
         //Refreshes Page
         window.location.reload(false);
 
     }
 
-    CaseCancellationHandle(record_assessment_id, assessment, status)
+    CaseCancellationHandle(record_assessment_id)
     {
 
 
@@ -52,7 +56,8 @@ export class GenerateSortableTable extends React.Component
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({"record_assessment_id": 1, "assessment": 1, "status": "Complete"})
+            body: JSON.stringify({"record_assessment_id": record_assessment_id,
+                                        "assessment": "", "status": "Cancelled"})
         };
 
         fetch("http://52.247.220.137:80/update_pending_records", requestOptions)
@@ -65,9 +70,10 @@ export class GenerateSortableTable extends React.Component
     }
 
 
-    ConfirmCancelButtonHandle(record_assessment_id, assessment, status)
+    ConfirmCancelButtonHandle(record_assessment_id)
     {
         console.log("I am the ConfirmCancelButtonHandle function");
+        console.log(record_assessment_id);
         //Ask user to confirm
         return(
             <div>
@@ -80,7 +86,7 @@ export class GenerateSortableTable extends React.Component
 
                     </Modal.Header>
                     <Modal.Body>
-                        <Button onClick={()=>{this.CaseCancellationHandle()}}>Yes</Button>
+                        <Button onClick={()=>{this.CaseCancellationHandle(record_assessment_id)}}>Yes</Button>
                         <Button onClick={()=>{this.CloseModalHandle()}}>No</Button>
 
                     </Modal.Body>
@@ -105,7 +111,9 @@ export class GenerateSortableTable extends React.Component
                     let l = result.length;
                     for (let i = 0; i < l; i++){
                         result[i].cancelButton = <Button onClick={()=>{
-                            this.handleModal(true, i)
+                            console.log(i);
+                            console.log(result[i].record_assessment_id);
+                            this.handleModal(true, result[i].record_assessment_id)
                         }}>Cancel</Button>
                     }
                     this.setState({
@@ -146,21 +154,11 @@ export class GenerateSortableTable extends React.Component
         )
     }
 
-    AppendButtonsToArray()
-    {
-        console.log("I am the AppendButtonsToArray")
-        this.state.parsedJSONObj.map((eachEntry, index) =>
-        {
-            this.state.parsedJSONObj.push( "hello" )
-        })
-    }
-
 
     render() {
         return (
             <div>
-                {this.AppendButtonsToArray()}
-                {this.ConfirmCancelButtonHandle()}
+                {this.ConfirmCancelButtonHandle(this.state.record_assessment_id)}
                 <Container>
                     <ToolkitProvider
                         keyField="id"
