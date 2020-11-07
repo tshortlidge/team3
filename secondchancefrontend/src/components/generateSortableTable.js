@@ -119,6 +119,19 @@ export class GenerateSortableTable extends React.Component
                                 this.handleModal(true, result[i].record_assessment_id)
                             }}>Cancel</Button>
                         }
+                        else if (result[i].status == "pending" && !this.props.is_patient){
+                            result[i].cancelButton = <Button onClick={() => {
+                                this.handleModal(true, result[i].record_assessment_id)
+                            }}>Cancel</Button>
+                            result[i].acceptButton = <Button onClick={() => {
+                                fetch("http://52.247.220.137/accept_pending_record",
+                                    {
+                                        method: 'PUT',
+                                        headers: {'Content-Type': 'application/json'},
+                                        body: JSON.stringify({"record_assessment_id": result[i].record_assessment_id})
+                                    }).then(() => alert("accepted!"));
+                            }}>Accept</Button>
+                        }
                     }
                     this.setState({
                         parsedJSONObj: result
