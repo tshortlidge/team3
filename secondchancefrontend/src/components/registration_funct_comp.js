@@ -28,7 +28,7 @@ function DropDownMenu_Hosp(data){
         <Form.Control name = {"hospital"} value={1} onChange={data.handleInputChange} as={"select"} defaultValue={"1"}>
 
             {
-                data.hostpitalNameArr.map(function(item) {
+                data.dataArr.map(function(item) {
 
                     return <option value={item.hospital_id}>{item.hospital_name}</option>
                 })
@@ -142,7 +142,7 @@ function ShowRegistrationForm(props)
 
 
 
-                <DrAttritube modeID={modeID} dataArr = {props.outerProps.hospital.hospitalNameArr}/>
+                <DrAttritube modeID={modeID} dataArr = {props.outerProps.hospital}/>
 
 
                 <Form.Label>Bio:</Form.Label>

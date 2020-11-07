@@ -14,7 +14,7 @@ export class LoginRegisterDisplay extends React.Component {
             .then(response => response.json())
             .then(json => {
 
-                this.state.hostpitalNameArr = json
+                this.state.hospitalNameArr = json
                 this.state.isLoading = false;
 
 
