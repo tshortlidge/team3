@@ -5,7 +5,7 @@ export default class Header extends Component {
   render() {
     return (
       <header>
-        <p>Second Chance</p>
+        <p>Our Doctors</p>
       </header>
     );
   }
