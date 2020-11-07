@@ -2,7 +2,8 @@
 @import 'animation';
 
 .card-container {
-  height: 375px;
+  height: 580px;
+  padding: 0px;
   margin: 0 auto;
   border-radius: 10px;
   border: $border_style;
@@ -11,9 +12,9 @@
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
   backface-visibility: hidden;
-  @for $i from 1 through 5 {
+  @for $i from -1 through 100 {
     &:nth-child(#{$i}) {
-      z-index: calc(10 - #{$i});
+      z-index: calc(1 - #{$i});
     }
   }
 }
