@@ -4,7 +4,7 @@ import {ContactUs_HomePage} from './homepage_sections/contact_us/contactus';
 //import '../css/style_homepage_background_scroll.css'
 
 import {Carousel_it} from "./carousel_it";
-import {AcceptCasePage} from "./acceptCasePage";
+import {AcceptRejectCasePage} from "./acceptRejectCasePage";
 
 import {TestEndpoint} from "./testEndpoint";
 
