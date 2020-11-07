@@ -72,24 +72,27 @@ const showCardClass = (index, status, isBack) => {
 
 const cardContainer = (props, position) => {
   let card_list = [];
+  const maxNumberOfCards = 14;
   props.user_data.map((val, index) => {
+  if(index < maxNumberOfCards) {
     let mainScroll = index === 0 ? props.scroll : "";
     card_list.push(
-      <FrontCard
-        user={val}
-        key={index}
-        class={
-          mainScroll + " " + showCardClass(index, props.show_status, false)
-        }
-        style={cardPosition(index, false, position)}
-      />,
-      <BackCard
-        user={val}
-        key={index + props.user_data.length}
-        class={mainScroll + " " + showCardClass(index, props.show_status, true)}
-        style={cardPosition(index, true, position)}
-      />
+        <FrontCard
+            user={val}
+            key={index}
+            class={
+              mainScroll + " " + showCardClass(index, props.show_status, false)
+            }
+            style={cardPosition(index, false, position)}
+        />,
+        <BackCard
+            user={val}
+            key={index + props.user_data.length}
+            class={mainScroll + " " + showCardClass(index, props.show_status, true)}
+            style={cardPosition(index, true, position)}
+        />
     );
+  }
     return card_list;
   });
   return card_list;

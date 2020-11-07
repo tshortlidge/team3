@@ -58,7 +58,6 @@ export class TestEndpoint extends React.Component
 
 
 
-
     Test_WTFFF_accept_pending_record_Handle()
     {
         console.log("WTFFF_accept_pending_record PUT");
@@ -93,21 +92,7 @@ export class TestEndpoint extends React.Component
             .then(response => console.log(response));
     }
 
-    Test_physician_login_Handle()
-    {
-        console.log("Testing physician_login POST");
 
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({"username": "1", "password": "password_is_plain_text"})
-        };
-
-        fetch("http://52.247.220.137:80/physician/login", requestOptions)
-            .then(response => console.log(response.text()))
-
-
-    }
 
     Test_get_client_records_Handle()
     {
@@ -160,12 +145,12 @@ export class TestEndpoint extends React.Component
 
     }
 
-
     /**********************************
      *                                *
      *          The GETs              *
      *                                *
      **********************************/
+
     Test_get_pending_records_Handle()
     {
         console.log("Testing get_pending_records GET");

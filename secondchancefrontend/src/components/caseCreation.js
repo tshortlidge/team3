@@ -1,7 +1,7 @@
 import React from 'react';
 import {PicCarousel} from './picCarousel';
 import {MultiBrowsePic} from './multiBrowsePic';
-import {people1} from './data/data';
+//import {people1} from './data/data';
 import {Row, Col, Button, Form, Container} from 'react-bootstrap';
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
@@ -18,7 +18,8 @@ export class CaseCreation extends React.Component
         this.state =
             {
                 pat_notes: '',  //Details that patients can add to case
-                patientSelectedCategory: ''
+                patientSelectedCategory: '',
+                people1: []
             };
         this.data = {
             pat_email: '',  //For identifying who the case belongs to
@@ -40,7 +41,8 @@ export class CaseCreation extends React.Component
 
         this.drModeID = '0';  //ID for a doctor user
         this.patModeID = '1'; //ID for a patient user
-        this.selectedDoctorInfo={};
+
+        this.GetDrInfoForBackend = this.GetDrInfoForBackend.bind(this);
     }
 
     pageTitleUserDisplay = () =>
@@ -124,13 +126,13 @@ export class CaseCreation extends React.Component
 
     handleSelectDoctor ()
     {
-        return(<Caller_SwipeCardAnimation />);
+        return(<Caller_SwipeCardAnimation GetDrInfoForBackend={(p) => {this.GetDrInfoForBackend(p)} }/>);
     }
 
 
 
 
-    drCaseCreationComponents()
+    drCaseCreationComponents = (event) =>
     {
         return(
             <div>
@@ -158,7 +160,7 @@ export class CaseCreation extends React.Component
                     {this.viewOrAddPicMode()}
 
                     <Row>
-                        <Col style={{width: "600px", margin:"auto"}}>
+                        <Col style={{width: "1000px", margin:"auto"}}>
                             <Form.Label style={{width: "500px", marginLeft:"45%", marginRight:"1px"}}>
 
                                 {this.categoryTitleUserDisplay()}
@@ -185,7 +187,7 @@ export class CaseCreation extends React.Component
                             </Form.Label>
                         </Col>
                         <Col style={{width: "50px"}}>
-                            <Caller_SwipeCardAnimation />
+                            <Caller_SwipeCardAnimation GetDrInfoForBackend={(p) => {this.GetDrInfoForBackend(p)}} />
                         </Col>
                     </Row>
                     <br />
@@ -211,6 +213,14 @@ export class CaseCreation extends React.Component
             })
     }
 
+    GetDrInfoForBackend(people1)
+    {
+        this.setState (
+            {
+                people1: people1
+            }
+        )
+    }
     handleSubmit = (event) =>
     {
         event.preventDefault();
@@ -219,7 +229,7 @@ export class CaseCreation extends React.Component
         let selectedNPI = 0;
 
         console.log(selectedDoctorIndex*1)
-        people1.map((obj, indx) => {
+        this.state.people1.map((obj, indx) => {
 
                 if (indx === Number(selectedDoctorIndex)) {
                     console.log('hello');
@@ -229,22 +239,8 @@ export class CaseCreation extends React.Component
             }
         );
 
-        console.log(selectedNPI);
 
-        //this.pictureDescPopup();
 
-        //Have an overlay pop up to select physician
-
-        alert(`Test Variables
-               --------------
-                 Email: ${this.data.pat_email} 
-             pat_notes/Desc: ${this.state.pat_notes}
-             phy_email: ${this.data.phy_email}
-             caseTitle: ${this.data.caseTitle}
-          patientSelectedCategory: ${this.state.patientSelectedCategory}
-  
-            `
-        );
 
 
     }
