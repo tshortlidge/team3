@@ -1,11 +1,8 @@
 import React from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
-import ToolkitProvider, { Search, ColumnToggle  } from 'react-bootstrap-table2-toolkit';
+import ToolkitProvider, { Search, columnToggle } from 'react-bootstrap-table2-toolkit';
 import {Button, Container, Modal} from 'react-bootstrap';
-
 import 'bootstrap/dist/css/bootstrap.css';
-import Header from "../views/header";
-
 const {SearchBar} = Search;
 
 export class GenerateSortableTable extends React.Component
@@ -24,6 +21,7 @@ export class GenerateSortableTable extends React.Component
 
 
 
+
     handleModal(status)
     {
         console.log("I am the handleModal function")
@@ -31,33 +29,43 @@ export class GenerateSortableTable extends React.Component
             showModal: status
         })
 
-
-
     }
 
     CloseModalHandle()
     {
-
+        //Closes the modal
         this.handleModal(false);
-        window.location.reload(false);
+        //Refreshes Page
+        //window.location.reload(false);
 
     }
 
-    CaseCancellationHandle()
+    CaseCancellationHandle(record_assessment_id, assessment, status)
     {
 
 
         //send to backend this.state.parsedJSONObj.record_id for deletion
         console.log("MF DELETE");
         //Call in fetch to delete case with id
+        console.log("Testing_update_pending_records PUT");
 
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({"record_assessment_id": 1, "assessment": 1, "status": "Complete"})
+        };
+
+        fetch("http://52.247.220.137:80/update_pending_records", requestOptions)
+            .then(response=>response.text()).then(text => console.log(text));
         //Close Modal
 
+        //Refreshes page
+        //window.location.reload(false);
 
     }
 
 
-    ConfirmCancelButtonHandle()
+    ConfirmCancelButtonHandle(record_assessment_id, assessment, status)
     {
         console.log("I am the ConfirmCancelButtonHandle function");
         //Ask user to confirm
@@ -96,7 +104,9 @@ export class GenerateSortableTable extends React.Component
                 (result) => {
                     let l = result.length;
                     for (let i = 0; i < l; i++){
-                        result[i].cancelButton = <Button onClick={()=>{this.handleModal(true)}}>Cancel {result[i].physician_id}</Button>
+                        result[i].cancelButton = <Button onClick={()=>{
+                            this.handleModal(true, i)
+                        }}>Cancel</Button>
                     }
                     this.setState({
                         parsedJSONObj: result

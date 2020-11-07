@@ -48,7 +48,7 @@ export class ClientTable_OnGoing extends React.Component
             text: 'Case Status',
             sort: true
         }, {
-                dataField: 'cancelButton',
+            dataField: 'cancelButton',
             text: 'Cancel',
             sort: false
             }];
