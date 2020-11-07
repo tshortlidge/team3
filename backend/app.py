@@ -1,20 +1,23 @@
 from api_client import client_blueprint
 from api_physician import physician_blueprint
-from flask import Flask, request, jsonify, render_template, send_from_directory
+from api_record_assessment import record_assessment_blueprint
+from flask import Flask, request, jsonify, render_template, send_from_directory, session
 import models
 from flask_cors import CORS, cross_origin
 import os
+from datetime import date
 
 template_dir = os.path.abspath('./static/build/')
 print(template_dir)
 app = Flask(__name__, static_folder=template_dir)
 app.register_blueprint(client_blueprint)
 app.register_blueprint(physician_blueprint)
+app.register_blueprint(record_assessment_blueprint)
 
 # To let the front end team execute javascript from a different ip address
 cors = CORS(app)
 
-
+app.secret_key = b'lol123'
 @app.route('/')
 @cross_origin()
 def login():
@@ -47,6 +50,7 @@ def register():
 @app.route('/adduser', methods = ['POST'])
 @cross_origin()
 def adduser():
+    request.get_data()
     if not request.is_json:
         return "not json"
     post_data = request.get_json()
@@ -161,5 +165,223 @@ def choose_doctor():
     return "doctor registered"
 
 
+@app.route("/get_pending_records", methods=["GET", "POST"])
+@cross_origin()
+def route_get_pending_records():
+    print("get_pending_records")
+    if not request.is_json:
+        print("yolo1")
+        return "not json"
+    data = request.get_json()
+    print("before try")
+    try:
+        phy_id = data["phy_id"]
+    except:
+        return "need phy_id"
+    print("After try")
+    sess = models.db.get_session()
+    entries = sess.query(models.Record_Assessments, models.Patient, models.records)\
+        .filter(models.Record_Assessments.c.physician_id == phy_id,
+                models.Record_Assessments.c.status == "pending",
+                models.Record_Assessments.c.pat_id == models.Patient.c.pat_id,
+                models.Record_Assessments.c.pat_id == models.records.c.pat_id)\
+        .order_by(models.Record_Assessments.c.create_dt).all()
+
+    data_to_ret = []
+    for entry in entries:
+        data = dict()
+        data["record_assessment_id"] = entry.record_assessment_id
+        data["phy_id"] = entry.physician_id
+        data["record_id"] = entry.record_id
+        data["patient_name"] = entry.name
+        data["original_assessment"] = entry.comment
+        data["create_dt"] = entry.create_dt
+        data_to_ret.append(data)
+
+    sess.close()
+    return jsonify(data_to_ret)
+
+
+@app.route("/update_pending_records", methods=["PUT"])
+@cross_origin()
+def route_update_pending_record_assessment():
+    print("updatepending recrods")
+    if not request.is_json:
+        print("Not working")
+        return "not json"
+    post_data = request.get_json()
+    print("Before Try update pending")
+    try:
+        record_assessment_id = post_data["record_assessment_id"]
+        assessment = post_data["assessment"]
+        completion_date = date.today()
+        status = post_data["status"]
+
+    except Exception as e:
+        print("ERRORING OUT")
+        print(e)
+        return "need fields: 'record_assessment_id', 'assessment'"
+
+    if status == "Cancelled":
+        stmt = models.Record_Assessments.update(). \
+                     where(models.Record_Assessments.c.record_assessment_id == record_assessment_id). \
+                     values(completion_dt=completion_date, status=status)
+    else:
+        stmt = models.Record_Assessments.update().where(models.Record_Assessments.c.record_assessment_id == record_assessment_id)\
+            .values(assessment=assessment, completion_dt=completion_date, status=status)
+
+    con = models.db.engine.connect()
+    con.execute(stmt)
+    con.close()
+    return "record updated"
+
+
+@app.route("/accept_pending_record", methods=["PUT"])
+@cross_origin()
+def route_accept_pending_record():
+    print("accept_pending_record")
+    if not request.is_json:
+        return "not json"
+    post_data = request.get_json()
+    print("Before Try accept")
+    print(post_data)
+    try:
+        record_assessment_id = post_data["record_assessment_id"]
+    except Exception as e:
+        print("ERRORING OUT")
+        print(e)
+        return "need 'record_assessment_id'"
+    stmt = models.Record_Assessments.update().where(
+        models.Record_Assessments.c.record_assessment_id == record_assessment_id) \
+        .values(status="Diagnosing")
+    print("BEFORE EXECUTE")
+    con = models.db.engine.connect()
+    con.execute(stmt)
+    con.close()
+    return "accepted"
+
+
+@app.route("/get_all_physician_records", methods=["POST"])
+@cross_origin()
+def route_get_all_records():
+    if not request.is_json:
+        return "not json"
+    post_data = request.get_json()
+
+    try:
+        phy_id = post_data["phy_id"]
+    except Exception as e:
+        print(e)
+        return "need 'phy_id'"
+
+    sess = models.db.get_session()
+    to_ret = []
+    entries = sess.query(models.Record_Assessments,
+                         models.Physician).filter(models.Record_Assessments.c.physician_id == phy_id,
+                                                  models.Record_Assessments.c.physician_id == models.Physician.c.phy_id).all()
+    for entry in entries:
+        to_ret.append(entry._asdict())
+
+    return jsonify(to_ret)
+
+
+@app.route("/get_all_patient_records", methods=["POST"])
+@cross_origin()
+def route_get_all_pat_records():
+    if not request.is_json:
+        return "not json"
+    post_data = request.get_json()
+
+    try:
+        pat_id = post_data["pat_id"]
+    except Exception as e:
+        print(e)
+        return "need 'phy_id'"
+
+    sess = models.db.get_session()
+    to_ret = []
+    entries = sess.query(models.Record_Assessments,
+                         models.records.c.comment,
+                         models.Physician.c.name).filter(models.Record_Assessments.c.pat_id == pat_id,
+                                                         models.Record_Assessments.c.record_id == models.records.c.record_id,
+                                                         models.Physician.c.phy_id == models.Record_Assessments.c.physician_id).all()
+    for entry in entries:
+        to_ret.append(entry._asdict())
+
+    return jsonify(to_ret)
+
+
+
+@app.route('/insertreview', methods=["POST"])
+@cross_origin()
+def insertreview():
+
+    if not request.is_json():
+        return "not json"
+    post_data = request.get_json()
+    try:
+        doctor_npi = post_data["npi"]
+        comment = post_data["comment"]
+        patid = post_data["pat_id"]
+        percent = post_data["percent"]
+    except:
+        return "need phy_id, comment, pat_id, percent"
+    my_session = models.db.get_session()
+
+    stmt = models.ratings.insert().values(npi=doctor_npi, pat_id=patid, score=percent, comment=comment)
+    my_session.execute(stmt)
+    my_session.close()
+    return 'added doctor review'
+
+
+@app.route('/checkspecificdocrev', methods=["GET"])
+@cross_origin()
+def checkspecificdocrev():
+    if not request.is_json():
+        return "not json"
+    post_data = request.get_json()
+    doctornpi = post_data["npi"]
+
+    my_session = models.db.get_session()
+    datareturn = []
+    entry = my_session.query(models.ratings).filter_by(npi=doctornpi).first()
+
+    if entry is not None:
+        for i in entry:
+            data = i._asdict()
+            datareturn.append(data)
+    else:
+        return "ERROR DOCTOR NPI NOT ON SYSTEM"
+
+    return jsonify(datareturn)
+
+
+@app.route('/displayallratings', methods=["GET"])
+@cross_origin()
+def displayallratings():
+    my_session = models.db.get_session()
+    datareturn = []
+    for entry in my_session.query(models.ratings):
+        data = dict()
+        data["reviewid"] = entry.review_id
+        data["npi"] = entry.npi
+        data["pat_id"] = entry.pat_id
+        data["comment"] = entry.comment
+        data["score"] = entry.score
+        datareturn.append(data)
+    return jsonify(datareturn)
+
+
+@app.route("/hospitals")
+@cross_origin()
+def route_get_all_hospitals():
+    sess = models.db.get_session()
+    entries = sess.query(models.hospitals).all()
+    to_ret = []
+    for i in entries:
+        to_ret.append(i._asdict())
+    return jsonify(to_ret)
+
+
 if __name__ == '__main__':
-    app.run(host="127.0.0.1", port=50000, debug=True)
+    app.run(host="0.0.0.0", port=80, debug=False)

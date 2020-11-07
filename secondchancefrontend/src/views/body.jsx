@@ -1,17 +1,21 @@
 import React, { Component } from "react";
 import HammerArea from "../components/hammer";
-import { createDataList } from "../components/data/fetch";
+//import { createDataList } from "../components/data/fetch";
 
 import "../assets/body.scss";
 import {Button, Modal} from "react-bootstrap";
 import Header from "./header";
-import {people1} from "../components/data/data";
+//import {people1} from "../components/data/data";
 
 export default class Body extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
+    let dataList = this.props.drInfo;
+    console.log(dataList)
+
     this.state = {
-      user_data: [...createDataList()],
+      user_data: [...dataList],
       is_moving: false,
       show_status: 0,
       scroll: "",
@@ -20,9 +24,10 @@ export default class Body extends Component {
     };
     this.data ={}
     this.data.cntIndexCard = 0;
-    this.data.numElements = people1.length;
+    this.data.numElements = dataList.length;
     this.data.hadChosen = false;
   }
+
 
 
     handleModal()
@@ -32,6 +37,7 @@ export default class Body extends Component {
 
     ShowContentsOfBody()
     {
+
         return(
             <div>
                 <div id="main-container">
@@ -149,7 +155,7 @@ export default class Body extends Component {
       data.shift();
       this.setState(() => {
         return {
-          user_data: createDataList(data),
+          user_data: this.props.createDataList(data),   //I changed this with Eric and Bernie
           is_moving: false,
           show_status: 0,
           scroll: ""
@@ -165,6 +171,7 @@ export default class Body extends Component {
       };
     });
   };
+
 
   render() {
 

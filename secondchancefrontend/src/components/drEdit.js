@@ -91,15 +91,6 @@ export class DrEdit extends React.Component
         return to_send;
     }
 
-    SetStateVariablesToJSONOBJ()
-    {
-        this.data.oldBio = this.state.assignJSON.bio;
-        console.log("beee ");
-        this.setState({
-
-        })
-    }
-
     setDefaultHospital = (event) =>
     {
         let indxCurrentHospital = 0;

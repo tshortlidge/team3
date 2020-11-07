@@ -1,7 +1,8 @@
-from flask import Blueprint, jsonify, request, abort
-from flask_cors import CORS, cross_origin
+from flask import Blueprint, jsonify, request, abort, session as flask_session
+from flask_cors import cross_origin
 import models
 import smtplib
+from sqlalchemy import and_, select
 
 physician_blueprint = Blueprint('api_physician', __name__,)
 
@@ -17,7 +18,20 @@ def home():
 def api_physician_add():
     if not request.is_json:
         return jsonify({"msg": "not json format"})
+
     post_data = request.get_json()
+
+# Referencing unique keys to ensure uniqueness before inserting
+    entry = physician_email(post_data["email"])
+    if entry is not None:
+        return "email exists"
+    entry = physician_username(post_data["username"])
+    if entry is not None:
+        return "user exists"
+    entry = physician_npi(post_data["npi"])
+    if entry is not None:
+        return "npi exists"
+
     npi = post_data["npi"]
     username = post_data["username"]
     name = post_data["name"]
@@ -40,7 +54,7 @@ def api_physician_add():
 @physician_blueprint.route('/physician', methods=['PUT'])
 @cross_origin()
 def api_physician_edit():
-    session = models.db.get_session()
+    # session = models.db.get_session()
     if not request.is_json:
         return jsonify({"msg": "not json format"})
     post_data = request.get_json()
@@ -111,3 +125,50 @@ def api_physician_all():
         data_to_return.append(data)
     session.close()
     return jsonify(data_to_return)
+
+
+@physician_blueprint.route('/physician/login', methods=["POST"])
+@cross_origin()
+def api_physician_login():
+    if not request.is_json:
+        return "not json"
+    post_data = request.get_json()
+    session = models.db.get_session()
+    print(post_data)
+    username = post_data["username"]
+    password = post_data["password"]
+    r = session.query(models.Physician).filter(models.Physician.c.username == username,
+                                               models.Physician.c.password == password)
+
+    if r.count() == 1:
+        v = r.first()
+        flask_session["logged_in"] = True
+        return jsonify(v._asdict())
+    elif r.count() > 1:
+        return "system error. something went MAJORLY wrong"
+    return "not logged in"
+
+
+def physician_email(p_email):
+    session = models.db.get_session()
+    data_to_return = []
+    entry = session.query(models.Physician).filter_by(email=p_email).first()
+    session.close()
+    return entry
+
+
+def physician_npi(p_npi):
+    session = models.db.get_session()
+    data_to_return = []
+    entry = session.query(models.Physician).filter_by(npi=p_npi).first()
+    session.close()
+    return entry
+
+
+def physician_username(p_uname):
+    session = models.db.get_session()
+    data_to_return = []
+    entry = session.query(models.Physician).filter_by(username=p_uname).first()
+    session.close()
+    return entry
+

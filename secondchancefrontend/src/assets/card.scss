@@ -27,6 +27,7 @@
 }
 //front of the card margins
 #front-card{
+  @include back-image;
   flex-direction: column;
   .img-item {
     width: 280px;
