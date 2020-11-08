@@ -37,7 +37,7 @@ class ClientRegister extends React.Component {
         const data = this.state;
 
 
-
+            this.props.data.userMode = "Doctor";
             if(this.props.data.userMode === 'Doctor') {
                 const requestOptions = {
                     method: 'POST',

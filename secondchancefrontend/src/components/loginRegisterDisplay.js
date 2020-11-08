@@ -102,6 +102,36 @@ export class LoginRegisterDisplay extends React.Component {
 
         console.log(calculatedAge);
 
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                "npi": data.npi, "username": data.email, "phy_name": data.firstName +" "+ data.lastName,
+                "phy_bio": data.bio, "phy_addr": "12345", "phy_qual": data.speciality,
+                "email": data.email, "password": data.password
+            })
+            /*
+            npi -
+            username
+            name
+            bio
+            address
+            qualifications
+            review count
+            email
+            password
+            */
+
+
+        };
+        console.log(requestOptions);
+
+        fetch("http://52.247.220.137:80/physician", requestOptions)
+            .then(response => console.log(response.text()))
+
+
+
+
         /*
                 if(this.props.data.userMode === 'Doctor') {
                     const requestOptions = {

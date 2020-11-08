@@ -25,7 +25,7 @@ function DropDownMenu(data){
 function DropDownMenu_Hosp(data){
     console.log(data);
     return(
-        <Form.Control name = {"hospital"} value={1} onChange={data.handleInputChange} as={"select"} defaultValue={"1"}>
+        <Form.Control name = {"hospital"} onChange={data.handleInputChange} as={"select"} defaultValue={"1"}>
 
             {
                 data.dataArr.map(function(item) {
