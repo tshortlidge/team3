@@ -29,7 +29,7 @@ export default class NavbarClass extends React.Component
 
         this.data.modeID = 'doctor1';
 
-        
+
 
         this.data.userID = '1';
         this.record_id = 1;

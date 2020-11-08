@@ -88,7 +88,8 @@ function GetTitle(data)
 function ShowRegistrationForm(props)
 {
     let modeID = props.outerProps.data.userMode;
-    console.log(modeID);
+    console.log(props);
+
     return(
         <div>
 
