@@ -27,9 +27,7 @@ export default class NavbarClass extends React.Component
 
 
 
-        this.data.modeID = 'doctor1';
-
-
+        this.data.modeID = '';
 
         this.data.userID = '1';
         this.record_id = 1;
@@ -175,7 +173,11 @@ export default class NavbarClass extends React.Component
         }
 
     }
+    handleUserLogin()
+    {
 
+
+    }
 
 
     render() {

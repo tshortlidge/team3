@@ -73,7 +73,7 @@ export class Login extends React.Component
                     <br />
 
 
-                    <Button type="button" onClick={this.handleLoginSubmit()}>Submit</Button>
+                    <Button type="button" onClick={() => this.handleLoginSubmit()}>Submit</Button>
                 </Form>
             </Container>
         );
@@ -91,7 +91,8 @@ export class Login extends React.Component
             };
 
             fetch("http://52.247.220.137:80/physician/login", requestOptions)
-                .then(response => console.log(response.text()))
+                .then(response => response.json())
+                .then(response => console.log(response));
         }
         else
         {
@@ -102,7 +103,8 @@ export class Login extends React.Component
             };
 
             fetch("http://52.247.220.137:80/client/login", requestOptions)
-                .then(response => console.log(response.text()))
+                .then(response => response.json())
+                .then(response => console.log(response));
         }
 
     }
