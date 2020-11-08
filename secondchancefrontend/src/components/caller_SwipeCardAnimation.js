@@ -77,7 +77,8 @@ export class Caller_SwipeCardAnimation extends React.Component
 
     fetchUserData = () => {
         const user_data = this.randomlyOneOfList(this.state.people1);
-        //user_data.avatar = this.state.people1; -> runs without this, not sure if we need it.
+        user_data.avatar = this.state.people1;
+
 
         return user_data;
     };
@@ -99,7 +100,7 @@ export class Caller_SwipeCardAnimation extends React.Component
         return(
             <div>
 
-                {!this.state.isLoading && (
+                {this.state.isLoading && (
                     <Body drInfo = {this.state.people1}  createDataList = {(drList) => this.createDataList(drList)}/>
                 )}
             </div>

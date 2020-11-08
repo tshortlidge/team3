@@ -206,7 +206,7 @@ export class TestEndpoint extends React.Component
         fetch("http://52.247.220.137:80/physician/login", requestOptions)
             .then(response => response.json())
             .then(response => console.log(response));
-            
+
     }
 
     render()

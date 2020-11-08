@@ -3,7 +3,6 @@ import HammerArea from "../components/hammer";
 import "../assets/body.scss";
 import {Button, Modal} from "react-bootstrap";
 import Header from "./header";
-//import {people1} from "../components/data/data";
 
 export default class Body extends Component {
   constructor(props) {
@@ -70,6 +69,7 @@ export default class Body extends Component {
     }
     RunModalPhysician()
     {
+        console.log("Forgot about me???????")
         return(
             <div>
                 <Button onClick={()=>{this.handleModal()}}>
